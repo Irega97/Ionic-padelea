@@ -4,7 +4,8 @@ export class User {
     sex: string;
     image: string;
     email: string;
-    friends: string;
+    online : boolean;
+    friends: User[];
 
     constructor (name: string, password: string, sex?: string, image?: string, email?: string){
         this.name = name;

@@ -11,7 +11,6 @@ import { AuthService} from 'src/app/services/auth.service'
 })
 export class RegistroPage implements OnInit {
 
-  authservicio: AuthService;
   registerform: FormGroup;
   user: User;
 
@@ -19,7 +18,7 @@ export class RegistroPage implements OnInit {
   iconpassword = "eye-off";
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.registerform = this.formBuilder.group({
@@ -28,7 +27,6 @@ export class RegistroPage implements OnInit {
       sex: ['', [Validators.required, Validators.nullValidator]],
       image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.nullValidator]],
-      friends: ['', Validators.nullValidator],
     });
   }
 
@@ -43,9 +41,9 @@ export class RegistroPage implements OnInit {
     console.log("Password: " + this.user.password);
     console.log("Sex: " + this.user.sex);
     console.log("Email: " + this.user.email);
-    console.log("Friends: " + this.user.friends);
     this.authservicio.register(this.user).subscribe(data => {
       console.log(data);
+      this.router.navigate(['/principal']);
     }, error => {
       console.log(error);
     });
