@@ -43,6 +43,7 @@ export class RegistroPage implements OnInit {
     console.log("Email: " + this.user.email);
     this.authservicio.register(this.user).subscribe(data => {
       console.log(data);
+      this.router.navigate(['/principal']);
     }, error => {
       console.log(error);
     });
