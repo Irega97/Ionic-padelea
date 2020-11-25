@@ -21,8 +21,14 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Sex:</ion-label>
-      <ion-input type="string" formControlName="sex"></ion-input>
+      <ion-label position="floating">Sexo:</ion-label>
+      <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK!" formControlName="sex">
+        <ion-select-option value="hombre">Hombre</ion-select-option>
+        <ion-select-option value="mujer">Mujer</ion-select-option>
+        <ion-select-option value="otros">Otros</ion-select-option>
+        <ion-select-option value="noespecifico">No quiero especificar</ion-select-option>
+      </ion-select>
+
     </ion-item>
 <!--
     <ion-item>
