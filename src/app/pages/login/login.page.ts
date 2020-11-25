@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { Token } from 'src/app/models/token'
 
 @Component({
   selector: 'app-login',
@@ -48,7 +49,8 @@ export class LoginPage implements OnInit {
     console.log("Nombre de Usuario: " + this.user.name);
     console.log("Password: " + this.user.password);
 
-    this.authservicio.login(this.user).subscribe(data =>{
+    this.authservicio.login(this.user).subscribe((jwt: Token) => {
+      localStorage.setItem('token', jwt.token);
       this.router.navigate(['/principal']);
     }, error =>{
       console.log(error)

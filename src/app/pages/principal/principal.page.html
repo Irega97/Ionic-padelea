@@ -6,5 +6,16 @@
 
 <ion-content>
   <ion-img src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
+
+  <div class="boton">
+    <ion-button color="secondary" (click) = "logout()">
+      LogOut
+    </ion-button>
+    <p>
+      <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+    </p>
+    
+  </div>
+
 </ion-content>
     

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
+import { Token } from 'src/app/models/token'
 
 @Component({
   selector: 'app-registro',
@@ -41,8 +42,8 @@ export class RegistroPage implements OnInit {
     console.log("Password: " + this.user.password);
     console.log("Sexo: " + this.user.sex);
     console.log("Email: " + this.user.email);
-    this.authservicio.register(this.user).subscribe(data => {
-      console.log(data);
+    this.authservicio.register(this.user).subscribe((jwt: Token) => {
+      localStorage.setItem('token', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
       console.log(error);

@@ -8,12 +8,12 @@
   <form [formGroup]="registerform">
   
     <ion-item>
-      <ion-label position="floating">Nombre Usuario:</ion-label>
+      <ion-label position="floating" color = "primary">Nombre Usuario:</ion-label>
       <ion-input type="string" formControlName="name"></ion-input>
     </ion-item>
   
     <ion-item>
-      <ion-label position="floating">Contraseña:</ion-label>
+      <ion-label position="floating" color = "primary">Contraseña:</ion-label>
         <ion-input [type]="passwordinput" formControlName="password"></ion-input>
         <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
           <ion-icon [name]="iconpassword"></ion-icon>
@@ -21,8 +21,8 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Sexo:</ion-label>
-      <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK!" formControlName="sex">
+      <ion-label position="floating" color = "primary">Sexo:</ion-label>
+      <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK" formControlName="sex">
         <ion-select-option value="hombre">Hombre</ion-select-option>
         <ion-select-option value="mujer">Mujer</ion-select-option>
         <ion-select-option value="otros">Otros</ion-select-option>
@@ -37,12 +37,33 @@
     </ion-item>
 -->
     <ion-item>
-      <ion-label position="floating">Email:</ion-label>
+      <ion-label position="floating" color = "primary">Email:</ion-label>
       <ion-input type="string" formControlName="email"></ion-input>
     </ion-item>
 
-    <input type="submit" value="Iniciar Sesión" (click) = "goLogin()"/>
-    <input type="submit" value="Registrar" (click) = "register()"/>
+    <div class="boton">
+      <ion-button color="secondary" (click) = "register()">
+        REGISTRAR
+      </ion-button>
+      <p>
+        <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+      </p>
+      
+    </div>
   
    </form>
+
+   <div class="boton">
+    <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Log in!</a>
+  </div>
+
+  <div class = "boton">
+    <ion-button color="danger">
+      GOOGLE
+    </ion-button>
+    <ion-button color="primary">
+      TWITTER
+    </ion-button>
+  </div>
+
 </ion-content>
