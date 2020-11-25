@@ -39,7 +39,7 @@ export class RegistroPage implements OnInit {
     this.user = new User (this.registerform.value.name, this.registerform.value.password, this.registerform.value.sex, this.registerform.value.image, this.registerform.value.email);
     console.log("Nombre de Usuario: " + this.user.name);
     console.log("Password: " + this.user.password);
-    console.log("Sex: " + this.user.sex);
+    console.log("Sexo: " + this.user.sex);
     console.log("Email: " + this.user.email);
     this.authservicio.register(this.user).subscribe(data => {
       console.log(data);
