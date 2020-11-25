@@ -5,23 +5,46 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-img style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;" src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
+
   <form [formGroup]="loginform">
 
     <ion-item>
-      <ion-label position="floating">Nombre Usuario:</ion-label>
+      <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
       <ion-input type="string" formControlName="name"></ion-input>
     </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Contraseña:</ion-label>
-        <ion-input [type]="passwordinput" formControlName="password"></ion-input>
-        <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
-          <ion-icon [name]="iconpassword"></ion-icon>
-      </button>
-      </ion-item>
-        
-      <input type="submit" value="Iniciar Sesión" (click) = "login()"/>
-      <input type="submit" value="Registrar" (click) = "goRegister()"/>
+    <ion-item>
+      <ion-label position="floating" color= "primary">Contraseña:</ion-label>
+      <ion-input [type]="passwordinput" formControlName="password"></ion-input>
+      <button item-end  class="btn_eye_icon" (click) = "VistaPassword()">
+        <ion-icon [name]="iconpassword"></ion-icon>
+    </button>
+    </ion-item>
+    <div class="boton">
+      <ion-button color="secondary" (click) = "login()">
+        INICIAR SESIÓN
+      </ion-button>
+      <p>
+        <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+      </p>
+      
+    </div>
 
- </form>
+  </form>
+
+    <div class="boton">
+      <ion-label>¿No tienes ninguna cuenta?</ion-label><a (click)="goRegister()">¡Regístrate!</a>
+    </div>
+
+    <div class = "boton">
+      <ion-button color="danger">
+        GOOGLE
+      </ion-button>
+      <ion-button color="primary">
+        TWITTER
+      </ion-button>
+    </div>
+
 </ion-content>
