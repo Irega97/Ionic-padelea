@@ -16,7 +16,9 @@ export class RegistroPage implements OnInit {
   user: User;
 
   passwordinput = 'password';
+  confirmpasswordinput = 'password';
   iconpassword = "eye-off";
+  iconconfirmpassword = "eye-off";
 
 
   constructor(private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
@@ -24,16 +26,34 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
     this.registerform = this.formBuilder.group({
       name: ['', [Validators.required, Validators.nullValidator]],
+      nombre: ['', [Validators.required, Validators.nullValidator]],
+      apellido1: ['', [Validators.required, Validators.nullValidator]],
+      apellido2: [''],
       password: ['', [Validators.required, Validators.nullValidator]],
+      confirmpassword: ['', [Validators.required, Validators.nullValidator]],
       sex: ['', [Validators.required, Validators.nullValidator]],
       image: ['', Validators.nullValidator],
-      email: ['', [Validators.required, Validators.nullValidator]],
+      email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
+    });
+  }
+
+  ionViewWillEnter(){
+    this.registerform = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.nullValidator]],
+      nombre: ['', [Validators.required, Validators.nullValidator]],
+      apellido1: ['', [Validators.required, Validators.nullValidator]],
+      apellido2: [''],
+      password: ['', [Validators.required, Validators.nullValidator]],
+      confirmpassword: ['', [Validators.required, Validators.nullValidator]],
+      sex: ['', [Validators.required, Validators.nullValidator]],
+      image: ['', Validators.nullValidator],
+      email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
     });
   }
 
   register(){
     if(this.registerform.invalid){
-      console.log("Debes rellenar todos los campos")
+      console.log("Debes rellenar todos los campos");
       return;
     }
 
@@ -67,6 +87,22 @@ export class RegistroPage implements OnInit {
     }
     else{
       this.iconpassword = "eye-off";
+    }
+  }
+
+  VistaConfirmPassword(){
+    if (this.confirmpasswordinput == "password"){
+      this.confirmpasswordinput = "text";
+    }
+    else{
+      this.confirmpasswordinput = "password"
+    }
+
+    if (this.iconconfirmpassword == "eye-off"){
+      this.iconconfirmpassword = "eye";
+    }
+    else{
+      this.iconconfirmpassword = "eye-off";
     }
   }
 

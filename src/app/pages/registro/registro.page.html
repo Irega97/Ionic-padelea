@@ -5,15 +5,31 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="registerform">
+  <form [formGroup]="registerform" >
   
     <ion-item>
-      <ion-label position="floating" color = "primary">Nombre Usuario:</ion-label>
+      <ion-label position="floating" color = "primary">Nombre Usuario*:</ion-label>
       <ion-input type="string" formControlName="name"></ion-input>
+    </ion-item>
+    <p *ngIf="!registerform.controls['name'].valid && registerform.controls['name'].dirty "><ion-label color="danger"> Debes introducir un nombre de usuario</ion-label></p>
+
+    <ion-item>
+      <ion-label position="floating" color = "primary">Nombre*:</ion-label>
+      <ion-input type="string" formControlName="nombre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color = "primary">Apellido 1*:</ion-label>
+      <ion-input type="string" formControlName="apellido1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color = "primary">Apellido 2:</ion-label>
+      <ion-input type="string" formControlName="apellido2"></ion-input>
     </ion-item>
   
     <ion-item>
-      <ion-label position="floating" color = "primary">Contraseña:</ion-label>
+      <ion-label position="floating" color = "primary">Contraseña*:</ion-label>
         <ion-input [type]="passwordinput" formControlName="password"></ion-input>
         <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
           <ion-icon [name]="iconpassword"></ion-icon>
@@ -21,7 +37,15 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating" color = "primary">Sexo:</ion-label>
+      <ion-label position="floating" color = "primary">Confirmar Contraseña*:</ion-label>
+        <ion-input [type]="confirmpasswordinput" formControlName="confirmpassword"></ion-input>
+        <button  item-end  class="btn_eye_icon" (click) = "VistaConfirmPassword()">
+          <ion-icon [name]="iconconfirmpassword"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color = "primary">Sexo*:</ion-label>
       <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK" formControlName="sex">
         <ion-select-option value="hombre">Hombre</ion-select-option>
         <ion-select-option value="mujer">Mujer</ion-select-option>
@@ -37,7 +61,7 @@
     </ion-item>
 -->
     <ion-item>
-      <ion-label position="floating" color = "primary">Email:</ion-label>
+      <ion-label position="floating" color = "primary">Email*:</ion-label>
       <ion-input type="string" formControlName="email"></ion-input>
     </ion-item>
 
@@ -58,12 +82,21 @@
   </div>
 
   <div class = "boton">
+    <p>
+        También te puedes Registrar con las Redes Sociales:
+    </p>
+
     <ion-button color="danger">
       GOOGLE
     </ion-button>
     <ion-button color="primary">
       TWITTER
     </ion-button>
+    <p>
+      <ion-button color="primary">
+        FACEBOOK
+      </ion-button>
+    </p>
   </div>
 
 </ion-content>
