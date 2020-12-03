@@ -7,6 +7,12 @@
 <ion-content>
   <ion-img src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
 
+  <ion-list *ngIf = "usuarios && usuarios.length > 0">
+    <ion-item *ngFor="let usuario of usuarios">
+      {{usuario.name}}
+    </ion-item>
+  </ion-list>
+
   <div class="boton">
     <ion-button color="secondary" (click) = "logout()">
       LogOut

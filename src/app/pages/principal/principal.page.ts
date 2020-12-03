@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/app/models/user'
 
 
 @Component({
@@ -12,9 +13,13 @@ import { environment } from 'src/environments/environment';
 })
 export class PrincipalPage implements OnInit {
 
+  usuarios: User[];
   constructor(public authService: AuthService, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
+    this.authService.getUsers().subscribe(data => {
+      this.usuarios = data
+    })
   }
 
   logout(){
