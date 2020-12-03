@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user'
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -14,10 +15,16 @@ import { User } from 'src/app/models/user'
 export class PrincipalPage implements OnInit {
 
   usuarios: User[];
-  constructor(public authService: AuthService, private http: HttpClient, private router: Router) { }
+  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.authService.getUsers().subscribe(data => {
+    this.userService.getUsers().subscribe(data => {
+      this.usuarios = data
+    })
+  }
+  
+  ionViewWillEnter(){
+    this.userService.getUsers().subscribe(data => {
       this.usuarios = data
     })
   }

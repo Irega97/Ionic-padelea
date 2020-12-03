@@ -24,10 +24,6 @@ export class AuthService {
     return this.http.post<Token>(environment.apiURL + this.ruta + "register", user, {headers});
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.apiURL + "/user/all");
-  }
-
   /*signout(user: User): Observable<any> {
     const headers =  new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(environment.apiURL + this.ruta + "signout", user, {headers});

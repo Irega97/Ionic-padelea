@@ -4,105 +4,112 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="registerform" >
-  
-    <ion-item>
-      <ion-label position="floating" color = "primary">Nombre Usuario*:</ion-label>
-      <ion-input type="string" formControlName="name"></ion-input>
-    </ion-item>
-    <p *ngIf="!registerform.controls['name'].valid && (registerform.controls['name'].dirty || registerform.controls['name'].touched)"><ion-label color="danger"> Debes introducir un nombre de usuario válido</ion-label></p>
+<ion-content class="background">
+  <ion-card id="card">
+    <ion-card-content>
+      <form [formGroup]="registerform" >
+      
+        <ion-item>
+          <ion-label position="floating" color = "primary">Nombre Usuario*:</ion-label>
+          <ion-input type="string" formControlName="name"></ion-input>
+        </ion-item>
+        <p *ngIf="!registerform.controls['name'].valid && (registerform.controls['name'].dirty || registerform.controls['name'].touched)"><ion-label color="danger"> Debes introducir un nombre de usuario válido</ion-label></p>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Nombre*:</ion-label>
-      <ion-input type="string" formControlName="nombre"></ion-input>
-    </ion-item>
-    <p *ngIf="!registerform.controls['nombre'].valid && (registerform.controls['nombre'].dirty || registerform.controls['nombre'].touched)"><ion-label color="danger"> Debes introducir un nombre válido</ion-label></p>
+        <ion-item>
+          <ion-label position="floating" color = "primary">Nombre*:</ion-label>
+          <ion-input type="string" formControlName="nombre"></ion-input>
+        </ion-item>
+        <p *ngIf="!registerform.controls['nombre'].valid && (registerform.controls['nombre'].dirty || registerform.controls['nombre'].touched)"><ion-label color="danger"> Debes introducir un nombre válido</ion-label></p>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Apellido 1*:</ion-label>
-      <ion-input type="string" formControlName="apellido1"></ion-input>
-    </ion-item>
-    <p *ngIf="!registerform.controls['apellido1'].valid && (registerform.controls['apellido1'].dirty || registerform.controls['apellido1'].touched)"><ion-label color="danger"> Debes introducir un apellido válido</ion-label></p>
+        <ion-item>
+          <ion-label position="floating" color = "primary">Apellido 1*:</ion-label>
+          <ion-input type="string" formControlName="apellido1"></ion-input>
+        </ion-item>
+        <p *ngIf="!registerform.controls['apellido1'].valid && (registerform.controls['apellido1'].dirty || registerform.controls['apellido1'].touched)"><ion-label color="danger"> Debes introducir un apellido válido</ion-label></p>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Apellido 2:</ion-label>
-      <ion-input type="string" formControlName="apellido2"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="floating" color = "primary">Apellido 2:</ion-label>
+          <ion-input type="string" formControlName="apellido2"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Sexo*:</ion-label>
-      <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK" formControlName="sex">
-        <ion-select-option value="hombre">Hombre</ion-select-option>
-        <ion-select-option value="mujer">Mujer</ion-select-option>
-        <ion-select-option value="otros">Otros</ion-select-option>
-        <ion-select-option value="noespecifico">No quiero especificar</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <p *ngIf="!registerform.controls['sex'].valid && (registerform.controls['sex'].dirty || registerform.controls['sex'].touched)"><ion-label color="danger"> Debes seleccionar un tipo de sexo</ion-label></p>
-<!--
-    <ion-item>
-      <ion-label position="floating">Image:</ion-label>
-      <ion-input type="file" accept="image/*" id="upload" [(ngModel)]="imageFilePath" (ionChange)="imageFilePath_change($event)"></ion-input>
-    </ion-item>
--->
-    <ion-item>
-      <ion-label position="floating" color = "primary">Email*:</ion-label>
-      <ion-input type="string" formControlName="email"></ion-input>
-    </ion-item>
-    <p *ngIf="!registerform.controls['email'].valid && (registerform.controls['email'].dirty || registerform.controls['email'].touched)"><ion-label color="danger"> Debes introducir un email válido</ion-label></p>
+        <ion-item>
+          <ion-label position="floating" color = "primary">Sexo*:</ion-label>
+          <ion-select placeholder="Escoje uno" cancelText="Cancel" okText="OK" formControlName="sex">
+            <ion-select-option value="hombre">Hombre</ion-select-option>
+            <ion-select-option value="mujer">Mujer</ion-select-option>
+            <ion-select-option value="otros">Otros</ion-select-option>
+            <ion-select-option value="noespecifico">No quiero especificar</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <p *ngIf="!registerform.controls['sex'].valid && (registerform.controls['sex'].dirty || registerform.controls['sex'].touched)"><ion-label color="danger"> Debes seleccionar un tipo de sexo</ion-label></p>
+    <!--
+        <ion-item>
+          <ion-label position="floating">Image:</ion-label>
+          <ion-input type="file" accept="image/*" id="upload" [(ngModel)]="imageFilePath" (ionChange)="imageFilePath_change($event)"></ion-input>
+        </ion-item>
+    -->
+        <ion-item>
+          <ion-label position="floating" color = "primary">Email*:</ion-label>
+          <ion-input type="string" formControlName="email"></ion-input>
+        </ion-item>
+        <p *ngIf="!registerform.controls['email'].valid && (registerform.controls['email'].dirty || registerform.controls['email'].touched)"><ion-label color="danger"> Debes introducir un email válido</ion-label></p>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Contraseña*:</ion-label>
-        <ion-input [type]="passwordinput" formControlName="password"></ion-input>
-        <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
-          <ion-icon [name]="iconpassword"></ion-icon>
-      </button>
-    </ion-item>
-    <p *ngIf="!registerform.controls['password'].valid && (registerform.controls['password'].dirty || registerform.controls['password'].touched)"><ion-label color="danger"> Debes introducir una contraseña válida</ion-label></p>
-    <p *ngIf="errorpassword"><ion-label color="danger">Las contraseñas deben coincidir</ion-label></p>
+        <ion-item>
+          <ion-label position="floating" color = "primary">Contraseña*:</ion-label>
+            <ion-input [type]="passwordinput" formControlName="password"></ion-input>
+            <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
+              <ion-icon [name]="iconpassword"></ion-icon>
+          </button>
+        </ion-item>
+        <p *ngIf="!registerform.controls['password'].valid && (registerform.controls['password'].dirty || registerform.controls['password'].touched)"><ion-label color="danger"> Debes introducir una contraseña válida</ion-label></p>
+        <p *ngIf="errorpassword"><ion-label color="danger">Las contraseñas deben coincidir</ion-label></p>
 
-    <ion-item>
-      <ion-label position="floating" color = "primary">Confirmar Contraseña*:</ion-label>
-        <ion-input [type]="confirmpasswordinput" formControlName="confirmpassword"></ion-input>
-        <button  item-end  class="btn_eye_icon" (click) = "VistaConfirmPassword()">
-          <ion-icon [name]="iconconfirmpassword"></ion-icon>
-      </button>
-    </ion-item>
-    <p *ngIf="!registerform.controls['confirmpassword'].valid && (registerform.controls['confirmpassword'].dirty || registerform.controls['confirmpassword'].touched)"><ion-label color="danger"> Las contraseñas deben coincidir</ion-label></p>
-    
+        <ion-item>
+          <ion-label position="floating" color = "primary">Confirmar Contraseña*:</ion-label>
+            <ion-input [type]="confirmpasswordinput" formControlName="confirmpassword"></ion-input>
+            <button  item-end  class="btn_eye_icon" (click) = "VistaConfirmPassword()">
+              <ion-icon [name]="iconconfirmpassword"></ion-icon>
+          </button>
+        </ion-item>
+        <p *ngIf="!registerform.controls['confirmpassword'].valid && (registerform.controls['confirmpassword'].dirty || registerform.controls['confirmpassword'].touched)"><ion-label color="danger"> Las contraseñas deben coincidir</ion-label></p>
+        
+        <div class="boton">
+          <ion-button color="secondary" (click) = "register()">
+            REGISTRAR
+          </ion-button>
+          <p>
+            <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+          </p>
+          
+        </div>
+      
+      </form>
+
     <div class="boton">
-      <ion-button color="secondary" (click) = "register()">
-        REGISTRAR
+      <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Log in!</a>
+    </div>
+
+    <div class = "boton">
+      <p>
+          También te puedes Registrar con las Redes Sociales:
+      </p>
+
+      <ion-button color="danger">
+        <ion-icon name="logo-google"></ion-icon>
+        GOOGLE
+      </ion-button>
+      <ion-button color="primary">
+        <ion-icon name="logo-twitter"></ion-icon>
+        TWITTER
       </ion-button>
       <p>
-        <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+        <ion-button color="primary">
+          <ion-icon name="logo-facebook"></ion-icon>
+          FACEBOOK
+        </ion-button>
       </p>
-      
     </div>
-  
-   </form>
-
-   <div class="boton">
-    <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Log in!</a>
-  </div>
-
-  <div class = "boton">
-    <p>
-        También te puedes Registrar con las Redes Sociales:
-    </p>
-
-    <ion-button color="danger">
-      GOOGLE
-    </ion-button>
-    <ion-button color="primary">
-      TWITTER
-    </ion-button>
-    <p>
-      <ion-button color="primary">
-        FACEBOOK
-      </ion-button>
-    </p>
-  </div>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>

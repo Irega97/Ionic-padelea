@@ -45,6 +45,7 @@ export class LoginPage implements OnInit {
     }
 
     this.user = new User (this.loginform.value.name, this.loginform.value.password);
+    this.user.password = this.authservicio.encryptPassword(this.user.password);
     console.log("Nombre de Usuario: " + this.user.name);
     console.log("Password: " + this.user.password);
 
