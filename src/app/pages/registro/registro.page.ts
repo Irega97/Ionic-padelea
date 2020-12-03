@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
 import { Token } from 'src/app/models/token'
+import { Validator } from 'src/app/models/validator'
 
 @Component({
   selector: 'app-registro',
@@ -14,6 +15,7 @@ export class RegistroPage implements OnInit {
 
   registerform: FormGroup;
   user: User;
+  errorpassword = false;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -25,7 +27,7 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator]],
+      name: ['', [Validators.required, Validators.nullValidator, Validator.validUsername]],
       nombre: ['', [Validators.required, Validators.nullValidator]],
       apellido1: ['', [Validators.required, Validators.nullValidator]],
       apellido2: [''],
@@ -39,7 +41,7 @@ export class RegistroPage implements OnInit {
 
   ionViewWillEnter(){
     this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator]],
+      name: ['', [Validators.required, Validators.nullValidator, Validator.validUsername]],
       nombre: ['', [Validators.required, Validators.nullValidator]],
       apellido1: ['', [Validators.required, Validators.nullValidator]],
       apellido2: [''],
@@ -54,6 +56,12 @@ export class RegistroPage implements OnInit {
   register(){
     if(this.registerform.invalid){
       console.log("Debes rellenar todos los campos");
+      
+      return;
+    }
+    if (this.registerform.value.password != this.registerform.value.confirmpassword){
+      this.errorpassword = true;
+      this.registerform.controls.confirmpassword.setErrors(Validators.nullValidator);
       return;
     }
 
@@ -66,6 +74,7 @@ export class RegistroPage implements OnInit {
       localStorage.setItem('token', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
+      this.registerform.controls.name.setErrors(Validator.validUsername);
       console.log(error);
     });
   }

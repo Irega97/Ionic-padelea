@@ -41,7 +41,6 @@ export class LoginPage implements OnInit {
   login(){
     if(this.loginform.invalid){
       console.log("Debes rellenar todos los campos")
-      this.error = "Debes rellenar todos los campos"
       return;
     }
 

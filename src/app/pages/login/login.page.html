@@ -4,54 +4,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
+<ion-card id="card">
+  <ion-card-content>
+    <ion-img style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;" src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
 
-  <ion-img style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;" src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
-
-  <form [formGroup]="loginform">
-
-    <ion-item>
-      <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
-      <ion-input type="string" formControlName="name"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating" color= "primary">Contraseña:</ion-label>
-      <ion-input [type]="passwordinput" formControlName="password"></ion-input>
-      <button item-end  class="btn_eye_icon" (click) = "VistaPassword()">
-        <ion-icon [name]="iconpassword"></ion-icon>
-    </button>
-    </ion-item>
-    <div class="boton">
-      <ion-button color="secondary" (click) = "login()">
-        INICIAR SESIÓN
-      </ion-button>
-      <p>
-        <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
-      </p>
-      
-    </div>
-
-  </form>
-
-    <div class="boton">
-      <ion-label>¿No tienes ninguna cuenta?</ion-label><a (click)="goRegister()">¡Regístrate!</a>
-    </div>
-    <p>
-      También te puedes Iniciar Sesión con las Redes Sociales:
-    </p>
-    <div class = "boton">
-      <ion-button color="danger">
-        GOOGLE
-      </ion-button>
-      <ion-button color="primary">
-        TWITTER
-      </ion-button>
-      
-      <p>
-        <ion-button color="primary">
-          FACEBOOK
+    <form [formGroup]="loginform">
+  
+      <ion-item>
+        <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
+        <ion-input type="string" formControlName="name"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="floating" color= "primary">Contraseña:</ion-label>
+        <ion-input [type]="passwordinput" formControlName="password"></ion-input>
+        <button item-end  class="btn_eye_icon" (click) = "VistaPassword()">
+          <ion-icon [name]="iconpassword"></ion-icon>
+      </button>
+      </ion-item>
+      <div class="boton">
+        <ion-button color="secondary" (click) = "login()">
+          INICIAR SESIÓN
         </ion-button>
+        <p>
+          <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+        </p>
+        
+      </div>
+  
+    </form>
+  
+      <div class="boton">
+        <ion-label>¿No tienes ninguna cuenta?</ion-label><a (click)="goRegister()">¡Regístrate!</a>
+      </div>
+      <p>
+        También te puedes Iniciar Sesión con las Redes Sociales:
       </p>
-    </div>
+      <div class = "boton">
+        <ion-button color="danger">
+          GOOGLE
+        </ion-button>
+        <ion-button color="primary">
+          TWITTER
+        </ion-button>
+        
+        <p>
+          <ion-button color="primary">
+            FACEBOOK
+          </ion-button>
+        </p>
+      </div>
+  </ion-card-content>
+</ion-card>
+  
 </ion-content>
