@@ -13,7 +13,7 @@
   
       <ion-item>
         <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
-        <ion-input type="string" formControlName="name"></ion-input>
+        <ion-input type="string" formControlName="username"></ion-input>
       </ion-item>
   
       <ion-item>
@@ -37,11 +37,9 @@
   
       <div class="boton">
         <ion-label>¿No tienes ninguna cuenta?</ion-label><a (click)="goRegister()">¡Regístrate!</a>
-      </div>
-      <p>
-        También te puedes Iniciar Sesión con las Redes Sociales:
-      </p>
-      <div class = "boton">
+        <p>
+          También te puedes Iniciar Sesión con las Redes Sociales:
+        </p>
         <ion-button color="danger">
           <ion-icon name="logo-google"></ion-icon>
           GOOGLE

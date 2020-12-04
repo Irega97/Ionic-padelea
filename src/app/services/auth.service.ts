@@ -15,13 +15,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(user: User): Observable<Token> {
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<Token>(environment.apiURL + this.ruta + "login", user, {headers});
+    return this.http.post<Token>(environment.apiURL + this.ruta + "login", user);
   }
 
   register(user: User): Observable<Token> {
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<Token>(environment.apiURL + this.ruta + "register", user, {headers});
+    return this.http.post<Token>(environment.apiURL + this.ruta + "register", user);
   }
 
   /*signout(user: User): Observable<any> {
@@ -36,5 +34,19 @@ export class AuthService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  isLoggedIn(){
+    if (this.getToken() != null){
+      return true;
+    }
+
+    else{
+      return false;
+    }
+  }
+
+  getToken(){
+    return localStorage.getItem('token');
   }
 }

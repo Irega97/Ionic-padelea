@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.loginform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator]],
+      username: ['', [Validators.required, Validators.nullValidator]],
       password: ['', [Validators.required, Validators.nullValidator]]
     });
     this.error = "";
@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter(){
     this.loginform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator]],
+      username: ['', [Validators.required, Validators.nullValidator]],
       password: ['', [Validators.required, Validators.nullValidator]]
     });
     this.error = "";
@@ -41,13 +41,15 @@ export class LoginPage implements OnInit {
   login(){
     if(this.loginform.invalid){
       console.log("Debes rellenar todos los campos")
+      this.error = "Debes rellenar todos los datos"
       return;
     }
 
-    this.user = new User (this.loginform.value.name, this.loginform.value.password);
-    this.user.password = this.authservicio.encryptPassword(this.user.password);
-    console.log("Nombre de Usuario: " + this.user.name);
+    this.user = new User (this.loginform.value.username, this.authservicio.encryptPassword(this.loginform.value.password));
+    this.user.provider = "formulario";
+    console.log("Username: " + this.user.username);
     console.log("Password: " + this.user.password);
+
 
     this.authservicio.login(this.user).subscribe((jwt: Token) => {
       localStorage.setItem('token', jwt.token);

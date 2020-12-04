@@ -1,17 +1,20 @@
 export class User {
     name: string;
+    username: string;
     password: string;
-    sex: string;
     image: string;
     email: string;
     online : boolean;
+    provider: string;
     friends: User[];
 
-    constructor (name: string, password: string, sex?: string, image?: string, email?: string){
+    constructor (username: string, password: string, name?: string, image?: string, email?: string, online?: boolean, provider?: string){
         this.name = name;
+        this.username = username;
         this.password = password;
-        this.sex = sex;
         this.image = image;
         this.email = email;
+        this.online = online;
+        this.provider = provider;
     }
 }

@@ -16,6 +16,7 @@ export class RegistroPage implements OnInit {
   registerform: FormGroup;
   user: User;
   errorpassword = false;
+  nombre: string;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -33,7 +34,6 @@ export class RegistroPage implements OnInit {
       apellido2: [''],
       password: ['', [Validators.required, Validators.nullValidator]],
       confirmpassword: ['', [Validators.required, Validators.nullValidator]],
-      sex: ['', [Validators.required, Validators.nullValidator]],
       image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
     });
@@ -47,7 +47,6 @@ export class RegistroPage implements OnInit {
       apellido2: [''],
       password: ['', [Validators.required, Validators.nullValidator]],
       confirmpassword: ['', [Validators.required, Validators.nullValidator]],
-      sex: ['', [Validators.required, Validators.nullValidator]],
       image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
     });
@@ -56,25 +55,23 @@ export class RegistroPage implements OnInit {
   register(){
     if(this.registerform.invalid){
       console.log("Debes rellenar todos los campos");
-      
       return;
     }
+
     if (this.registerform.value.password != this.registerform.value.confirmpassword){
       this.errorpassword = true;
       this.registerform.controls.confirmpassword.setErrors(Validators.nullValidator);
       return;
     }
 
-    this.user = new User (this.registerform.value.name, this.registerform.value.password, this.registerform.value.sex, this.registerform.value.image, this.registerform.value.email);
+    this.nombre = this.registerform.value.nombre + " | " + this.registerform.value.apellido1 + " | " + this.registerform.value.apellido2;
+    this.user = new User (this.registerform.value.name, this.registerform.value.password, this.nombre, this.registerform.value.image, this.registerform.value.email, true, "formulario");
     this.user.password = this.authservicio.encryptPassword(this.user.password);
-    console.log("Nombre de Usuario: " + this.user.name);
-    console.log("Password: " + this.user.password);
-    console.log("Sexo: " + this.user.sex);
-    console.log("Email: " + this.user.email);
     this.authservicio.register(this.user).subscribe((jwt: Token) => {
       localStorage.setItem('token', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
+      if (error)
       this.registerform.controls.name.setErrors(Validator.validUsername);
       console.log(error);
     });
