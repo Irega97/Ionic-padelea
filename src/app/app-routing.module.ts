@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'setusername',
     loadChildren: () => import('./pages/setusername/setusername.module').then( m => m.SetusernamePageModule)
+  },  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   }
+
 ];
 
 @NgModule({

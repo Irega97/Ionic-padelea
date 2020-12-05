@@ -8,15 +8,14 @@ import { UserService } from 'src/app/services/user.service';
 import { MenuController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-principal',
-  templateUrl: './principal.page.html',
-  styleUrls: ['./principal.page.scss'],
+  selector: 'app-perfil',
+  templateUrl: './perfil.page.html',
+  styleUrls: ['./perfil.page.scss'],
 })
-export class PrincipalPage implements OnInit {
+export class PerfilPage implements OnInit {
 
   usuario = new User("", "", "");
-  usuarios: User[];
-  error;
+
   constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
@@ -26,37 +25,14 @@ export class PrincipalPage implements OnInit {
     else{
       this.userService.getMyUser().subscribe(data => {
         this.usuario = data;
-      })
-    }
-  }
-  
-  ionViewWillEnter(){
-    if (!this.authService.isLoggedIn()){
-      this.router.navigate(['/login']);
-    }
-    else{
-      this.userService.getMyUser().subscribe(data => {
-        this.usuario = data;
+        console.log(data);
       })
     }
   }
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
+  modificar(){}
 
-  logout(){
-    let token = localStorage.getItem('ACCESS_TOKEN');
-    const t = {"token": token};
-    this.http.put(environment.apiURL + '/auth/signout', t).subscribe(() => {
-      localStorage.clear();
-      this.router.navigate(['/login']);
-    })
+  back(){
+    this.router.navigate(['/principal']);
   }
-
-  perfil(){
-      this.router.navigate(['/perfil']);
-  }
-
 }

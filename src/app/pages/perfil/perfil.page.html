@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="usuario">{{usuario.username}}</ion-title>
+    <ion-button slot="end" fill = "clear" color="dark" (click)= back()>
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-item-content *ngIf="usuario"> Usuario: {{usuario.username}}</ion-item-content>
+      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-item-content *ngIf="usuario"> Nombre: {{usuario.name}}</ion-item-content>
+      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-item-content *ngIf="usuario"> Email: {{usuario.email}}</ion-item-content>
+      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
