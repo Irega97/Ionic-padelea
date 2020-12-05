@@ -1,3 +1,4 @@
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +21,7 @@ export class LoginPage implements OnInit {
   iconpassword = "eye-off";
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService) { }
 
   ngOnInit() {
     this.loginform = this.formBuilder.group({
@@ -75,6 +76,18 @@ export class LoginPage implements OnInit {
     else{
       this.iconpassword = "eye-off";
     }
+  }
+
+  async loginGoogle(){
+    await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
+    await this.socialAuth.authState.subscribe((user) => {
+      console.log("GOOGLE PROFILE: ", user);
+      this.user = new User("","", user.provider, "", user.email );
+    });
+    this.authservicio.login(this.user).subscribe((jwt: Token) => {
+      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.router.navigateByUrl('/principal');
+    });
   }
 
 }

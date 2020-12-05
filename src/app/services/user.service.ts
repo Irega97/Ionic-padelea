@@ -9,14 +9,18 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  ruta = "/user"
+  ruta = environment.apiURL + "/user"
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.apiURL + this.ruta + "/all");
+    return this.http.get<User[]>(this.ruta + "/all");
   }
 
   getMyUser(): Observable<User> {
-    return this.http.get<User>(environment.apiURL + this.ruta + "/me");
+    return this.http.get<User>(this.ruta + "/me");
+  }
+
+  changeUsername(username: string){
+    return this.http.post(this.ruta + "/setusername/" + username, null);
   }
 }

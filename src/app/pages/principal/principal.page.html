@@ -13,7 +13,7 @@
   <ion-menu side="start" menuId="first" contentId="main">
     <ion-header>
       <ion-toolbar color="secondary">
-        <ion-title>{{usuario.username}}</ion-title>
+        <ion-title *ngIf="usuario">{{usuario.username}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>

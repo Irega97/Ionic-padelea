@@ -15,6 +15,8 @@ import { MenuController } from '@ionic/angular';
 export class PrincipalPage implements OnInit {
 
   usuario = new User("", "", "");
+  usuarios: User[];
+  error;
   constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
