@@ -18,11 +18,51 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
+        <ion-item>
+          <ion-button fill = "clear" expand = "full" (click) = "perfil()">
+            Perfil
+            <ion-icon slot="start" name="person"></ion-icon>
+          </ion-button>
+          <p>
+            <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+          </p>
+        </ion-item>
+        <ion-item>
+          <ion-button fill = "clear" expand = "full" (click) = "torneos()">
+          Torneos
+          <ion-icon slot="start" name="trophy"></ion-icon>
+        </ion-button>
+        <p>
+          <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+        </p>
+        </ion-item>
+        <ion-item>
+          <ion-button fill = "clear" expand = "full" (click) = "partidos()">
+            Partidos
+            <ion-icon slot="start" name="tennisball"></ion-icon>
+          </ion-button>
+          <p>
+            <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+          </p>
+        </ion-item>
+        <ion-item>
+          <ion-button fill = "clear" expand = "full" (click) = "amigos()">
+            Amigos
+            <ion-icon slot="start" name="people"></ion-icon>
+          </ion-button>
+          <p>
+            <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+          </p>
+        </ion-item>
+        <ion-item>
+            <ion-button fill = "clear" expand = "full" (click) = "logout()">
+              Logout 
+              <ion-icon slot="start" name="log-out"></ion-icon>
+            </ion-button>
+            <p>
+              <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+            </p>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
@@ -59,16 +99,5 @@
       {{usuario.username}}
     </ion-item>
   </ion-list>
-
-  <div class="boton">
-    <ion-button color="secondary" (click) = "logout()">
-      LogOut
-    </ion-button>
-    <p>
-      <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
-    </p>
-    
-  </div>
-
 </ion-content>
     
