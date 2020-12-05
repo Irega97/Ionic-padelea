@@ -16,7 +16,6 @@ export class PrincipalPage implements OnInit {
 
   usuario = new User("", "", "");
   usuarios: User[];
-  error;
   constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
@@ -41,11 +40,6 @@ export class PrincipalPage implements OnInit {
     }
   }
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
   logout(){
     let token = localStorage.getItem('ACCESS_TOKEN');
     const t = {"token": token};
@@ -55,8 +49,20 @@ export class PrincipalPage implements OnInit {
     })
   }
 
-  perfil(){
+  goPerfil(){
       this.router.navigate(['/perfil']);
+  }
+
+  goTorneos(){
+
+  }
+
+  goPartidos(){
+
+  }
+
+  goAmigos(){
+    
   }
 
 }

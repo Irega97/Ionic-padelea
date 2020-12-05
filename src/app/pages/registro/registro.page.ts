@@ -55,10 +55,6 @@ export class RegistroPage implements OnInit {
   }
 
   register(){
-    if(this.registerform.invalid){
-      console.log("Debes rellenar todos los campos");
-      return;
-    }
 
     if (this.registerform.value.password != this.registerform.value.confirmpassword){
       this.errorpassword = true;

@@ -1,6 +1,6 @@
 import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,6 +16,7 @@ export class LoginPage implements OnInit {
   loginform: FormGroup;
   user: User;
   error: string;
+  pulsado: Boolean
 
   passwordinput = 'password';
   iconpassword = "eye-off";
@@ -24,37 +25,48 @@ export class LoginPage implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService) { }
 
   ngOnInit() {
+    if (this.authservicio.isLoggedIn()){
+      this.router.navigate(['/principal']);
+    }
     this.loginform = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.nullValidator]],
-      password: ['', [Validators.required, Validators.nullValidator]]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
     this.error = "";
+    this.pulsado = false;
   }
 
   ionViewWillEnter(){
+    if (this.authservicio.isLoggedIn()){
+      this.router.navigate(['/principal']);
+    }
     this.loginform = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.nullValidator]],
-      password: ['', [Validators.required, Validators.nullValidator]]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
     this.error = "";
+    this.pulsado = false;
   }
 
   login(){
-    if(this.loginform.invalid){
+    this.pulsado = true;
+    if (this.loginform.controls.username.invalid){
       return;
     }
 
     this.user = new User (this.loginform.value.username, this.authservicio.encryptPassword(this.loginform.value.password), "formulario");
-    console.log("Username: " + this.user.username);
-    console.log("Password: " + this.user.password);
 
 
     this.authservicio.login(this.user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error =>{
-      console.log(error)
-      this.error = "Este usuario no existe";
+      if (error.status == 404){
+        this.error = "Este usuario no existe";
+      }
+      else{
+        this.error = "No se ha podido conectar con el servidor";
+      }
     })
   }
 
@@ -76,6 +88,10 @@ export class LoginPage implements OnInit {
     else{
       this.iconpassword = "eye-off";
     }
+  }
+
+  recuperarPassword(){
+
   }
 
   async loginGoogle(){
