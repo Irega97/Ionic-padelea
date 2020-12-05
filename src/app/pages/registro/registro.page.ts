@@ -5,6 +5,8 @@ import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
 import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
+import { SocialAuthService } from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 
 @Component({
   selector: 'app-registro',
@@ -24,7 +26,7 @@ export class RegistroPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
 
-  constructor(private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private socialAuth: SocialAuthService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.registerform = this.formBuilder.group({
@@ -34,7 +36,7 @@ export class RegistroPage implements OnInit {
       apellido2: [''],
       password: ['', [Validators.required, Validators.nullValidator]],
       confirmpassword: ['', [Validators.required, Validators.nullValidator]],
-      image: ['', Validators.nullValidator],
+      //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
     });
   }
@@ -47,7 +49,7 @@ export class RegistroPage implements OnInit {
       apellido2: [''],
       password: ['', [Validators.required, Validators.nullValidator]],
       confirmpassword: ['', [Validators.required, Validators.nullValidator]],
-      image: ['', Validators.nullValidator],
+      //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
     });
   }
@@ -64,11 +66,11 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    this.nombre = this.registerform.value.nombre + " | " + this.registerform.value.apellido1 + " | " + this.registerform.value.apellido2;
-    this.user = new User (this.registerform.value.name, this.registerform.value.password, this.nombre, this.registerform.value.image, this.registerform.value.email, true, "formulario");
+    this.nombre = this.registerform.value.nombre + " " + this.registerform.value.apellido1 + " " + this.registerform.value.apellido2;
+    this.user = new User (this.registerform.value.name, this.registerform.value.password, "formulario", this.nombre, this.registerform.value.email, true, /* this.registerform.value.image */);
     this.user.password = this.authservicio.encryptPassword(this.user.password);
     this.authservicio.register(this.user).subscribe((jwt: Token) => {
-      localStorage.setItem('token', jwt.token);
+      localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
       if (error)
@@ -79,6 +81,18 @@ export class RegistroPage implements OnInit {
 
   goLogin(){
     this.router.navigate(['/login']);
+  }
+
+  async registerGoogle(){
+    await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
+    await this.socialAuth.authState.subscribe((user) => {
+      console.log("GOOGLE PROFILE: ", user);
+      this.user = new User("", null, user.provider, user.name, user.email, false, user.photoUrl);
+    });
+    this.authservicio.register(this.user).subscribe((jwt: Token) => {
+      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.router.navigateByUrl('/setusername');
+    });
   }
 
   VistaPassword(){

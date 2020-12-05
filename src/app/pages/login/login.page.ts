@@ -40,19 +40,16 @@ export class LoginPage implements OnInit {
 
   login(){
     if(this.loginform.invalid){
-      console.log("Debes rellenar todos los campos")
-      this.error = "Debes rellenar todos los datos"
       return;
     }
 
-    this.user = new User (this.loginform.value.username, this.authservicio.encryptPassword(this.loginform.value.password));
-    this.user.provider = "formulario";
+    this.user = new User (this.loginform.value.username, this.authservicio.encryptPassword(this.loginform.value.password), "formulario");
     console.log("Username: " + this.user.username);
     console.log("Password: " + this.user.password);
 
 
     this.authservicio.login(this.user).subscribe((jwt: Token) => {
-      localStorage.setItem('token', jwt.token);
+      localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error =>{
       console.log(error)

@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title>INICIAR SESIÓN</ion-title>
+    <ion-title mode=ios>INICIAR SESIÓN</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +15,7 @@
         <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
         <ion-input type="string" formControlName="username"></ion-input>
       </ion-item>
+      <p *ngIf="!loginform.controls['username'].valid && (loginform.controls['username'].dirty || loginform.controls['username'].touched)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
   
       <ion-item>
         <ion-label position="floating" color= "primary">Contraseña:</ion-label>
@@ -23,12 +24,13 @@
           <ion-icon [name]="iconpassword"></ion-icon>
       </button>
       </ion-item>
+      <p *ngIf="!loginform.controls['password'].valid && (loginform.controls['password'].dirty || loginform.controls['password'].touched)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
       <div class="boton">
         <ion-button color="secondary" (click) = "login()">
           INICIAR SESIÓN
         </ion-button>
         <p>
-          <ion-label *ngIf = "error" color="danger"> {{error}}</ion-label>
+          <ion-label color="danger"> {{error}}</ion-label>
         </p>
         
       </div>

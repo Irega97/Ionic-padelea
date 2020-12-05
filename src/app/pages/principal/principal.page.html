@@ -1,15 +1,62 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>GRUPO 1 EA</ion-title>
+    <ion-button color= "primary" slot="start" (click) = "openFirst()">
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
+    <ion-title mode=ios>GRUPO 1 EA</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-img src="https://image.freepik.com/vector-gratis/construccion-aplicaciones-moviles_1013-24.jpg"></ion-img>
 
+  <ion-menu side="start" menuId="first" contentId="main">
+    <ion-header>
+      <ion-toolbar color="secondary">
+        <ion-title>{{usuario.username}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+        <ion-item>Menu Item</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="schedule">
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>Schedule</ion-label>
+        <ion-badge>69</ion-badge>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="speakers">
+        <ion-icon name="person-circle"></ion-icon>
+        <ion-label>Speakers</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="map">
+        <ion-icon name="map"></ion-icon>
+        <ion-label>Map</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="about">
+        <ion-icon name="information-circle"></ion-icon>
+        <ion-label>About</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
   <ion-list *ngIf = "usuarios && usuarios.length > 0">
     <ion-item *ngFor="let usuario of usuarios">
-      {{usuario.name}}
+      {{usuario.username}}
     </ion-item>
   </ion-list>
 

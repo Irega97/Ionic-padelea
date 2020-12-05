@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
-
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-principal',
@@ -14,27 +14,42 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PrincipalPage implements OnInit {
 
-  usuarios: User[];
-  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router) { }
+  usuario = new User("", "", "");
+  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
-    this.userService.getUsers().subscribe(data => {
-      this.usuarios = data
-    })
+    if (!this.authService.isLoggedIn()){
+      this.router.navigate(['/login']);
+    }
+    else{
+      this.userService.getMyUser().subscribe(data => {
+        this.usuario = data;
+      })
+    }
   }
   
   ionViewWillEnter(){
-    this.userService.getUsers().subscribe(data => {
-      this.usuarios = data
-    })
+    if (!this.authService.isLoggedIn()){
+      this.router.navigate(['/login']);
+    }
+    else{
+      this.userService.getMyUser().subscribe(data => {
+        this.usuario = data;
+      })
+    }
+  }
+
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
   }
 
   logout(){
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('ACCESS_TOKEN');
     const t = {"token": token};
     this.http.put(environment.apiURL + '/auth/signout', t).subscribe(() => {
       localStorage.clear();
-      this.router.navigateByUrl('');
+      this.router.navigate(['/login']);
     })
   }
 

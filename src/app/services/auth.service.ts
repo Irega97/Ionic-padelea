@@ -40,13 +40,12 @@ export class AuthService {
     if (this.getToken() != null){
       return true;
     }
-
     else{
       return false;
     }
   }
 
   getToken(){
-    return localStorage.getItem('token');
+    return localStorage.getItem('ACCESS_TOKEN');
   }
 }

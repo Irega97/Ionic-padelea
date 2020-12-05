@@ -8,7 +8,7 @@ export class User {
     provider: string;
     friends: User[];
 
-    constructor (username: string, password: string, name?: string, image?: string, email?: string, online?: boolean, provider?: string){
+    constructor (username: string, password: string, provider: string, name?: string, email?: string, online?: boolean, image?: string){
         this.name = name;
         this.username = username;
         this.password = password;

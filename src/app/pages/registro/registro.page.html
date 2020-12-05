@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title>REGISTRO</ion-title>
+    <ion-title mode=ios>REGISTRO</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -83,7 +83,7 @@
           También te puedes Registrar con las Redes Sociales:
       </p>
 
-      <ion-button color="danger">
+      <ion-button color="danger" (click) = "registerGoogle()">
         <ion-icon name="logo-google"></ion-icon>
         GOOGLE
       </ion-button>
