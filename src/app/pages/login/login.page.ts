@@ -14,7 +14,7 @@ import { Token } from 'src/app/models/token'
 export class LoginPage implements OnInit {
 
   loginform: FormGroup;
-  user: User;
+  user;
   error: string;
   pulsado: Boolean
 
@@ -53,11 +53,11 @@ export class LoginPage implements OnInit {
     if (this.loginform.controls.username.invalid){
       return;
     }
+    const username = this.loginform.value.username;
+    const password = this.loginform.value.password;
+    const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
 
-    this.user = new User (this.loginform.value.username, this.authservicio.encryptPassword(this.loginform.value.password), "formulario");
-
-
-    this.authservicio.login(this.user).subscribe((jwt: Token) => {
+    this.authservicio.login(user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error =>{
@@ -95,12 +95,15 @@ export class LoginPage implements OnInit {
   }
 
   async loginGoogle(){
+    let u;
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
-      this.user = new User("","", user.provider, "", user.email );
+      u = {"provider": user.provider, "email": user.email}
+      /* this.user.provider = user.provider;
+      this.user.email = user.email;  */
     });
-    this.authservicio.login(this.user).subscribe((jwt: Token) => {
+    this.authservicio.login(u).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigateByUrl('/principal');
     });

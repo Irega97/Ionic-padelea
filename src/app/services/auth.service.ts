@@ -14,7 +14,7 @@ export class AuthService {
   ruta = "/auth/"
   constructor(private http: HttpClient) { }
 
-  login(user: User): Observable<Token> {
+  login(user): Observable<Token> {
     return this.http.post<Token>(environment.apiURL + this.ruta + "login", user);
   }
 

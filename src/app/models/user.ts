@@ -1,4 +1,4 @@
-export class User {
+export interface User {
     name: string;
     username: string;
     password: string;
@@ -7,14 +7,4 @@ export class User {
     online : boolean;
     provider: string;
     friends: User[];
-
-    constructor (username: string, password: string, provider: string, name?: string, email?: string, online?: boolean, image?: string){
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.image = image;
-        this.email = email;
-        this.online = online;
-        this.provider = provider;
-    }
 }

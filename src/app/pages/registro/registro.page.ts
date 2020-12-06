@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
 import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
 import { SocialAuthService } from 'angularx-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import config from '../../../environments/config';
 
 @Component({
   selector: 'app-registro',
@@ -18,7 +19,6 @@ export class RegistroPage implements OnInit {
   registerform: FormGroup;
   user: User;
   errorpassword = false;
-  nombre: string;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -62,16 +62,25 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    this.nombre = this.registerform.value.nombre + " " + this.registerform.value.apellido1 + " " + this.registerform.value.apellido2;
-    this.user = new User (this.registerform.value.name, this.registerform.value.password, "formulario", this.nombre, this.registerform.value.email, true, /* this.registerform.value.image */);
-    this.user.password = this.authservicio.encryptPassword(this.user.password);
-    this.authservicio.register(this.user).subscribe((jwt: Token) => {
+    let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellido1 + " " + this.registerform.value.apellido2;
+    let user = {
+      name : nombre,
+      username: this.registerform.value.name,
+      provider: 'formulario',
+      email: this.registerform.value.email,
+      online: true,
+      image: config.defaultImage,
+      password: this.authservicio.encryptPassword(this.registerform.value.password),
+      friends: []
+    }
+    this.authservicio.register(user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
-      if (error)
-      this.registerform.controls.name.setErrors(Validator.validUsername);
-      console.log(error);
+      if (error){
+        this.registerform.controls.name.setErrors(Validator.validUsername);
+        console.log(error);
+      }
     });
   }
 
@@ -83,11 +92,12 @@ export class RegistroPage implements OnInit {
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
-      this.user = new User("", null, user.provider, user.name, user.email, false, user.photoUrl);
-    });
-    this.authservicio.register(this.user).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
-      this.router.navigateByUrl('/setusername');
+      let navigationExtras: NavigationExtras = {
+        state: {
+          name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+        }
+      };
+      this.router.navigate(['setusername'], navigationExtras);
     });
   }
 
