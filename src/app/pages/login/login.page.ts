@@ -1,7 +1,7 @@
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Token } from 'src/app/models/token'
 import { AlertController, LoadingController } from '@ionic/angular';
@@ -114,28 +114,56 @@ export class LoginPage implements OnInit {
   }
 
   async loginGoogle(){
-    let u;
+    let user;
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
-    await this.socialAuth.authState.subscribe((user) => {
-      console.log("GOOGLE PROFILE: ", user);
-      u = {"provider": user.provider, "email": user.email}
+    await this.socialAuth.authState.subscribe((googleUser) => {
+      console.log("GOOGLE PROFILE: ", googleUser);
+      user = googleUser;
     });
-    this.authservicio.login(u).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
-      this.router.navigateByUrl('/principal');
+
+    this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+      if(data.value === true) { 
+        const u = {"provider": user.provider, "email": user.email}
+        this.authservicio.login(u).subscribe((jwt: Token) => {
+          localStorage.setItem('ACCESS_TOKEN', jwt.token);
+          this.router.navigateByUrl('/principal');
+        });
+      }
+      else {
+        let navigationExtras: NavigationExtras = {
+          state: {
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+          }
+        };
+        this.router.navigate(['setusername'], navigationExtras);
+      };
     });
   }
 
   async loginFacebook(){
-    let u;
+    let user;
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
-    await this.socialAuth.authState.subscribe((user) => {
-      console.log("FACEBOOK PROFILE: ", user);
-      u = {"provider": user.provider, "email": user.email}
+    await this.socialAuth.authState.subscribe((facebookUser) => {
+      console.log("FACEBOOK PROFILE: ", facebookUser);
+      user = facebookUser;
     });
-    this.authservicio.login(u).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
-      this.router.navigateByUrl('/principal');
+
+    this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+      if(data.value === true) { 
+        const u = {"provider": user.provider, "email": user.email}
+        this.authservicio.login(u).subscribe((jwt: Token) => {
+          localStorage.setItem('ACCESS_TOKEN', jwt.token);
+          this.router.navigateByUrl('/principal');
+        });
+      }
+      else {
+        let navigationExtras: NavigationExtras = {
+          state: {
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+          }
+        };
+        this.router.navigate(['setusername'], navigationExtras);
+      };
     });
   }
 

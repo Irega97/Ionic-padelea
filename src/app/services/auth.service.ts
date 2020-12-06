@@ -11,15 +11,19 @@ import { Token } from 'src/app/models/token';
 })
 export class AuthService {
 
-  ruta = "/auth/"
+  ruta = environment.apiURL + '/auth/';
   constructor(private http: HttpClient) { }
 
   login(user): Observable<Token> {
-    return this.http.post<Token>(environment.apiURL + this.ruta + "login", user);
+    return this.http.post<Token>(this.ruta + "login", user);
   }
 
   register(user: User): Observable<Token> {
-    return this.http.post<Token>(environment.apiURL + this.ruta + "register", user);
+    return this.http.post<Token>(this.ruta + "register", user);
+  }
+
+  checkSocialAccount(email: string): Observable<{value: boolean}>{
+    return this.http.get<any>(this.ruta + '/checkSocial/' + email);
   }
 
   /*signout(user: User): Observable<any> {

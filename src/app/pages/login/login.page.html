@@ -25,10 +25,12 @@
       </button>
       </ion-item>
       <p *ngIf="!loginform.controls['password'].valid && (loginform.controls['password'].dirty || loginform.controls['password'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+      <br>
       <div class="boton">
         <ion-button color="secondary" (click) = "login()">
           INICIAR SESIÓN
         </ion-button>
+        <br>
         <p>
           <ion-label color="danger"> {{error}}</ion-label>
         </p>
@@ -38,26 +40,22 @@
       </div>
   
     </form>
-  
+      <br>
       <div class="boton">
-        <ion-label>¿No tienes ninguna cuenta?</ion-label><a (click)="goRegister()">¡Regístrate!</a>
+        <ion-label><h3>¿No tienes ninguna cuenta?</h3></ion-label><a (click)="goRegister()"><h2>¡Regístrate!</h2></a>
+        <br>
+        <h4>
+          También puedes Iniciar Sesión con las Redes Sociales:
+        </h4>
         <p>
-          También te puedes Iniciar Sesión con las Redes Sociales:
-        </p>
         <ion-button color="danger" (click)="loginGoogle()">
           <ion-icon name="logo-google"></ion-icon>
           GOOGLE
         </ion-button>
-        <ion-button color="primary">
-          <ion-icon name="logo-twitter"></ion-icon>
-          TWITTER
+        <ion-button color="primary" (click)="loginFacebook()">
+          <ion-icon name="logo-facebook"></ion-icon>
+          FACEBOOK
         </ion-button>
-        
-        <p>
-          <ion-button color="primary" (click)="loginFacebook()">
-            <ion-icon name="logo-facebook"></ion-icon>
-            FACEBOOK
-          </ion-button>
         </p>
       </div>
   </ion-card-content>
