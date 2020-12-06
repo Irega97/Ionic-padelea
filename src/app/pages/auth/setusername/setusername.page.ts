@@ -1,6 +1,6 @@
 import { User } from 'src/app/models/user';
-import { Token } from './../../models/token';
-import { AuthService } from './../../services/auth.service';
+import { Token } from 'src/app/models/token';
+import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';

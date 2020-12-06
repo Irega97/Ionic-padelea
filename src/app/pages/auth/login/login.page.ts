@@ -25,9 +25,6 @@ export class LoginPage implements OnInit {
               private loadingController: LoadingController, private alertController: AlertController) { }
 
   ngOnInit() {
-    if (this.authservicio.isLoggedIn()){
-      this.router.navigate(['/principal']);
-    }
     this.loginform = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -37,9 +34,6 @@ export class LoginPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    if (this.authservicio.isLoggedIn()){
-      this.router.navigate(['/principal']);
-    }
     this.loginform = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -90,7 +84,7 @@ export class LoginPage implements OnInit {
   }
 
   goRegister(){
-    this.router.navigate(['/registro']);
+    this.router.navigate(['/auth/registro']);
   }
 
   VistaPassword(){

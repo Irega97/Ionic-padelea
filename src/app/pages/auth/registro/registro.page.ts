@@ -6,7 +6,7 @@ import { AuthService} from 'src/app/services/auth.service'
 import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
-import config from '../../../environments/config';
+import config from 'src/environments/config';
 
 @Component({
   selector: 'app-registro',
@@ -95,7 +95,7 @@ export class RegistroPage implements OnInit {
   }
 
   goLogin(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   async registerGoogle(){

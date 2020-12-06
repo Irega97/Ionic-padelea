@@ -4,30 +4,44 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'principal',
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'registro',
-    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
-  },
-  {
     path: 'principal',
-    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+      },
+      {
+        path: 'perfil',
+        loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+      }
+    ]
   },
   {
-    path: 'setusername',
-    loadChildren: () => import('./pages/setusername/setusername.module').then( m => m.SetusernamePageModule)
-  },
-  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    path: 'auth',
+    children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      },
+      {
+        path: 'login',
+        loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+      },
+      {
+        path: 'registro',
+        loadChildren: () => import('./pages/auth/registro/registro.module').then( m => m.RegistroPageModule)
+      },
+      {
+        path: 'setusername',
+        loadChildren: () => import('./pages/auth/setusername/setusername.module').then( m => m.SetusernamePageModule)
+      }
+    ]
   }
-
 ];
 
 @NgModule({

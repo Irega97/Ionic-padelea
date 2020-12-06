@@ -4,7 +4,6 @@ export class Validator {
 
   static validUsername(group: FormGroup){
     if(group.parent != undefined){
-      console.log("Checkname: " + group.parent.value.checkname);
       if(group.value == group.parent.value.checkname){
         return ({validUsername: true});
       }
@@ -16,7 +15,6 @@ export class Validator {
 
   static validEmail(group: FormGroup){
     if (group.parent != undefined){
-      console.log("Checkmail: " + group.parent.value.checkmail);
       if (group.value == group.parent.value.checkmail){
         return ({validEmail:true});
       }
