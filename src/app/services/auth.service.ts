@@ -26,10 +26,10 @@ export class AuthService {
     return this.http.get<any>(this.ruta + '/checkSocial/' + email);
   }
 
-  /*signout(user: User): Observable<any> {
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiURL + this.ruta + "signout", user, {headers});
-  }*/
+  signout(): Observable<any> {
+    const t = {"token": this.getToken()};
+    return this.http.put(this.ruta + "signout", t);
+  }
 
   encryptPassword(password: string){
     try {

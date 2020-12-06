@@ -31,16 +31,14 @@ export class PrincipalPage implements OnInit {
   }
 
   logout(){
-    let token = localStorage.getItem('ACCESS_TOKEN');
-    const t = {"token": token};
-    this.http.put(environment.apiURL + '/auth/signout', t).subscribe(() => {
+    this.authService.signout().subscribe(data =>{
       localStorage.clear();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     })
   }
 
   goPerfil(){
-      this.router.navigate(['/perfil']);
+      this.router.navigate(['/principal/perfil']);
   }
 
   goTorneos(){

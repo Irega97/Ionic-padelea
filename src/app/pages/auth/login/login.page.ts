@@ -63,6 +63,7 @@ export class LoginPage implements OnInit {
       this.error = "";
       return;
     }
+
     const username = this.loginform.value.username;
     const password = this.loginform.value.password;
     const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
@@ -72,7 +73,7 @@ export class LoginPage implements OnInit {
       //this.loadingController.dismiss();
       this.router.navigate(['/principal']);
     }, error =>{
-      if (error.status == 404){
+      if (error.status != 500){
         //this.loadingController.dismiss();
         this.error = "Este usuario no existe";
       }

@@ -18,32 +18,32 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item>
-          <ion-button fill = "clear" expand = "full" (click) = "goPerfil()">
+        <ion-item (click) = "goPerfil()">
+          <ion-button fill = "clear" expand = "full">
             Perfil
             <ion-icon slot="start" name="person"></ion-icon>
           </ion-button>
         </ion-item>
-        <ion-item>
-          <ion-button fill = "clear" expand = "full" (click) = "goTorneos()">
+        <ion-item (click) = "goTorneos()">
+          <ion-button fill = "clear" expand = "full">
           Torneos
           <ion-icon slot="start" name="trophy"></ion-icon>
         </ion-button>
         </ion-item>
-        <ion-item>
-          <ion-button fill = "clear" expand = "full" (click) = "goPartidos()">
+        <ion-item (click) = "goPartidos()">
+          <ion-button fill = "clear" expand = "full">
             Partidos
             <ion-icon slot="start" name="tennisball"></ion-icon>
           </ion-button>
         </ion-item>
-        <ion-item>
-          <ion-button fill = "clear" expand = "full" (click) = "goAmigos()">
+        <ion-item (click) = "goAmigos()">
+          <ion-button fill = "clear" expand = "full">
             Amigos
             <ion-icon slot="start" name="people"></ion-icon>
           </ion-button>
         </ion-item>
-        <ion-item>
-            <ion-button fill = "clear" expand = "full" (click) = "logout()">
+        <ion-item (click) = "logout()">
+            <ion-button fill = "clear" expand = "full">
               Logout 
               <ion-icon slot="start" name="log-out"></ion-icon>
             </ion-button>
