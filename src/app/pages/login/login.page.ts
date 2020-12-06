@@ -2,7 +2,6 @@ import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { Token } from 'src/app/models/token'
 import { AlertController, LoadingController } from '@ionic/angular';
@@ -15,7 +14,6 @@ import { AlertController, LoadingController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   loginform: FormGroup;
-  user;
   error: string;
   pulsado: Boolean
 
@@ -121,8 +119,6 @@ export class LoginPage implements OnInit {
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
       u = {"provider": user.provider, "email": user.email}
-      /* this.user.provider = user.provider;
-      this.user.email = user.email;  */
     });
     this.authservicio.login(u).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
