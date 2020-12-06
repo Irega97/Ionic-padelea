@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { Token } from 'src/app/models/token'
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginPage implements OnInit {
   iconpassword = "eye-off";
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService, 
+              private loadingController: LoadingController, private alertController: AlertController) { }
 
   ngOnInit() {
     if (this.authservicio.isLoggedIn()){
@@ -48,9 +50,25 @@ export class LoginPage implements OnInit {
     this.pulsado = false;
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Por favor espera...'
+    });
+    await loading.present();
+  }
+
+  async presentAlert(){
+    const alert = await this.alertController.create({
+      message: "No se ha podido conectar con el servidor",
+      buttons: ['OK']
+    })
+    await alert.present();
+  }
+
   login(){
     this.pulsado = true;
-    if (this.loginform.controls.username.invalid){
+    if (this.loginform.invalid){
+      this.error = "";
       return;
     }
     const username = this.loginform.value.username;
@@ -59,13 +77,16 @@ export class LoginPage implements OnInit {
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      //this.loadingController.dismiss();
       this.router.navigate(['/principal']);
     }, error =>{
       if (error.status == 404){
+        //this.loadingController.dismiss();
         this.error = "Este usuario no existe";
       }
       else{
-        this.error = "No se ha podido conectar con el servidor";
+        //this.loadingController.dismiss();
+        this.presentAlert();
       }
     })
   }

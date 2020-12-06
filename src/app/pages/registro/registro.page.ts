@@ -18,7 +18,8 @@ export class RegistroPage implements OnInit {
 
   registerform: FormGroup;
   user: User;
-  errorpassword = false;
+  nombre: string;
+  pulsado: Boolean;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -30,35 +31,35 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator, Validator.validUsername]],
-      nombre: ['', [Validators.required, Validators.nullValidator]],
-      apellido1: ['', [Validators.required, Validators.nullValidator]],
+      name: ['', [Validators.required, Validator.validUsername]],
+      nombre: ['', Validators.required],
+      apellido1: ['', Validators.required],
       apellido2: [''],
-      password: ['', [Validators.required, Validators.nullValidator]],
-      confirmpassword: ['', [Validators.required, Validators.nullValidator]],
+      password: ['', Validators.required],
+      confirmpassword: ['', [Validators.required, Validator.checkPassword]],
       //image: ['', Validators.nullValidator],
-      email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
+      email: ['', [Validators.required, Validators.email, Validator.validEmail]],
     });
+    this.pulsado = false;
   }
 
   ionViewWillEnter(){
     this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.nullValidator, Validator.validUsername]],
-      nombre: ['', [Validators.required, Validators.nullValidator]],
-      apellido1: ['', [Validators.required, Validators.nullValidator]],
+      name: ['', [Validators.required, Validator.validUsername]],
+      nombre: ['', Validators.required],
+      apellido1: ['', Validators.required],
       apellido2: [''],
-      password: ['', [Validators.required, Validators.nullValidator]],
-      confirmpassword: ['', [Validators.required, Validators.nullValidator]],
+      password: ['', Validators.required],
+      confirmpassword: ['', [Validators.required, Validator.checkPassword]],
       //image: ['', Validators.nullValidator],
-      email: ['', [Validators.required, Validators.email, Validators.nullValidator]],
+      email: ['', [Validators.required, Validators.email, Validator.validEmail]],
     });
+    this.pulsado = false;
   }
 
   register(){
-
-    if (this.registerform.value.password != this.registerform.value.confirmpassword){
-      this.errorpassword = true;
-      this.registerform.controls.confirmpassword.setErrors(Validators.nullValidator);
+    this.pulsado = true;
+    if (this.registerform.invalid){
       return;
     }
 
@@ -77,10 +78,13 @@ export class RegistroPage implements OnInit {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
-      if (error){
+      if (error.status = 409){
         this.registerform.controls.name.setErrors(Validator.validUsername);
-        console.log(error);
       }
+      else if (error.status = 410){
+        this.registerform.controls.email.setErrors(Validator.validEmail);
+      }
+      console.log(error);
     });
   }
 
