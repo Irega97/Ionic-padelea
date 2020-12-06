@@ -1,4 +1,4 @@
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -118,6 +118,19 @@ export class LoginPage implements OnInit {
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
+      u = {"provider": user.provider, "email": user.email}
+    });
+    this.authservicio.login(u).subscribe((jwt: Token) => {
+      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.router.navigateByUrl('/principal');
+    });
+  }
+
+  async loginFacebook(){
+    let u;
+    await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
+    await this.socialAuth.authState.subscribe((user) => {
+      console.log("FACEBOOK PROFILE: ", user);
       u = {"provider": user.provider, "email": user.email}
     });
     this.authservicio.login(u).subscribe((jwt: Token) => {

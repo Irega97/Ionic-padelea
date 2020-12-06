@@ -5,8 +5,7 @@ import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
 import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
-import { SocialAuthService } from 'angularx-social-login';
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
 import config from '../../../environments/config';
 
 @Component({
@@ -20,6 +19,7 @@ export class RegistroPage implements OnInit {
   user: User;
   nombre: string;
   pulsado: Boolean;
+  error;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -96,6 +96,19 @@ export class RegistroPage implements OnInit {
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
+      let navigationExtras: NavigationExtras = {
+        state: {
+          name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+        }
+      };
+      this.router.navigate(['setusername'], navigationExtras);
+    });
+  }
+
+  async registerFacebook(){
+    await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
+    await this.socialAuth.authState.subscribe((user) => {
+      console.log("FACEBOOK PROFILE: ", user);
       let navigationExtras: NavigationExtras = {
         state: {
           name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
