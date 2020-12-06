@@ -30,8 +30,10 @@ export class RegistroPage implements OnInit {
   constructor(private socialAuth: SocialAuthService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.pulsado = false;
     this.registerform = this.formBuilder.group({
       name: ['', [Validators.required, Validator.validUsername]],
+      checkname: [],
       nombre: ['', Validators.required],
       apellido1: ['', Validators.required],
       apellido2: [''],
@@ -39,13 +41,14 @@ export class RegistroPage implements OnInit {
       confirmpassword: ['', [Validators.required, Validator.checkPassword]],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
+      checkmail: []
     });
-    this.pulsado = false;
   }
 
   ionViewWillEnter(){
     this.registerform = this.formBuilder.group({
       name: ['', [Validators.required, Validator.validUsername]],
+      checkname: [],
       nombre: ['', Validators.required],
       apellido1: ['', Validators.required],
       apellido2: [''],
@@ -53,6 +56,7 @@ export class RegistroPage implements OnInit {
       confirmpassword: ['', [Validators.required, Validator.checkPassword]],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
+      checkmail: []
     });
     this.pulsado = false;
   }
@@ -79,10 +83,12 @@ export class RegistroPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status = 409){
-        this.registerform.controls.name.setErrors(Validator.validUsername);
+        this.registerform.get('checkname').setValue(this.registerform.value.name);
+        this.registerform.controls.name.setErrors({validUsername: true});
       }
       else if (error.status = 410){
-        this.registerform.controls.email.setErrors(Validator.validEmail);
+        this.registerform.get('checkmail').setValue(this.registerform.value.email);
+        this.registerform.controls.name.setErrors({validEmail: true});
       }
       console.log(error);
     });
