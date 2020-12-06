@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Validator } from 'src/app/models/validator'
 
 @Component({
   selector: 'app-setusername',
@@ -18,6 +19,7 @@ export class SetusernamePage implements OnInit {
   email: string;
   image: string;
   provider: string;
+  pulsado: Boolean;
 
   constructor(public formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router) {
     this.name = this.router.getCurrentNavigation().extras.state.name;
@@ -27,15 +29,27 @@ export class SetusernamePage implements OnInit {
   }
 
   ngOnInit() {
+    this.pulsado = false;
     this.usernameForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.nullValidator]]
+      username: ['', [Validators.required, Validator.validUsername]],
+      checkname: [],
     });
   }
-  get formControls(){
-    return this.usernameForm.controls;
+
+  ionViewWillEnter(){
+    this.pulsado = false;
+    this.usernameForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validator.validUsername]],
+      checkname: [],
+    });
   }
 
   submitUsername() {
+    if (this.usernameForm.invalid){
+      this.pulsado = true;
+      return;
+    }
+    
     const user: User = {
       name: this.name,
       email: this.email,
@@ -50,7 +64,15 @@ export class SetusernamePage implements OnInit {
     this.authService.register(user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigateByUrl('/principal');
+    }, error => {
+      if (error.status = 409){
+        this.usernameForm.get('checkname').setValue(this.usernameForm.value.username);
+        this.usernameForm.controls.username.setErrors({validUsername: true});
+      }
     });
   }
 
+  goLogin(){
+    this.router.navigate(['/auth/login']);
+  }
 }

@@ -26,7 +26,7 @@ export class Validator {
 
   static checkPassword(group: FormGroup){
     if (group.parent != undefined){
-      if (group.parent.value.password != group.value){
+      if (group.value != group.parent.value.password){
         return ({checkPassword: true})
       }
       else{

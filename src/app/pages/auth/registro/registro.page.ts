@@ -102,12 +102,23 @@ export class RegistroPage implements OnInit {
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("GOOGLE PROFILE: ", user);
-      let navigationExtras: NavigationExtras = {
-        state: {
-          name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+      this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+        if (!data.value){
+          let navigationExtras: NavigationExtras = {
+            state: {
+              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+            }
+          };
+          this.router.navigate(['auth/setusername'], navigationExtras);
         }
-      };
-      this.router.navigate(['auth/setusername'], navigationExtras);
+        else{
+          const u = {"provider": user.provider, "email": user.email}
+          this.authservicio.login(u).subscribe((jwt: Token) => {
+            localStorage.setItem('ACCESS_TOKEN', jwt.token);
+            this.router.navigateByUrl('/principal');
+          });
+        }
+      })
     });
   }
 
@@ -115,12 +126,23 @@ export class RegistroPage implements OnInit {
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
       console.log("FACEBOOK PROFILE: ", user);
-      let navigationExtras: NavigationExtras = {
-        state: {
-          name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+      this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+        if (!data.value){
+          let navigationExtras: NavigationExtras = {
+            state: {
+              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+            }
+          };
+          this.router.navigate(['auth/setusername'], navigationExtras);
         }
-      };
-      this.router.navigate(['auth/setusername'], navigationExtras);
+        else{
+          const u = {"provider": user.provider, "email": user.email}
+          this.authservicio.login(u).subscribe((jwt: Token) => {
+            localStorage.setItem('ACCESS_TOKEN', jwt.token);
+            this.router.navigateByUrl('/principal');
+          });
+        }
+      })
     });
   }
 

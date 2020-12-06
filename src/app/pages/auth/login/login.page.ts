@@ -130,7 +130,7 @@ export class LoginPage implements OnInit {
             name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
           }
         };
-        this.router.navigate(['setusername'], navigationExtras);
+        this.router.navigate(['auth/setusername'], navigationExtras);
       };
     });
   }
