@@ -14,49 +14,43 @@ import { MenuController } from '@ionic/angular';
 })
 export class PrincipalPage implements OnInit {
 
-  usuario = new User("", "", "");
+  usuario: User;
   usuarios: User[];
-  error;
   constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
-    if (!this.authService.isLoggedIn()){
-      this.router.navigate(['/login']);
-    }
-    else{
-      this.userService.getMyUser().subscribe(data => {
-        this.usuario = data;
-      })
-    }
+    this.userService.getMyUser().subscribe(data => {
+      this.usuario = data;
+    })
   }
   
   ionViewWillEnter(){
-    if (!this.authService.isLoggedIn()){
-      this.router.navigate(['/login']);
-    }
-    else{
-      this.userService.getMyUser().subscribe(data => {
-        this.usuario = data;
-      })
-    }
-  }
-
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  logout(){
-    let token = localStorage.getItem('ACCESS_TOKEN');
-    const t = {"token": token};
-    this.http.put(environment.apiURL + '/auth/signout', t).subscribe(() => {
-      localStorage.clear();
-      this.router.navigate(['/login']);
+    this.userService.getMyUser().subscribe(data => {
+      this.usuario = data;
     })
   }
 
-  perfil(){
-      this.router.navigate(['/perfil']);
+  logout(){
+    this.authService.signout().subscribe(data =>{
+      localStorage.clear();
+      this.router.navigate(['/auth/login']);
+    })
+  }
+
+  goPerfil(){
+      this.router.navigate(['/principal/perfil']);
+  }
+
+  goTorneos(){
+
+  }
+
+  goPartidos(){
+
+  }
+
+  goAmigos(){
+    
   }
   
   back(){

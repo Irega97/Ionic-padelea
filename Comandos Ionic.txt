@@ -1,0 +1,32 @@
+Installar Ionic (Se necesita node y npm)
+
+- npm install -g ionic
+
+Crear Proyecto (En la carpeta donde queramos poner el proyecto)
+
+- ionic start
+
+Cuando se descarga u Proyecto hay que instalar las dependencias
+
+- npm install
+
+Comandos en el Proyecto
+
+Ionic
+- ionic serve (Ejecutar el proyecto y verlo en la web)
+- ionic generate (Crear nuevas páginas, nuevas clases, nuevos servicios...)
+
+Backend 
+- npm run dev
+
+SocketServer (dentro del Backend)
+- cd src
+- node index.js
+
+Exportar a Android
+
+- npm i @capacitor/core @capacitor/cli
+- ionic build
+- npx cap init
+- npx cap add android / npx cap add ios
+- npx cap open android (Para abrirlo en el Android Studio, no es obligatorio)

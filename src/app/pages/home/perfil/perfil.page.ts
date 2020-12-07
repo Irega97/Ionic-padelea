@@ -14,20 +14,15 @@ import { MenuController } from '@ionic/angular';
 })
 export class PerfilPage implements OnInit {
 
-  usuario = new User("", "", "");
+  usuario: User;
 
   constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
 
   ngOnInit() {
-    if (!this.authService.isLoggedIn()){
-      this.router.navigate(['/login']);
-    }
-    else{
-      this.userService.getMyUser().subscribe(data => {
-        this.usuario = data;
-        console.log(data);
-      })
-    }
+    this.userService.getMyUser().subscribe(data => {
+      this.usuario = data;
+      console.log(data);
+    })
   }
 
   modificar(){}

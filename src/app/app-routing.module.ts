@@ -1,32 +1,51 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './shared/auth.guard';
+import { NoauthGuard } from './shared/noauth.guard';
 
 const routes: Routes = [
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'principal',
     pathMatch: 'full'
   },
   {
-    path: 'registro',
-    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
-  },
-  {
     path: 'principal',
-    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule)
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./pages/home/principal/principal.module').then( m => m.PrincipalPageModule)
+      },
+      {
+        path: 'perfil',
+        loadChildren: () => import('./pages/home/perfil/perfil.module').then( m => m.PerfilPageModule)
+      }
+    ]
   },
   {
-    path: 'setusername',
-    loadChildren: () => import('./pages/setusername/setusername.module').then( m => m.SetusernamePageModule)
-  },  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    path: 'auth',
+    canActivate: [NoauthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      },
+      {
+        path: 'login',
+        loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+      },
+      {
+        path: 'registro',
+        loadChildren: () => import('./pages/auth/registro/registro.module').then( m => m.RegistroPageModule)
+      },
+      {
+        path: 'setusername',
+        loadChildren: () => import('./pages/auth/setusername/setusername.module').then( m => m.SetusernamePageModule)
+      }
+    ]
   }
-
 ];
 
 @NgModule({

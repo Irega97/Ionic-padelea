@@ -1,0 +1,17 @@
+.boton{
+    text-align: center;
+}
+
+#card{
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-radius: 10px;
+  }
+
+  .background{
+    --background: url('https://cdn.padel10.com/wp-content/uploads/2018/07/pista_padel_top10_panoramica_1.jpg') 0 0/100% 100% no-repeat;
+  }

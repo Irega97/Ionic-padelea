@@ -11,21 +11,25 @@ import { Token } from 'src/app/models/token';
 })
 export class AuthService {
 
-  ruta = "/auth/"
+  ruta = environment.apiURL + '/auth/';
   constructor(private http: HttpClient) { }
 
-  login(user: User): Observable<Token> {
-    return this.http.post<Token>(environment.apiURL + this.ruta + "login", user);
+  login(user): Observable<Token> {
+    return this.http.post<Token>(this.ruta + "login", user);
   }
 
   register(user: User): Observable<Token> {
-    return this.http.post<Token>(environment.apiURL + this.ruta + "register", user);
+    return this.http.post<Token>(this.ruta + "register", user);
   }
 
-  /*signout(user: User): Observable<any> {
-    const headers =  new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiURL + this.ruta + "signout", user, {headers});
-  }*/
+  checkSocialAccount(email: string): Observable<{value: boolean}>{
+    return this.http.get<any>(this.ruta + '/checkSocial/' + email);
+  }
+
+  signout(): Observable<any> {
+    const t = {"token": this.getToken()};
+    return this.http.put(this.ruta + "signout", t);
+  }
 
   encryptPassword(password: string){
     try {
