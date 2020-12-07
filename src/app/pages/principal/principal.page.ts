@@ -58,5 +58,9 @@ export class PrincipalPage implements OnInit {
   perfil(){
       this.router.navigate(['/perfil']);
   }
+  
+  back(){
+    this.router.navigate(['/principal']);
+  }
 
 }
