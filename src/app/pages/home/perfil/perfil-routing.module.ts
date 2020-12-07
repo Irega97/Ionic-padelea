@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: PerfilPage
+  },  {
+    path: 'modperfil',
+    loadChildren: () => import('./modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   }
+
 ];
 
 @NgModule({

@@ -45,7 +45,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/auth/setusername/setusername.module').then( m => m.SetusernamePageModule)
       }
     ]
+  },  {
+    path: 'modperfil',
+    loadChildren: () => import('./pages/perfil/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   }
+
 ];
 
 @NgModule({

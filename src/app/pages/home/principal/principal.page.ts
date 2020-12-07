@@ -52,9 +52,4 @@ export class PrincipalPage implements OnInit {
   goAmigos(){
     
   }
-  
-  back(){
-    this.router.navigate(['/principal']);
-  }
-
 }

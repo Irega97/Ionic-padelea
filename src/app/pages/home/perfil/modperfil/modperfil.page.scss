@@ -1,0 +1,24 @@
+.btn_eye_icon{
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+    background: transparent;
+    ion-icon{
+        font-size: 22px;
+        color:#757575;
+    }
+}
+
+.boton{
+    text-align: center;
+}
+
+#card{
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-radius: 10px;
+  }

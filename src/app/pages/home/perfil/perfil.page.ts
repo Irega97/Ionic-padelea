@@ -25,7 +25,9 @@ export class PerfilPage implements OnInit {
     })
   }
 
-  modificar(){}
+  modificar(){
+    this.router.navigate(['/perfil/modperfil']);
+  }
 
   back(){
     this.router.navigate(['/principal']);

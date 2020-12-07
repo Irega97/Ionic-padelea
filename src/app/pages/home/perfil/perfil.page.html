@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title *ngIf="usuario">{{usuario.username}}</ion-title>
-    <ion-button slot="end" fill = "clear" color="dark" (click)= back()>
+    <ion-title  mode=ios *ngIf="usuario">{{usuario.username}}</ion-title>
+    <ion-button slot="start" fill = "clear" color="dark" (click)= back()>
       <ion-icon name="arrow-back"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -23,9 +23,13 @@
     </ion-item>
     <ion-item>
       <ion-item-content *ngIf="usuario"> Email: {{usuario.email}}</ion-item-content>
-      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
-        <ion-icon name="create"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-card>
+    <ion-button expand="block" fill = "clear" color="dark" (click) = modificar()>
+      MODIFICAR
+      <ion-icon name="create"></ion-icon>
+  </ion-card>
 </ion-content>
