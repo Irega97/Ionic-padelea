@@ -45,7 +45,7 @@ export class RegistroPage implements OnInit {
     });
   }
 
-  ionViewWillEnter(){
+  ionViewDidEnter(){
     this.registerform = this.formBuilder.group({
       name: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
