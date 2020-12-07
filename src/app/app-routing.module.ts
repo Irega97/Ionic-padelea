@@ -45,9 +45,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/auth/setusername/setusername.module').then( m => m.SetusernamePageModule)
       }
     ]
-  },  {
+  },
+  {
     path: 'modperfil',
-    loadChildren: () => import('./pages/perfil/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
+    loadChildren: () => import('./pages/home/perfil/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   }
 
 ];
