@@ -17,4 +17,21 @@ export class BuscadorPage implements OnInit {
       this.users = data;
     });
   }
+
+  search(){
+    const searchbar = document.querySelector('ion-searchbar');
+    const items = this.users;
+
+    searchbar.addEventListener('ionInput', handleInput);
+
+    function handleInput(event) {
+      const query = event.target.value.toLowerCase();
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const shouldShow = item.username.textContent.toLowerCase().indexOf(query) > -1;
+          item.style.display = shouldShow ? 'block' : 'none';
+        });
+      });
+    }
+  }
 }

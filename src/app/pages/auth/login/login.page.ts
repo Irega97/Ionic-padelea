@@ -1,9 +1,9 @@
+import { Token } from './../../../models/token';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { Token } from 'src/app/models/token'
 import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
@@ -168,6 +168,14 @@ export class LoginPage implements OnInit {
     }, error =>{
       this.components.presentAlert("No se ha podido conectar con el servidor");
     });
+  }
+
+  addToken(token:string){
+    let expires = 3600;
+    let timestamp = Date.now() + expires;
+    localStorage.setItem('ACCESS_TOKEN', token);
+    console.log(timestamp.toString());
+    localStorage.setItem('expiresIn', timestamp.toString());
   }
 
 }
