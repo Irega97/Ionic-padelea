@@ -19,7 +19,6 @@ export class ModperfilPage implements OnInit {
   user: User;
   nombre: string;
   pulsado: Boolean;
-  error;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -27,43 +26,46 @@ export class ModperfilPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
 
-  constructor(private userService: UserService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.pulsado = false;
-    this.updateform = this.formBuilder.group({
-      name: ['', [ Validator.validUsername]],
-      checkname: [],
-      nombre: [''],
-      apellido1: [''],
-      apellido2: [''],
-      password: [''],
-      confirmpassword: ['', [Validator.checkPassword]],
-      //image: ['', Validators.nullValidator],
-      email: ['', [Validator.validEmail]],
-      checkmail: []
-    });
-
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
-      console.log(data);
-    })
+      this.updateform = this.formBuilder.group({
+        name: [this.user.name, [Validators.required, Validator.validUsername]],
+        checkname: [],
+        nombre: [this.user.firstName, Validators.required],
+        apellidos: [this.user.lastName, Validators.required],
+        password: ['', Validators.required],
+        confirmpassword: ['', Validators.required],
+        //image: ['', Validators.nullValidator],
+        email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
+        checkmail: []
+      }, {validator: Validator.checkPassword});
+  }, error =>{
+    console.log(error);
+  })
   }
 
   ionViewWillEnter(){
-    this.updateform = this.formBuilder.group({
-      name: ['', [Validator.validUsername]],
-      checkname: [],
-      nombre: [''],
-      apellido1: [''],
-      apellido2: [''],
-      password: [''],
-      confirmpassword: ['', [Validator.checkPassword]],
-      //image: ['', Validators.nullValidator],
-      email: ['', [Validator.validEmail]],
-      checkmail: []
-    });
     this.pulsado = false;
+    this.userService.getMyUser().subscribe(data => {
+      this.user = data;
+      this.updateform = this.formBuilder.group({
+        name: [this.user.name, [Validators.required, Validator.validUsername]],
+        checkname: [],
+        nombre: [this.user.firstName, Validators.required],
+        apellidos: [this.user.lastName, Validators.required],
+        password: ['', Validators.required],
+        confirmpassword: ['', Validators.required],
+        //image: ['', Validators.nullValidator],
+        email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
+        checkmail: []
+      }, {validator: Validator.checkPassword});
+  }, error =>{
+    console.log(error);
+  })
   }
 
   update(){
@@ -73,17 +75,6 @@ export class ModperfilPage implements OnInit {
     }
 
     let user = {
-      /* name: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    password: string;
-    image: string;
-    email: string;
-    online : boolean;
-    public: boolean;
-    provider: string;
-    friends: User[]; */
       name : this.updateform.value.nombre,
       firstName: this.updateform.value.apellido1,
       lastName: this.updateform.value.apellido2,

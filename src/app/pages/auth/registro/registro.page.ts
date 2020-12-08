@@ -20,7 +20,6 @@ export class RegistroPage implements OnInit {
   user: User;
   nombre: string;
   pulsado: Boolean;
-  error;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';

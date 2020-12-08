@@ -7,26 +7,23 @@
 <ion-content class="background">
   <ion-card id="card">
     <ion-card-content>
-      <form [formGroup]="registerform">
+      <form [formGroup]="updateform" *ngIf = "user">
       
         <ion-item>
-          <ion-label position="floating" color = "primary">Nombre Usuario:</ion-label>
+          <ion-label position="floating" color = "primary">Nombre Usuario*:</ion-label>
           <ion-input type="string" formControlName="name"></ion-input>
         </ion-item>
+        <p *ngIf="updateform.controls['name'].hasError('required') && (updateform.controls['name'].dirty || updateform.controls['name'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+        <p *ngIf="updateform.controls['name'].hasError('validUsername') && (updateform.controls['name'].dirty || updateform.controls['name'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
 
         <ion-item>
-          <ion-label position="floating" color = "primary">Nombre:</ion-label>
+          <ion-label position="floating" color = "primary">Nombre*:</ion-label>
           <ion-input type="string" formControlName="nombre"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating" color = "primary">Apellido 1:</ion-label>
-          <ion-input type="string" formControlName="apellido1"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating" color = "primary">Apellido 2:</ion-label>
-          <ion-input type="string" formControlName="apellido1"></ion-input>
+          <ion-label position="floating" color = "primary">Apellidos*:</ion-label>
+          <ion-input type="string" formControlName="apellidos"></ion-input>
         </ion-item>
 
     <!--
@@ -36,10 +33,10 @@
         </ion-item>
     -->
         <ion-item>
-          <ion-label position="floating" color = "primary">Email:</ion-label>
+          <ion-label position="floating" color = "primary">Email*:</ion-label>
           <ion-input type="string" formControlName="email"></ion-input>
         </ion-item>
-        <p *ngIf="!registerform.controls['email'].hasError('required') && registerform.controls['email'].hasError('email') && (registerform.controls['email'].dirty || registerform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
+        <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('email') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
 
         <ion-item>
           <ion-label position="floating" color = "primary">Contraseña:</ion-label>
@@ -48,7 +45,7 @@
               <ion-icon [name]="iconpassword"></ion-icon>
           </button>
         </ion-item>
-        <p *ngIf="!registerform.controls['password'].hasError('required') && registerform.controls['confirmpassword'].hasError('checkPassword') && (registerform.controls['password'].dirty || registerform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
+        <p *ngIf="!updateform.controls['password'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
         
         <ion-item>
           <ion-label position="floating" color = "primary">Confirmar Contraseña:</ion-label>
@@ -57,7 +54,7 @@
               <ion-icon [name]="iconconfirmpassword"></ion-icon>
           </button>
         </ion-item>
-        <p *ngIf="!registerform.controls['confirmpassword'].hasError('required') && registerform.controls['confirmpassword'].hasError('checkPassword') && (registerform.controls['password'].dirty || registerform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
+        <p *ngIf="!updateform.controls['confirmpassword'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
       
       </form>
 
