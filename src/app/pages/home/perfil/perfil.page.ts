@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
 import { MenuController } from '@ionic/angular';
@@ -21,12 +20,12 @@ export class PerfilPage implements OnInit {
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
       this.usuario = data;
-      console.log(data);
+      console.log(this.usuario);
     })
   }
 
   modificar(){
-    this.router.navigate(['/perfil/modperfil']);
+    this.router.navigate(['/principal/perfil/modperfil']);
   }
 
   back(){

@@ -1,35 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title  mode=ios *ngIf="usuario">{{usuario.username}}</ion-title>
-    <ion-button slot="start" fill = "clear" color="dark" (click)= back()>
-      <ion-icon name="arrow-back"></ion-icon>
-    </ion-button>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <div *ngIf="usuario">
     <ion-item>
-      <ion-item-content *ngIf="usuario"> Usuario: {{usuario.username}}</ion-item-content>
-      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
-        <ion-icon name="create"></ion-icon>
+      <ion-avatar slot = "start">
+        <ion-img [src]="usuario.image"></ion-img>
+      </ion-avatar>
+      <ion-button slot="end" color="secondary" (click) = "modificar()">
+        MODIFICAR PERFIL
       </ion-button>
     </ion-item>
-    <ion-item>
-      <ion-item-content *ngIf="usuario"> Nombre: {{usuario.name}}</ion-item-content>
-      <ion-button fill = "clear" color="dark" slot="end" (click) = modificar()>
-        <ion-icon name="create"></ion-icon>
-      </ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-item-content *ngIf="usuario"> Email: {{usuario.email}}</ion-item-content>
-    </ion-item>
-  </ion-list>
-
-  <ion-card>
-    <ion-button expand="block" fill = "clear" color="dark" (click) = modificar()>
-      MODIFICAR
-      <ion-icon name="create"></ion-icon>
-      </ion-button>
-  </ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-label> Nombre de Usuario: {{usuario.username}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Nombre Completo: {{usuario.name}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label> Email: {{usuario.email}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
