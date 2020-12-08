@@ -1,9 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>buscador</ion-title>
+    <ion-title>USUARIOS</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list *ngIf = "users && users.length > 0; else noUsers">
+    <ion-item *ngFor="let user of users">
+      <ion-avatar slot="start">
+        <ion-img [src]="user.image"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        {{user.username}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-template #noUsers>
+    <ion-text>
+      <p class ="ion-text-center">No hay usuarios</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

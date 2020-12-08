@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../../services/user.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-buscador',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuscadorPage implements OnInit {
 
-  constructor() { }
+  @Input() users;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.userService.getUsers().subscribe((data) => {
+      this.users = data;
+    });
   }
-
 }
