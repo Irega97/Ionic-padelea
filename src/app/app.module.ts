@@ -1,3 +1,4 @@
+import { PrincipalPageRoutingModule } from './pages/home/principal/principal-routing.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';

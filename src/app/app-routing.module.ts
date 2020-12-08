@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./pages/home/principal/principal.module').then( m => m.PrincipalPageModule)
+        loadChildren: () => import('./pages/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
       },
       {
         path: 'perfil',
@@ -55,7 +55,6 @@ const routes: Routes = [
     path: 'modperfil',
     loadChildren: () => import('./pages/home/perfil/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   }
-
 ];
 
 @NgModule({
