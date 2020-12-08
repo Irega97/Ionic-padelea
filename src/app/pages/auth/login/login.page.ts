@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Token } from 'src/app/models/token'
-import { AlertController, LoadingController } from '@ionic/angular';
 import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
@@ -63,6 +62,9 @@ export class LoginPage implements OnInit {
       if (error.status == 404){
         //this.components.dismissLoading();
         this.error = "Este usuario no existe";
+      }
+      else if (error.status == 409){
+        this.error = "La contraseña no es correcta";
       }
       else{
         //this.components.dismissLoading();
