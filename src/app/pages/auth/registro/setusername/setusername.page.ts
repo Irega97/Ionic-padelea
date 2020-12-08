@@ -34,10 +34,13 @@ export class SetusernamePage implements OnInit {
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user = {
         name: this.router.getCurrentNavigation().extras.state.name,
+        firstName: this.router.getCurrentNavigation().extras.state.firstName,
+        lastName: this.router.getCurrentNavigation().extras.state.lastName,
         email: this.router.getCurrentNavigation().extras.state.email,
         image: this.router.getCurrentNavigation().extras.state.image,
         provider: this.router.getCurrentNavigation().extras.state.provider,
         online: true,
+        public: true,
         password: null,
         username: null,
         friends: []

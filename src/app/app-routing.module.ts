@@ -38,11 +38,16 @@ const routes: Routes = [
       },
       {
         path: 'registro',
-        loadChildren: () => import('./pages/auth/registro/registro.module').then( m => m.RegistroPageModule)
-      },
-      {
-        path: 'setusername',
-        loadChildren: () => import('./pages/auth/setusername/setusername.module').then( m => m.SetusernamePageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./pages/auth/registro/registro.module').then( m => m.RegistroPageModule)
+          },
+          {
+            path: 'setusername',
+            loadChildren: () => import('./pages/auth/registro/setusername/setusername.module').then( m => m.SetusernamePageModule)
+          }
+        ]
       }
     ]
   },

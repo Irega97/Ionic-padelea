@@ -121,10 +121,10 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
-        this.router.navigate(['auth/setusername'], navigationExtras);
+        this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     }, error =>{
       if (error.status = 409){
@@ -158,10 +158,10 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
-        this.router.navigate(['auth/setusername'], navigationExtras);
+        this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     }, error =>{
       this.components.presentAlert("No se ha podido conectar con el servidor");

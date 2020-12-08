@@ -67,13 +67,16 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    let nombre = this.registerform.value.nombre + " | " + this.registerform.value.apellidos;
+    let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellidos;
     let user = {
       name : nombre,
+      firstName: this.registerform.value.nombre,
+      lastName: this.registerform.value.apellidos,
       username: this.registerform.value.name,
       provider: 'formulario',
       email: this.registerform.value.email,
       online: true,
+      public: true,
       image: config.defaultImage,
       password: this.authservicio.encryptPassword(this.registerform.value.password),
       friends: []
@@ -108,10 +111,10 @@ export class RegistroPage implements OnInit {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
             state: {
-              name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
             }
           };
-          this.router.navigate(['auth/setusername'], navigationExtras);
+          this.router.navigate(['auth/registro/setusername'], navigationExtras);
         }
         else{
           const u = {"provider": user.provider, "email": user.email}
@@ -136,10 +139,10 @@ export class RegistroPage implements OnInit {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
             state: {
-              name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
             }
           };
-          this.router.navigate(['auth/setusername'], navigationExtras);
+          this.router.navigate(['auth/registro/setusername'], navigationExtras);
         }
         else{
           const u = {"provider": user.provider, "email": user.email}
