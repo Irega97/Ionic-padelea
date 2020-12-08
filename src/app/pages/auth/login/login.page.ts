@@ -121,7 +121,7 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+            name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
         this.router.navigate(['auth/setusername'], navigationExtras);
@@ -158,7 +158,7 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
+            name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
         this.router.navigate(['auth/setusername'], navigationExtras);
