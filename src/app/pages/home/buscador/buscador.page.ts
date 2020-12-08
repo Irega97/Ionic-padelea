@@ -18,20 +18,20 @@ export class BuscadorPage implements OnInit {
     });
   }
 
-  search(){
-    const searchbar = document.querySelector('ion-searchbar');
-    const items = this.users;
+  /* const searchbar = document.querySelector('ion-searchbar');
+  const items = this.users;
 
-    searchbar.addEventListener('ionInput', handleInput);
+  searchbar.addEventListener('ionInput', handleInput); */
 
-    function handleInput(event) {
-      const query = event.target.value.toLowerCase();
-      requestAnimationFrame(() => {
-        items.forEach(item => {
-          const shouldShow = item.username.textContent.toLowerCase().indexOf(query) > -1;
-          item.style.display = shouldShow ? 'block' : 'none';
-        });
+  handleInput(event) {
+    const query = event.target.value.toLowerCase();
+    requestAnimationFrame(() => {
+      this.users.forEach(item => {
+        let i = item.username;
+        console.log("i: ", i);
+        const shouldShow = i.textContent.toLowerCase().indexOf(query) > -1;
+        item.style.display = shouldShow ? 'block' : 'none';
       });
-    }
+    });
   }
 }

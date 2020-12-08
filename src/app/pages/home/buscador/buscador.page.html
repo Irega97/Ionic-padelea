@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus"></ion-searchbar>  
+  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionInput)="handleInput($event)"></ion-searchbar>  
   <ion-list *ngIf = "users && users.length > 0; else noUsers">
     <ion-item *ngFor="let user of users">
       <ion-avatar slot="start">
