@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validator } from 'src/app/models/validator'
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-setusername',
@@ -14,18 +15,14 @@ import { Validator } from 'src/app/models/validator'
 export class SetusernamePage implements OnInit {
 
   usernameForm: FormGroup;
-  isSubmitted = false;
-  name: string;
-  email: string;
-  image: string;
-  provider: string;
   pulsado: Boolean;
+  user: User;
+  correcto: Boolean = false;
+  nombre: string;
+  apellidos: string;
 
-  constructor(public formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router) {
-    this.name = this.router.getCurrentNavigation().extras.state.name;
-    this.provider = this.router.getCurrentNavigation().extras.state.provider;
-    this.email = this.router.getCurrentNavigation().extras.state.email;
-    this.image = this.router.getCurrentNavigation().extras.state.image;
+  constructor(public formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router,
+    private components: ComponentsService) {
   }
 
   ngOnInit() {
@@ -34,6 +31,21 @@ export class SetusernamePage implements OnInit {
       username: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
     });
+    if (this.router.getCurrentNavigation().extras.state != undefined){
+      this.user = {
+        name: this.router.getCurrentNavigation().extras.state.name,
+        email: this.router.getCurrentNavigation().extras.state.email,
+        image: this.router.getCurrentNavigation().extras.state.image,
+        provider: this.router.getCurrentNavigation().extras.state.provider,
+        online: true,
+        password: null,
+        username: null,
+        friends: []
+      };
+      this.correcto = true;
+      this.nombre = this.router.getCurrentNavigation().extras.state.nombre;
+      this.apellidos = this.router.getCurrentNavigation().extras.state.apellidos;
+    }
   }
 
   ionViewWillEnter(){
@@ -42,32 +54,39 @@ export class SetusernamePage implements OnInit {
       username: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
     });
+    /*if (this.router.getCurrentNavigation().extras.state != undefined){
+      this.user = {
+        name: this.router.getCurrentNavigation().extras.state.name,
+        email: this.router.getCurrentNavigation().extras.state.email,
+        image: this.router.getCurrentNavigation().extras.state.image,
+        provider: this.router.getCurrentNavigation().extras.state.provider,
+        online: true,
+        password: null,
+        username: null,
+        friends: []
+      };
+      this.correcto = true;
+      this.nombre = this.router.getCurrentNavigation().extras.state.nombre;
+      this.apellidos = this.router.getCurrentNavigation().extras.state.apellidos;
+    }*/
   }
 
   submitUsername() {
+    this.pulsado = true;
     if (this.usernameForm.invalid){
-      this.pulsado = true;
       return;
     }
-    
-    const user: User = {
-      name: this.name,
-      email: this.email,
-      image: this.image,
-      provider: this.provider,
-      online: true,
-      password: null,
-      username: this.usernameForm.value.username,
-      friends: []
-    };
-
-    this.authService.register(user).subscribe((jwt: Token) => {
+    this.user.username = this.usernameForm.value.username;
+    this.authService.register(this.user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){
         this.usernameForm.get('checkname').setValue(this.usernameForm.value.username);
         this.usernameForm.controls.username.setErrors({validUsername: true});
+      }
+      else{
+        this.components.presentAlert("No se ha podido conectar con el servidor")
       }
     });
   }

@@ -12,9 +12,21 @@
 
   <ion-menu side="start" menuId="first" contentId="main" >
     <ion-header>
-      <ion-toolbar color="secondary">
-        <ion-title *ngIf="usuario">{{usuario.username}}</ion-title>
-      </ion-toolbar>
+      <div *ngIf="usuario">
+        <ion-toolbar color="secondary">
+          <div class="left">
+            <ion-avatar>
+              <ion-img [src]="usuario.image"></ion-img>
+            </ion-avatar>
+          </div>
+          <div class="right"> 
+            <ion-label>{{usuario.username}}</ion-label>
+            <p>
+              <ion-label>{{usuario.name}}</ion-label>
+            </p>
+          </div>
+        </ion-toolbar>
+      </div>
     </ion-header>
     <ion-content>
       <ion-list>

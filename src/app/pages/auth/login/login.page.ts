@@ -5,6 +5,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Token } from 'src/app/models/token'
 import { AlertController, LoadingController } from '@ionic/angular';
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,8 @@ export class LoginPage implements OnInit {
   iconpassword = "eye-off";
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService, 
-              private loadingController: LoadingController, private alertController: AlertController) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService,
+    private components: ComponentsService) { }
 
   ngOnInit() {
     this.loginform = this.formBuilder.group({
@@ -42,21 +43,6 @@ export class LoginPage implements OnInit {
     this.pulsado = false;
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: 'Por favor espera...'
-    });
-    await loading.present();
-  }
-
-  async presentAlert(){
-    const alert = await this.alertController.create({
-      message: "No se ha podido conectar con el servidor",
-      buttons: ['OK']
-    })
-    await alert.present();
-  }
-
   login(){
     this.pulsado = true;
     if (this.loginform.invalid){
@@ -64,22 +50,23 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    //this.components.presentLoading("Por favor espera...");
     const username = this.loginform.value.username;
     const password = this.loginform.value.password;
     const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
-      //this.loadingController.dismiss();
+      //this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
-      if (error.status != 500){
-        //this.loadingController.dismiss();
+      if (error.status == 404){
+        //this.components.dismissLoading();
         this.error = "Este usuario no existe";
       }
       else{
-        //this.loadingController.dismiss();
-        this.presentAlert();
+        //this.components.dismissLoading();
+        this.components.presentAlert("No se ha podido conectar con el servidor");
       }
     })
   }
@@ -122,16 +109,31 @@ export class LoginPage implements OnInit {
         this.authservicio.login(u).subscribe((jwt: Token) => {
           localStorage.setItem('ACCESS_TOKEN', jwt.token);
           this.router.navigateByUrl('/principal');
+        }, error =>{
+          if (error.status = 409){
+            this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
+          }
+          else{
+            this.components.presentAlert("No se ha podido conectar con el servidor");
+          }
         });
       }
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
         this.router.navigate(['auth/setusername'], navigationExtras);
       };
+    }, error =>{
+      if (error.status = 409){
+        this.components.presentAlert("Este email está registrado, pero no con la red social de Facebook");
+      }
+      else{
+        this.components.presentAlert("No se ha podido conectar con el servidor");
+      }
+      
     });
   }
 
@@ -149,16 +151,20 @@ export class LoginPage implements OnInit {
         this.authservicio.login(u).subscribe((jwt: Token) => {
           localStorage.setItem('ACCESS_TOKEN', jwt.token);
           this.router.navigateByUrl('/principal');
+        }, error =>{
+
         });
       }
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
           }
         };
         this.router.navigate(['auth/setusername'], navigationExtras);
       };
+    }, error =>{
+      this.components.presentAlert("No se ha podido conectar con el servidor");
     });
   }
 

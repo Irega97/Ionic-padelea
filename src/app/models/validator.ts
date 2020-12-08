@@ -1,4 +1,4 @@
-import{ FormControl, FormGroup } from '@angular/forms'
+import{ AbstractControl, FormControl, FormGroup } from '@angular/forms'
 
 export class Validator {
 
@@ -25,13 +25,11 @@ export class Validator {
   }
 
   static checkPassword(group: FormGroup){
-    if (group.parent != undefined){
-      if (group.value != group.parent.value.password){
-        return ({checkPassword: true})
-      }
-      else{
-        return (null);
-      }
+    if (group.value.password != group.value.confirmpassword){
+      return ({checkPassword:true})
+    }
+    else{
+      return(null);
     }
   }
 }

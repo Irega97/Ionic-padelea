@@ -7,6 +7,7 @@ import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
 import config from 'src/environments/config';
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-registro',
@@ -27,7 +28,8 @@ export class RegistroPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
 
-  constructor(private socialAuth: SocialAuthService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private socialAuth: SocialAuthService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
+    private components: ComponentsService) { }
 
   ngOnInit() {
     this.pulsado = false;
@@ -35,8 +37,7 @@ export class RegistroPage implements OnInit {
       name: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
       nombre: ['', Validators.required],
-      apellido1: ['', Validators.required],
-      apellido2: [''],
+      apellidos: ['', Validators.required],
       password: ['', Validators.required],
       confirmpassword: ['', [Validators.required, Validator.checkPassword]],
       //image: ['', Validators.nullValidator],
@@ -45,19 +46,18 @@ export class RegistroPage implements OnInit {
     });
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter(){
     this.registerform = this.formBuilder.group({
       name: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
       nombre: ['', Validators.required],
-      apellido1: ['', Validators.required],
-      apellido2: [''],
+      apellidos: ['', Validators.required],
       password: ['', Validators.required],
-      confirmpassword: ['', [Validators.required, Validator.checkPassword]],
+      confirmpassword: ['', Validators.required],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
       checkmail: []
-    });
+    }, {validator: Validator.checkPassword});
     this.pulsado = false;
   }
 
@@ -67,7 +67,7 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellido1 + " " + this.registerform.value.apellido2;
+    let nombre = this.registerform.value.nombre + " | " + this.registerform.value.apellidos;
     let user = {
       name : nombre,
       username: this.registerform.value.name,
@@ -82,15 +82,17 @@ export class RegistroPage implements OnInit {
       localStorage.setItem('ACCESS_TOKEN', jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
-      if (error.status = 409){
+      if (error.status == 409){
         this.registerform.get('checkname').setValue(this.registerform.value.name);
         this.registerform.controls.name.setErrors({validUsername: true});
       }
-      else if (error.status = 410){
+      else if (error.status == 410){
         this.registerform.get('checkmail').setValue(this.registerform.value.email);
         this.registerform.controls.name.setErrors({validEmail: true});
       }
-      console.log(error);
+      else{
+        this.components.presentAlert("No se ha podido conectar con el servidor");
+      }
     });
   }
 
@@ -106,7 +108,7 @@ export class RegistroPage implements OnInit {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
             state: {
-              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+              name: user.firstName + " | " + user.lastName, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
             }
           };
           this.router.navigate(['auth/setusername'], navigationExtras);
@@ -116,8 +118,12 @@ export class RegistroPage implements OnInit {
           this.authservicio.login(u).subscribe((jwt: Token) => {
             localStorage.setItem('ACCESS_TOKEN', jwt.token);
             this.router.navigateByUrl('/principal');
+          }, error => {
+            this.components.presentAlert("No se ha podido conectar con el servidor");
           });
         }
+      }, error =>{
+        this.components.presentAlert("No se ha podido conectar con el servidor");
       })
     });
   }
@@ -130,7 +136,7 @@ export class RegistroPage implements OnInit {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
             state: {
-              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl
+              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, nombre: user.firstName, apellidos: user.lastName
             }
           };
           this.router.navigate(['auth/setusername'], navigationExtras);
@@ -140,8 +146,12 @@ export class RegistroPage implements OnInit {
           this.authservicio.login(u).subscribe((jwt: Token) => {
             localStorage.setItem('ACCESS_TOKEN', jwt.token);
             this.router.navigateByUrl('/principal');
+          }, error => {
+            this.components.presentAlert("No se ha podido conectar con el servidor");
           });
         }
+      }, error => {
+        this.components.presentAlert("No se ha podido conectar con el servidor");
       })
     });
   }
