@@ -14,7 +14,7 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        loadChildren: () => import('../buscador/buscador.module').then(m => m.BuscadorPageModule)
+        loadChildren: () => import('../home/buscador/buscador.module').then(m => m.BuscadorPageModule)
       },
       {
         path: '',

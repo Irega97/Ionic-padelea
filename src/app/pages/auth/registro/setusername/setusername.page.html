@@ -8,15 +8,23 @@
   <ion-card id="card">
     <ion-card-content>
       <div *ngIf="correcto">
+        <ion-item>
+          <ion-avatar slot = "start">
+            <ion-img [src]="user.image"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <h2>{{user.name}}</h2>
+            <h3>{{user.email}}</h3>
+          </ion-label>
+        </ion-item>
         <form [formGroup]="usernameForm" >
           <ion-item>
-            <ion-label position="floating" color= "primary">Nombre Usuario:</ion-label>
+            <ion-label position="floating" color= "primary">Introduce un Nombre de Usuario:</ion-label>
             <ion-input type="string" formControlName="username"></ion-input>
           </ion-item>
           <p *ngIf="usernameForm.controls['username'].hasError('required') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
           <p *ngIf="usernameForm.controls['username'].hasError('validUsername') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
         </form>
-  
         <div class="boton">
           <ion-button color="secondary" (click) = "submitUsername()">
             REGISTRAR
@@ -24,30 +32,8 @@
           <p>
             <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Logueate!</a>
           </p>
-          <p>
-            <ion-label>TUS DATOS RECOGIDOS DE LA RED SOCIAL:</ion-label>
-          </p>
-          <p>
-            <ion-label>NOMBRE: {{nombre}}</ion-label>
-          </p>
-          <p>
-            <ion-label>APELLIDOS: {{apellidos}}</ion-label>
-          </p>
-          <p>
-            <ion-label>EMAIL: {{user.email}}</ion-label>
-          </p>
-          <p>
-            <ion-label>Provider: {{user.provider}}</ion-label>
-          </p>
-          <p>
-            <ion-label>Foto de Perfil:</ion-label>
-            <ion-avatar>
-              <ion-img [src]="user.image"></ion-img>
-            </ion-avatar>
-          </p>
         </div>
       </div>
-
       <div *ngIf = "!correcto">
         <div class="boton">
           <ion-button color="secondary" (click) = "goLogin()">
