@@ -72,13 +72,26 @@ export class ModperfilPage implements OnInit {
       return;
     }
 
-    let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellido1 + " " + this.updateform.value.apellido2;
     let user = {
-      name : nombre,
+      /* name: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+    image: string;
+    email: string;
+    online : boolean;
+    public: boolean;
+    provider: string;
+    friends: User[]; */
+      name : this.updateform.value.nombre,
+      firstName: this.updateform.value.apellido1,
+      lastName: this.updateform.value.apellido2,
       username: this.updateform.value.name,
       provider: 'formulario',
       email: this.updateform.value.email,
       online: true,
+      public: true,
       image: config.defaultImage,
       password: this.authservicio.encryptPassword(this.updateform.value.password),
       friends: []
