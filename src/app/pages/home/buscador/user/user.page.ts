@@ -34,7 +34,9 @@ export class UserPage implements OnInit {
   addFriend(){
     this.userService.addFriend(this.id).subscribe((data) => {
       if(data) this.component.presentAlert("Amigo añadido correctamente!");
+    }, (error) => {
+      console.log(error);
+      this.component.presentAlert("No se ha podido añadir");
     })
   }
-
 }
