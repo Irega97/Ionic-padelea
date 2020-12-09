@@ -33,7 +33,7 @@ export class ModperfilPage implements OnInit {
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
       this.updateform = this.formBuilder.group({
-        name: [this.user.name, [Validators.required, Validator.validUsername]],
+        name: [this.user.username, [Validators.required, Validator.validUsername]],
         checkname: [],
         nombre: [this.user.firstName, Validators.required],
         apellidos: [this.user.lastName, Validators.required],
@@ -53,7 +53,7 @@ export class ModperfilPage implements OnInit {
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
       this.updateform = this.formBuilder.group({
-        name: [this.user.name, [Validators.required, Validator.validUsername]],
+        name: [this.user.username, [Validators.required, Validator.validUsername]],
         checkname: [],
         nombre: [this.user.firstName, Validators.required],
         apellidos: [this.user.lastName, Validators.required],
@@ -73,11 +73,11 @@ export class ModperfilPage implements OnInit {
     if (this.updateform.invalid){
       return;
     }
-
+    let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellidos;
     let user = {
-      name : this.updateform.value.nombre,
-      firstName: this.updateform.value.apellido1,
-      lastName: this.updateform.value.apellido2,
+      name : nombre,
+      firstName: this.updateform.value.nombre,
+      lastName: this.updateform.value.apellidos,
       username: this.updateform.value.name,
       provider: 'formulario',
       email: this.updateform.value.email,
