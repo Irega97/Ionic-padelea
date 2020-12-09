@@ -1,3 +1,4 @@
+import { ComponentsService } from './components.service';
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import { Observable } from 'rxjs';
@@ -45,12 +46,11 @@ export class AuthService {
       const now = Date.now();
       const expiresAt = sessionStorage.getItem("TOKEN_EXPIRES");
       const left = parseInt(expiresAt) - now;
-      if(left > 3600){
-        console.log("Token valido")
+      if(expiresAt && left > 3600){
         return true;
       }
       else{ 
-        console.log("Token expirado"); 
+        sessionStorage.removeItem("TOKEN_EXPIRES");
         return false; 
       } 
     }

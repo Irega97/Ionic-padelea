@@ -1,3 +1,4 @@
+import { AuthGuard } from './../../shared/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,10 +11,12 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../home/principal/principal.module').then(m => m.PrincipalPageModule)
       },
       {
         path: 'search',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../home/buscador/buscador.module').then(m => m.BuscadorPageModule)
       },
       {
