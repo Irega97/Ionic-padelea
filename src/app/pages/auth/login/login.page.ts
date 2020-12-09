@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
     const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.authservicio.addToken(jwt.token);
       //this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
@@ -109,7 +109,7 @@ export class LoginPage implements OnInit {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
-          localStorage.setItem('ACCESS_TOKEN', jwt.token);
+          this.authservicio.addToken(jwt.token);
           this.router.navigateByUrl('/principal');
         }, error =>{
           if (error.status = 409){
@@ -151,7 +151,7 @@ export class LoginPage implements OnInit {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
-          localStorage.setItem('ACCESS_TOKEN', jwt.token);
+          this.authservicio.addToken(jwt.token);
           this.router.navigateByUrl('/principal');
         }, error =>{
 
@@ -168,14 +168,6 @@ export class LoginPage implements OnInit {
     }, error =>{
       this.components.presentAlert("No se ha podido conectar con el servidor");
     });
-  }
-
-  addToken(token:string){
-    let expires = 3600;
-    let timestamp = Date.now() + expires;
-    localStorage.setItem('ACCESS_TOKEN', token);
-    console.log(timestamp.toString());
-    localStorage.setItem('expiresIn', timestamp.toString());
   }
 
 }

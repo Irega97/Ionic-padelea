@@ -42,7 +42,17 @@ export class AuthService {
 
   isLoggedIn(){
     if (this.getToken() != null){
-      return true;
+      const now = Date.now();
+      const expiresAt = sessionStorage.getItem("TOKEN_EXPIRES");
+      const left = parseInt(expiresAt) - now;
+      if(left > 3600){
+        console.log("Token valido")
+        return true;
+      }
+      else{ 
+        console.log("Token expirado"); 
+        return false; 
+      } 
     }
     else{
       return false;
@@ -51,5 +61,14 @@ export class AuthService {
 
   getToken(){
     return localStorage.getItem('ACCESS_TOKEN');
+  }
+
+  addToken(token: string){
+    console.log("add token");
+    let expires = 3600;
+    let now = Date.now()
+    let expiresAt = now + expires * 1000;
+    localStorage.setItem("ACCESS_TOKEN", token);
+    sessionStorage.setItem("TOKEN_EXPIRES", expiresAt.toString());
   }
 }

@@ -81,7 +81,7 @@ export class RegistroPage implements OnInit {
       friends: []
     }
     this.authservicio.register(user).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.authservicio.addToken(jwt.token);
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status == 409){
@@ -118,7 +118,7 @@ export class RegistroPage implements OnInit {
         else{
           const u = {"provider": user.provider, "email": user.email}
           this.authservicio.login(u).subscribe((jwt: Token) => {
-            localStorage.setItem('ACCESS_TOKEN', jwt.token);
+            this.authservicio.addToken(jwt.token);
             this.router.navigateByUrl('/principal');
           }, error => {
             this.components.presentAlert("No se ha podido conectar con el servidor");
@@ -146,9 +146,10 @@ export class RegistroPage implements OnInit {
         else{
           const u = {"provider": user.provider, "email": user.email}
           this.authservicio.login(u).subscribe((jwt: Token) => {
-            localStorage.setItem('ACCESS_TOKEN', jwt.token);
+            this.authservicio.addToken(jwt.token);
             this.router.navigateByUrl('/principal');
           }, error => {
+            console.log(error);
             this.components.presentAlert("No se ha podido conectar con el servidor");
           });
         }
