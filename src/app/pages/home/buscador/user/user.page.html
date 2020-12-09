@@ -1,0 +1,49 @@
+<ion-header *ngIf="user">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal/search"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{user.username}}</ion-title>
+
+    <ion-buttons slot= "end">
+      <ion-buttons (click)="addFriend()">
+        <ion-icon name = "person-add-sharp"></ion-icon>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="user">
+  <ion-grid class = "ion-no-padding">
+    <ion-row>
+      <ion-col class = "ion-no-padding">
+      <ion-avatar>
+        <ion-img [src]="user.image"></ion-img>
+      </ion-avatar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>Correo: {{user.email}}</ion-item>
+          <ion-item>Online: {{user.online}}</ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list *ngIf="user.friends && user.friends.length > 0; else noFriends">
+          <ion-item *ngFor="let friend of user.friends">
+            <ion-avatar slot="start">{{user.image}}</ion-avatar>
+            <ion-label>{{user.username}}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ng-template #noFriends>
+          <ion-text>
+            <p class ="ion-text-center">No tiene amigos</p>
+          </ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

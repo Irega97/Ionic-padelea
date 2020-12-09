@@ -7,7 +7,7 @@
 <ion-content>
   <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionInput)="handleInput($event)"></ion-searchbar>  
   <ion-list *ngIf = "users && users.length > 0; else noUsers">
-    <ion-item *ngFor="let user of users">
+    <ion-item *ngFor="let user of users" [routerLink] = "['/principal/search/user', user._id]">
       <ion-avatar slot="start">
         <ion-img [src]="user.image"></ion-img>
       </ion-avatar>

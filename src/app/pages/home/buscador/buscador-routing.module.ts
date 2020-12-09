@@ -7,7 +7,17 @@ const routes: Routes = [
   {
     path: '',
     component: BuscadorPage
+  },
+  {
+    path: 'user',
+    children: [
+      {
+        path: ':id',
+        loadChildren: () => import('./user/user.module').then(m => m.UserPageModule)
+      }
+    ]
   }
+
 ];
 
 @NgModule({
