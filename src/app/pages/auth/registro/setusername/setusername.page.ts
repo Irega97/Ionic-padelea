@@ -64,7 +64,7 @@ export class SetusernamePage implements OnInit {
     }
     this.user.username = this.usernameForm.value.username;
     this.authService.register(this.user).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+      this.authService.addToken(jwt.token);
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){
