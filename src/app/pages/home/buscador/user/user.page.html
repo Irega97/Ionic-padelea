@@ -4,12 +4,6 @@
       <ion-back-button defaultHref="/principal/search"></ion-back-button>
     </ion-buttons>
     <ion-title>{{user.username}}</ion-title>
-
-    <ion-buttons slot= "end">
-      <ion-buttons (click)="addFriend()">
-        <ion-icon name = "person-add-sharp"></ion-icon>
-      </ion-buttons>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -43,6 +37,15 @@
             <p class ="ion-text-center">No tiene amigos</p>
           </ion-text>
         </ng-template>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div style="text-align: center;">
+          <ion-button (click)="addFriend()">
+            <ion-icon name="person-add-sharp"></ion-icon>
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

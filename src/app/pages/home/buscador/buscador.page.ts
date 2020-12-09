@@ -1,6 +1,6 @@
 import { UserService } from './../../../services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { userInfo } from 'os';
+
 
 @Component({
   selector: 'app-buscador',
@@ -34,7 +34,7 @@ export class BuscadorPage implements OnInit {
         //console.log("q: " +user.username, user.username.indexOf(query));
         if(user.username && query != ''){
           console.log("P ", user);
-          return (user.username.indexOf(query) > -1)
+          return (user.username.toLowerCase().indexOf(query) > -1)
         }
         else return user;
       });

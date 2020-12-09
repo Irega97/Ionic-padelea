@@ -32,4 +32,8 @@ export class UserService {
   changeUsername(username: string){
     return this.http.post(this.ruta + "setusername/" + username, null);
   }
+
+  addFriend(idFriend: string): Observable<JSON>{
+    return this.http.post<JSON>(this.ruta + "friends/" + idFriend, null);
+  }
 }

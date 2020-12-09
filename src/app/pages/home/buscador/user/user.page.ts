@@ -1,3 +1,4 @@
+import { ComponentsService } from './../../../../services/components.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -9,18 +10,19 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserPage implements OnInit {
 
-  constructor(public userService: UserService, private route: ActivatedRoute) { }
+  constructor(public userService: UserService, private route: ActivatedRoute, private component: ComponentsService) { }
 
   user;
+  id;
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
     this.route.paramMap.subscribe(paramMap => {
-      const id = paramMap.get('id');
-      console.log("id: ", id);
-      this.userService.getUser(id).subscribe(data =>{
+      this.id = paramMap.get('id');
+      console.log("id: ", this.id);
+      this.userService.getUser(this.id).subscribe(data =>{
         console.log("datica: ", data);
         this.user = data;
       }, error => {
@@ -29,6 +31,10 @@ export class UserPage implements OnInit {
     });
   }
 
-  addFriend(){}
+  addFriend(){
+    this.userService.addFriend(this.id).subscribe((data) => {
+      if(data) this.component.presentAlert("Amigo añadido correctamente!");
+    })
+  }
 
 }
