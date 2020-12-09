@@ -11,23 +11,21 @@ const routes: Routes = [
   },
   {
     path: 'principal',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',
-        canActivate: [AuthGuard],
         loadChildren: () => import('./pages/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
       },
       {
         path: 'perfil',
-        canActivate: [AuthGuard],
         loadChildren: () => import('./pages/home/perfil/perfil.module').then( m => m.PerfilPageModule)
       }
     ]
   },
   {
     path: 'auth',
-    canActivate: [NoauthGuard],
+    canActivateChild: [NoauthGuard],
     children: [
       {
         path: '',
@@ -52,11 +50,6 @@ const routes: Routes = [
         ]
       }
     ]
-  },
-  {
-    path: 'modperfil',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/home/perfil/modperfil/modperfil.module').then( m => m.ModperfilPageModule)
   }
 ];
 
