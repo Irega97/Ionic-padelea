@@ -22,6 +22,10 @@ export class AuthService {
     return this.http.post<Token>(this.ruta + "register", user);
   }
 
+  update(user: User): Observable<Token> {
+    return this.http.post<Token>(this.ruta + "update", user);
+  }
+
   checkSocialAccount(email: string): Observable<{value: boolean}>{
     return this.http.get<any>(this.ruta + '/checkSocial/' + email);
   }
