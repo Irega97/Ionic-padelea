@@ -55,21 +55,6 @@ export class SetusernamePage implements OnInit {
       username: ['', [Validators.required, Validator.validUsername]],
       checkname: [],
     });
-    /*if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.user = {
-        name: this.router.getCurrentNavigation().extras.state.name,
-        email: this.router.getCurrentNavigation().extras.state.email,
-        image: this.router.getCurrentNavigation().extras.state.image,
-        provider: this.router.getCurrentNavigation().extras.state.provider,
-        online: true,
-        password: null,
-        username: null,
-        friends: []
-      };
-      this.correcto = true;
-      this.nombre = this.router.getCurrentNavigation().extras.state.nombre;
-      this.apellidos = this.router.getCurrentNavigation().extras.state.apellidos;
-    }*/
   }
 
   submitUsername() {

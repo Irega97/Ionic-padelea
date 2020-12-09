@@ -108,7 +108,7 @@ export class ModperfilPage implements OnInit {
       firstName: this.updateform.value.nombre,
       lastName: this.updateform.value.apellidos,
       username: this.updateform.value.name,
-      provider: this.user.provider,
+      provider: this.updateform.value.provider,
       email: this.updateform.value.email,
       online: true,
       public: true,
