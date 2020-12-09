@@ -1,5 +1,6 @@
 import { UserService } from './../../../services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { userInfo } from 'os';
 
 @Component({
   selector: 'app-buscador',
@@ -10,11 +11,14 @@ export class BuscadorPage implements OnInit {
 
   @Input() users;
 
+  usersSearch;
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
+      this.usersSearch = this.users;
     });
   }
 
@@ -26,11 +30,12 @@ export class BuscadorPage implements OnInit {
   handleInput(event) {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {
-      this.users.forEach(item => {
-        let i = item.username;
-        console.log("i: ", i);
-        const shouldShow = i.textContent.toLowerCase().indexOf(query) > -1;
-        item.style.display = shouldShow ? 'block' : 'none';
+      this.usersSearch = this.users.filter((user)=>{
+        //console.log("q: " +user.username, user.username.indexOf(query));
+        if(user.username && query){
+          console.log("P ", user);
+          return (user.username.indexOf(query) > -1)
+        }
       });
     });
   }
