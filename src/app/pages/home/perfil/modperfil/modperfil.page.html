@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal"></ion-back-button>
+    </ion-buttons>
     <ion-title mode=ios>MODIFICAR PERFIL</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -32,29 +35,32 @@
           <ion-input type="file" accept="image/*" id="upload" [(ngModel)]="imageFilePath" (ionChange)="imageFilePath_change($event)"></ion-input>
         </ion-item>
     -->
-        <ion-item>
-          <ion-label position="floating" color = "primary">Email*:</ion-label>
-          <ion-input type="string" formControlName="email"></ion-input>
-        </ion-item>
-        <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('email') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
+    <div *ngIf="providerform">
+      <ion-item>
+        <ion-label position="floating" color = "primary">Email*:</ion-label>
+        <ion-input type="string" formControlName="email"></ion-input>
+      </ion-item>
+      <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('email') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
 
-        <ion-item>
-          <ion-label position="floating" color = "primary">Contraseña:</ion-label>
-            <ion-input [type]="passwordinput" formControlName="password"></ion-input>
-            <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
-              <ion-icon [name]="iconpassword"></ion-icon>
-          </button>
-        </ion-item>
-        <p *ngIf="!updateform.controls['password'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
+      <ion-item>
+        <ion-label position="floating" color = "primary">Contraseña:</ion-label>
+          <ion-input [type]="passwordinput" formControlName="password"></ion-input>
+          <button  item-end  class="btn_eye_icon" (click) = "VistaPassword()">
+            <ion-icon [name]="iconpassword"></ion-icon>
+        </button>
+      </ion-item>
+      <p *ngIf="!updateform.controls['password'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
+      
+      <ion-item>
+        <ion-label position="floating" color = "primary">Confirmar Contraseña:</ion-label>
+          <ion-input [type]="confirmpasswordinput" formControlName="confirmpassword"></ion-input>
+          <button  item-end  class="btn_eye_icon" (click) = "VistaConfirmPassword()">
+            <ion-icon [name]="iconconfirmpassword"></ion-icon>
+        </button>
+      </ion-item>
+      <p *ngIf="!updateform.controls['confirmpassword'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
+    </div>
         
-        <ion-item>
-          <ion-label position="floating" color = "primary">Confirmar Contraseña:</ion-label>
-            <ion-input [type]="confirmpasswordinput" formControlName="confirmpassword"></ion-input>
-            <button  item-end  class="btn_eye_icon" (click) = "VistaConfirmPassword()">
-              <ion-icon [name]="iconconfirmpassword"></ion-icon>
-          </button>
-        </ion-item>
-        <p *ngIf="!updateform.controls['confirmpassword'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
       
       </form>
 

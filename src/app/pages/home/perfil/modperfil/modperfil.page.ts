@@ -19,6 +19,7 @@ export class ModperfilPage implements OnInit {
   user: User;
   nombre: string;
   pulsado: Boolean;
+  providerform: Boolean;
 
   passwordinput = 'password';
   confirmpasswordinput = 'password';
@@ -32,17 +33,31 @@ export class ModperfilPage implements OnInit {
     this.pulsado = false;
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
-      this.updateform = this.formBuilder.group({
-        name: [this.user.username, [Validators.required, Validator.validUsername]],
-        checkname: [],
-        nombre: [this.user.firstName, Validators.required],
-        apellidos: [this.user.lastName, Validators.required],
-        password: ['', Validators.required],
-        confirmpassword: ['', Validators.required],
-        //image: ['', Validators.nullValidator],
-        email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-        checkmail: []
-      }, {validator: Validator.checkPassword});
+      if (this.user.provider == "formulario"){
+        this.updateform = this.formBuilder.group({
+          name: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkname: [],
+          nombre: [this.user.firstName, Validators.required],
+          apellidos: [this.user.lastName, Validators.required],
+          password: ['', Validators.required],
+          confirmpassword: ['', Validators.required],
+          //image: ['', Validators.nullValidator],
+          email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
+          checkmail: []
+        }, {validator: Validator.checkPassword});
+        this.providerform = true;
+      }
+      else{
+        this.updateform = this.formBuilder.group({
+          name: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkname: [],
+          //image: ['', Validators.nullValidator],
+          nombre: [this.user.firstName, Validators.required],
+          apellidos: [this.user.lastName, Validators.required]
+        })
+        this.providerform = false;
+      }
+      
   }, error =>{
     console.log(error);
   })
@@ -52,17 +67,31 @@ export class ModperfilPage implements OnInit {
     this.pulsado = false;
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
-      this.updateform = this.formBuilder.group({
-        name: [this.user.username, [Validators.required, Validator.validUsername]],
-        checkname: [],
-        nombre: [this.user.firstName, Validators.required],
-        apellidos: [this.user.lastName, Validators.required],
-        password: ['', Validators.required],
-        confirmpassword: ['', Validators.required],
-        //image: ['', Validators.nullValidator],
-        email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-        checkmail: []
-      }, {validator: Validator.checkPassword});
+      if (this.user.provider == "formulario"){
+        this.updateform = this.formBuilder.group({
+          name: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkname: [],
+          nombre: [this.user.firstName, Validators.required],
+          apellidos: [this.user.lastName, Validators.required],
+          password: ['', Validators.required],
+          confirmpassword: ['', Validators.required],
+          //image: ['', Validators.nullValidator],
+          email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
+          checkmail: []
+        }, {validator: Validator.checkPassword});
+        this.providerform = true;
+      }
+      else{
+        this.updateform = this.formBuilder.group({
+          name: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkname: [],
+          //image: ['', Validators.nullValidator],
+          nombre: [this.user.firstName, Validators.required],
+          apellidos: [this.user.lastName, Validators.required]
+        })
+        this.providerform = false;
+      }
+      
   }, error =>{
     console.log(error);
   })
@@ -79,7 +108,7 @@ export class ModperfilPage implements OnInit {
       firstName: this.updateform.value.nombre,
       lastName: this.updateform.value.apellidos,
       username: this.updateform.value.name,
-      provider: 'formulario',
+      provider: this.user.provider,
       email: this.updateform.value.email,
       online: true,
       public: true,

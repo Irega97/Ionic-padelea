@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title  mode=ios *ngIf="usuario">{{usuario.username}}</ion-title>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" (click)="back()">
       <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -26,9 +26,6 @@
       </ion-item>
       <ion-item>
         <ion-label> Email: {{usuario.email}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label> Forma de Registro: {{usuario.provider}}</ion-label>
       </ion-item>
     </ion-list>
   </div>

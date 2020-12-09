@@ -46,8 +46,6 @@ export class SetusernamePage implements OnInit {
         friends: []
       };
       this.correcto = true;
-      this.nombre = this.router.getCurrentNavigation().extras.state.nombre;
-      this.apellidos = this.router.getCurrentNavigation().extras.state.apellidos;
     }
   }
 
