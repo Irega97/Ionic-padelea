@@ -87,8 +87,8 @@ export class ModperfilPage implements OnInit {
       password: this.authservicio.encryptPassword(this.updateform.value.password),
       friends: []
     }
-    this.authservicio.update(user).subscribe((jwt: Token) => {
-      localStorage.setItem('ACCESS_TOKEN', jwt.token);
+    this.userService.update(user).subscribe((data) => {
+      console.log(data);
       this.router.navigate(['/principal/perfil']);
     }, error => {
       if (error.status = 409){
