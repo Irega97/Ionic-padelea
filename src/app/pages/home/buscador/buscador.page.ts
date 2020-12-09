@@ -32,10 +32,11 @@ export class BuscadorPage implements OnInit {
     requestAnimationFrame(() => {
       this.usersSearch = this.users.filter((user)=>{
         //console.log("q: " +user.username, user.username.indexOf(query));
-        if(user.username && query){
+        if(user.username && query != ''){
           console.log("P ", user);
           return (user.username.indexOf(query) > -1)
         }
+        else return user;
       });
     });
   }
