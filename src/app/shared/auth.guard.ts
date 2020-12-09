@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
       if (this.authService.isLoggedIn() && sessionStorage.getItem("TOKEN_EXPIRES")){
-        console.log("cristian crack");
+        console.log("cristian tontito");
         return true;
       }
 
