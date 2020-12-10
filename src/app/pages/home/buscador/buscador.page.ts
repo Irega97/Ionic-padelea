@@ -19,6 +19,7 @@ export class BuscadorPage implements OnInit {
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
       this.usersSearch = this.users;
+      
     });
   }
 

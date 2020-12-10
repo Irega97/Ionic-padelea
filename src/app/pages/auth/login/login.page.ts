@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error =>{
       if (error.status == 404){
-        //this.components.dismissLoading();
+       // this.components.dismissLoading();
         this.error = "Este usuario no existe";
       }
       else if (error.status == 409){
