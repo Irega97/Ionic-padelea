@@ -24,8 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(authReq).pipe(
                 catchError((err: HttpErrorResponse) => {
                     if(err.status === 401) {
-                        this.router.navigateByUrl('/auth/login');
-                        this.component.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo")
+                        localStorage.removeItem("ACCESS_TOKEN");
+                        this.component.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
+                        this.router.navigateByUrl("auth/login");
                     }
                     else if(err.status === 500) {
                         this.component.presentAlert("No se ha podido conectar con el servidor");
@@ -38,7 +39,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 if(err.status === 500){
                     this.component.presentAlert("No se ha podido conectar con el servidor");
                 }
-
                 return throwError(err);
             })
         );

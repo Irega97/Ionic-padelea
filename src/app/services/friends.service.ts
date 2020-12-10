@@ -15,8 +15,8 @@ export class FriendsService {
     return this.http.post<JSON>(this.ruta + idFriend, null);
   }
 
-  changeStatus(idFriend: string): Observable<any>{
-    return this.http.post<JSON>(this.ruta + idFriend + "/status", null);
+  changeStatus(idFriend: string, body): Observable<any>{
+    return this.http.post<JSON>(this.ruta + idFriend + "/status", body);
   }
 
 }

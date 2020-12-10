@@ -48,10 +48,22 @@ export class UserPage implements OnInit {
   }
 
   acceptFriend(){
-    this.component.presentAlert("Solicitud aceptada correctamente");
+    const body = {accept: true};
+    this.friendService.changeStatus(this.id, body).subscribe(() => {
+      this.component.presentAlert("Solicitud aceptada correctamente");
+    }, (error) => {
+      console.log(error);
+      this.component.presentAlert("Internal error");
+    });
   }
 
   rejectFriend(){
-    this.component.presentAlert("Solicitud rechazada correctamente");
+    const body = {accept: false}
+    this.friendService.changeStatus(this.id, body).subscribe(() => {
+      this.component.presentAlert("Solicitud aceptada correctamente");
+    }, (error) => {
+      console.log(error);
+      this.component.presentAlert("Internal error");
+    });
   }
 }
