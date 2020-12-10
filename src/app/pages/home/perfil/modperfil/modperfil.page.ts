@@ -7,6 +7,7 @@ import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
 import config from 'src/environments/config';
 import { UserService } from 'src/app/services/user.service';
+import { RefreshService } from 'src/app/services/refresh.service';
 
 @Component({
   selector: 'app-modperfil',
@@ -27,7 +28,8 @@ export class ModperfilPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
 
-  constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
+    private events: RefreshService) { }
 
   ngOnInit() {
     this.pulsado = false;
@@ -103,7 +105,39 @@ export class ModperfilPage implements OnInit {
       return;
     }
     let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellidos;
-    let user = {
+    let userupdate;
+    if (this.user.provider == "formulario"){
+      userupdate = {
+        name : nombre,
+        firstName: this.updateform.value.nombre,
+        lastName: this.updateform.value.apellidos,
+        username: this.updateform.value.name,
+        provider: this.user.provider,
+        email: this.updateform.value.email,
+        online: true,
+        public: true,
+        image: config.defaultImage,
+        password: this.authservicio.encryptPassword(this.updateform.value.password),
+        friends: []
+      }
+    }
+
+    else{
+      userupdate = {
+        name : nombre,
+        firstName: this.updateform.value.nombre,
+        lastName: this.updateform.value.apellidos,
+        username: this.updateform.value.name,
+        provider: this.user.provider,
+        email: this.user.email,
+        online: true,
+        public: true,
+        image: this.user.image,
+        password: this.authservicio.encryptPassword(this.updateform.value.password),
+        friends: []
+      }
+    }
+    /*let user = {
       name : nombre,
       firstName: this.updateform.value.nombre,
       lastName: this.updateform.value.apellidos,
@@ -115,9 +149,13 @@ export class ModperfilPage implements OnInit {
       image: config.defaultImage,
       password: this.authservicio.encryptPassword(this.updateform.value.password),
       friends: []
-    }
-    this.userService.update(user).subscribe((data) => {
-      console.log(data);
+    }*/
+    this.userService.update(userupdate).subscribe((data) => {
+      console.log("Update de: ", data);
+      this.events.publish({
+        "topic": "updateUser",
+        "user": userupdate
+    });
       this.router.navigate(['/principal/perfil']);
     }, error => {
       if (error.status = 409){

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
 import { MenuController } from '@ionic/angular';
+import { RefreshService } from 'src/app/services/refresh.service';
 
 @Component({
   selector: 'app-principal',
@@ -16,17 +17,18 @@ export class PrincipalPage implements OnInit {
 
   usuario: User;
   usuarios: User[];
-  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
+  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController,
+    private events: RefreshService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
       this.usuario = data;
     })
-  }
-  
-  ionViewWillEnter(){
-    this.userService.getMyUser().subscribe(data => {
-      this.usuario = data;
+    this.events.getObservable().subscribe((data)=> {
+      console.log(data);
+      if (data.topic == "updateUser") {
+        this.usuario = data.user;
+      }
     })
   }
 
