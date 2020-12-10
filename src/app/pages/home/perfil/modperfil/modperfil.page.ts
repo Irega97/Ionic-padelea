@@ -3,9 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
-import { Token } from 'src/app/models/token'
 import { Validator } from 'src/app/models/validator'
-import config from 'src/environments/config';
 import { UserService } from 'src/app/services/user.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 

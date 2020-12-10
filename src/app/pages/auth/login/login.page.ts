@@ -66,10 +66,6 @@ export class LoginPage implements OnInit {
       else if (error.status == 409){
         this.error = "La contraseña no es correcta";
       }
-      else{
-        //this.components.dismissLoading();
-        this.components.presentAlert("No se ha podido conectar con el servidor");
-      }
     })
   }
 
@@ -116,9 +112,6 @@ export class LoginPage implements OnInit {
           if (error.status = 409){
             this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
           }
-          else{
-            this.components.presentAlert("No se ha podido conectar con el servidor");
-          }
         });
       }
       else {
@@ -132,11 +125,7 @@ export class LoginPage implements OnInit {
     }, error =>{
       if (error.status = 409){
         this.components.presentAlert("Este email está registrado, pero no con la red social de Facebook");
-      }
-      else{
-        this.components.presentAlert("No se ha podido conectar con el servidor");
-      }
-      
+      }      
     });
   }
 
@@ -166,8 +155,6 @@ export class LoginPage implements OnInit {
         };
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
-    }, error =>{
-      this.components.presentAlert("No se ha podido conectar con el servidor");
     });
   }
 

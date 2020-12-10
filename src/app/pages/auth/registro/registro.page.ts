@@ -92,9 +92,6 @@ export class RegistroPage implements OnInit {
         this.registerform.get('checkmail').setValue(this.registerform.value.email);
         this.registerform.controls.name.setErrors({validEmail: true});
       }
-      else{
-        this.components.presentAlert("No se ha podido conectar con el servidor");
-      }
     });
   }
 
@@ -120,12 +117,8 @@ export class RegistroPage implements OnInit {
           this.authservicio.login(u).subscribe((jwt: Token) => {
             this.authservicio.addToken(jwt.token);
             this.router.navigateByUrl('/principal');
-          }, error => {
-            this.components.presentAlert("No se ha podido conectar con el servidor");
           });
         }
-      }, error =>{
-        this.components.presentAlert("No se ha podido conectar con el servidor");
       })
     });
   }
@@ -148,13 +141,8 @@ export class RegistroPage implements OnInit {
           this.authservicio.login(u).subscribe((jwt: Token) => {
             this.authservicio.addToken(jwt.token);
             this.router.navigateByUrl('/principal');
-          }, error => {
-            console.log(error);
-            this.components.presentAlert("No se ha podido conectar con el servidor");
           });
         }
-      }, error => {
-        this.components.presentAlert("No se ha podido conectar con el servidor");
       })
     });
   }

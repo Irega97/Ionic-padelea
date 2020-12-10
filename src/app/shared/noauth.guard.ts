@@ -14,7 +14,7 @@ export class NoauthGuard implements CanActivateChild {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-      if (this.authService.isLoggedIn()){
+      if (localStorage.getItem("ACCESS_TOKEN") != null){
         this.router.navigate(['principal'])
           return false;
         }

@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   signout(): Observable<any> {
-    const t = {"token": this.getToken()};
+    const t = {"token": localStorage.getItem("ACCESS_TOKEN")};
     return this.http.put(this.ruta + "signout", t);
   }
 
@@ -41,34 +41,7 @@ export class AuthService {
     }
   }
 
-  isLoggedIn(){
-    if (this.getToken() != null){
-      const now = Date.now();
-      const expiresAt = sessionStorage.getItem("TOKEN_EXPIRES");
-      const left = parseInt(expiresAt) - now;
-      if(expiresAt && left > 3600){
-        return true;
-      }
-      else{ 
-        sessionStorage.removeItem("TOKEN_EXPIRES");
-        return false; 
-      } 
-    }
-    else{
-      return false;
-    }
-  }
-
-  getToken(){
-    return localStorage.getItem('ACCESS_TOKEN');
-  }
-
   addToken(token: string){
-    console.log("add token");
-    let expires = 3600;
-    let now = Date.now()
-    let expiresAt = now + expires * 1000;
     localStorage.setItem("ACCESS_TOKEN", token);
-    sessionStorage.setItem("TOKEN_EXPIRES", expiresAt.toString());
   }
 }

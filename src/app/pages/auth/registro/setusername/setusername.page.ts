@@ -71,9 +71,6 @@ export class SetusernamePage implements OnInit {
         this.usernameForm.get('checkname').setValue(this.usernameForm.value.username);
         this.usernameForm.controls.username.setErrors({validUsername: true});
       }
-      else{
-        this.components.presentAlert("No se ha podido conectar con el servidor")
-      }
     });
   }
 

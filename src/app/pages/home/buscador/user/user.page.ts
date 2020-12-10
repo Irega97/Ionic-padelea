@@ -37,6 +37,6 @@ export class UserPage implements OnInit {
     }, (error) => {
       console.log(error);
       this.component.presentAlert("No se ha podido añadir");
-    })
+    });
   }
 }

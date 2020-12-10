@@ -15,14 +15,14 @@ export class AuthGuard implements CanActivateChild {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-      if (this.authService.isLoggedIn() && sessionStorage.getItem("TOKEN_EXPIRES")){
+      if (localStorage.getItem("ACCESS_TOKEN") != null){
         console.log("cristian tontito");
         return true;
       }
 
       else{
         this.router.navigate(['auth']);
-        this.component.presentAlert("Sesión caducada, inicia sesión de nuevo");
+        this.component.presentAlert("Inicia sesión para acceder");
         return false;
       }
   }
