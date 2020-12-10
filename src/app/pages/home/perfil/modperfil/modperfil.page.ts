@@ -18,6 +18,7 @@ export class ModperfilPage implements OnInit {
 
   updateform: FormGroup;
   user: User;
+  userupdate: User;
   nombre: string;
   pulsado: Boolean;
   providerform: Boolean;
@@ -105,58 +106,26 @@ export class ModperfilPage implements OnInit {
       return;
     }
     let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellidos;
-    let userupdate;
+    this.userupdate.name = nombre;
+    this.userupdate.firstName = this.updateform.value.firstName;
+    this.userupdate.lastName = this.updateform.value.lastName;
+    this.userupdate.username = this.updateform.value.username;
+    this.userupdate.image = this.user.image;
+    this.userupdate.password = "";
     if (this.user.provider == "formulario"){
-      userupdate = {
-        name : nombre,
-        firstName: this.updateform.value.nombre,
-        lastName: this.updateform.value.apellidos,
-        username: this.updateform.value.name,
-        provider: this.user.provider,
-        email: this.updateform.value.email,
-        online: true,
-        public: true,
-        image: config.defaultImage,
-        password: this.authservicio.encryptPassword(this.updateform.value.password),
-        friends: []
+      this.userupdate.email = this.updateform.value.email;
+      if (this.updateform.value.password != ''){
+        this.userupdate.password = this.authservicio.encryptPassword(this.updateform.value.password);
       }
     }
 
-    else{
-      userupdate = {
-        name : nombre,
-        firstName: this.updateform.value.nombre,
-        lastName: this.updateform.value.apellidos,
-        username: this.updateform.value.name,
-        provider: this.user.provider,
-        email: this.user.email,
-        online: true,
-        public: true,
-        image: this.user.image,
-        password: this.authservicio.encryptPassword(this.updateform.value.password),
-        friends: []
-      }
-    }
-    /*let user = {
-      name : nombre,
-      firstName: this.updateform.value.nombre,
-      lastName: this.updateform.value.apellidos,
-      username: this.updateform.value.name,
-      provider: this.updateform.value.provider,
-      email: this.updateform.value.email,
-      online: true,
-      public: true,
-      image: config.defaultImage,
-      password: this.authservicio.encryptPassword(this.updateform.value.password),
-      friends: []
-    }*/
-    this.userService.update(userupdate).subscribe((data) => {
+    this.userService.update(this.userupdate).subscribe((data) => {
       console.log("Update de: ", data);
       this.events.publish({
         "topic": "updateUser",
-        "user": userupdate
+        "user": this.userupdate
     });
-      this.router.navigate(['/principal/perfil']);
+      this.router.navigate(['/principal']);
     }, error => {
       if (error.status = 409){
         this.updateform.get('checkname').setValue(this.updateform.value.name);

@@ -1,10 +1,9 @@
+import { toPublicName } from '@angular/compiler/src/i18n/serializers/xmb';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/user'
+import { RefreshService } from 'src/app/services/refresh.service';
 import { UserService } from 'src/app/services/user.service';
-import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -15,12 +14,16 @@ export class PerfilPage implements OnInit {
 
   usuario: User;
 
-  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController) { }
+  constructor(private userService: UserService, private router: Router, private events: RefreshService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
       this.usuario = data;
-      console.log(this.usuario);
+    })
+    this.events.getObservable().subscribe((data)=> {
+      if (data.topic == "updateUser") {
+        this.usuario = data.user;
+      }
     })
   }
 

@@ -27,6 +27,7 @@
     "angularx-social-login": "^3.5.2",
     "cordova-browser": "6.0.0",
     "crypto-js": "^4.0.0",
+    "ngx-socket-io": "^3.2.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

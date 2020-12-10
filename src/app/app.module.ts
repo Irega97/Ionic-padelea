@@ -18,10 +18,15 @@ import {
   FacebookLoginProvider
 } from 'angularx-social-login';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
+//const config: SocketIoConfig = { url: 'http://10.0.2.2:3001', options: {} };
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocialLoginModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocialLoginModule, SocketIoModule.forRoot(config)],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

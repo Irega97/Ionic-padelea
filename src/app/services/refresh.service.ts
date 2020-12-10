@@ -6,7 +6,7 @@ import {Subject} from "rxjs";
 })
 export class RefreshService {
 
-  constructor() { console.log("Funciona!!") }
+  constructor() { }
 
   private dataSubject = new Subject<any>();
 
@@ -15,7 +15,6 @@ export class RefreshService {
   }
 
   public getObservable(): Subject<any> {
-    console.log("Usuario: ", this.dataSubject);
     return this.dataSubject;
   }
 }

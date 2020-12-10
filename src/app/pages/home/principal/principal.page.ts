@@ -25,7 +25,6 @@ export class PrincipalPage implements OnInit {
       this.usuario = data;
     })
     this.events.getObservable().subscribe((data)=> {
-      console.log(data);
       if (data.topic == "updateUser") {
         this.usuario = data.user;
       }
