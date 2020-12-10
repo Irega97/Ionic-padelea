@@ -18,7 +18,6 @@ export class ModperfilPage implements OnInit {
 
   updateform: FormGroup;
   user: User;
-  userupdate: User;
   nombre: string;
   pulsado: Boolean;
   providerform: Boolean;
@@ -27,7 +26,6 @@ export class ModperfilPage implements OnInit {
   confirmpasswordinput = 'password';
   iconpassword = "eye-off";
   iconconfirmpassword = "eye-off";
-
 
   constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
     private events: RefreshService) { }
@@ -76,8 +74,8 @@ export class ModperfilPage implements OnInit {
           checkname: [],
           nombre: [this.user.firstName, Validators.required],
           apellidos: [this.user.lastName, Validators.required],
-          password: ['', Validators.required],
-          confirmpassword: ['', Validators.required],
+          password: [''],
+          confirmpassword: [''],
           //image: ['', Validators.nullValidator],
           email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
           checkmail: []
@@ -106,24 +104,31 @@ export class ModperfilPage implements OnInit {
       return;
     }
     let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellidos;
-    this.userupdate.name = nombre;
-    this.userupdate.firstName = this.updateform.value.firstName;
-    this.userupdate.lastName = this.updateform.value.lastName;
-    this.userupdate.username = this.updateform.value.username;
-    this.userupdate.image = this.user.image;
-    this.userupdate.password = "";
+    let userupdate = { 
+      name: nombre, 
+      firstName: this.updateform.value.nombre, 
+      lastName: this.updateform.value.nombre, 
+      username: this.updateform.value.name,
+      image: this.user.image, 
+      email: this.user.email,
+      password: "",
+      online: true,
+      public: true,
+      provider: this.user.provider,
+      friends: null
+    };
     if (this.user.provider == "formulario"){
-      this.userupdate.email = this.updateform.value.email;
+      userupdate.email = this.updateform.value.email;
       if (this.updateform.value.password != ''){
-        this.userupdate.password = this.authservicio.encryptPassword(this.updateform.value.password);
+        userupdate.password = this.authservicio.encryptPassword(this.updateform.value.password);
       }
     }
 
-    this.userService.update(this.userupdate).subscribe((data) => {
+    this.userService.update(userupdate).subscribe((data) => {
       console.log("Update de: ", data);
       this.events.publish({
         "topic": "updateUser",
-        "user": this.userupdate
+        "user": userupdate
     });
       this.router.navigate(['/principal']);
     }, error => {
