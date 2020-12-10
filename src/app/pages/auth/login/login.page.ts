@@ -49,25 +49,25 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    //this.components.presentLoading("Por favor espera...");
+    this.components.presentLoading("Por favor espera...");
     const username = this.loginform.value.username;
     const password = this.loginform.value.password;
     const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
-      //this.components.dismissLoading();
+      this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
       if (error.status == 404){
-        //this.components.dismissLoading();
+        this.components.dismissLoading();
         this.error = "Este usuario no existe";
       }
       else if (error.status == 409){
         this.error = "La contraseña no es correcta";
       }
       else{
-        //this.components.dismissLoading();
+        this.components.dismissLoading();
         this.components.presentAlert("No se ha podido conectar con el servidor");
       }
     })
