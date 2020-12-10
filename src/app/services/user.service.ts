@@ -17,8 +17,8 @@ export class UserService {
     return this.http.get<User[]>(this.ruta + "all");
   }
 
-  getUser(id: String): Observable<User> {
-    return this.http.get<User>(this.ruta + id);
+  getUser(id: String): Observable<JSON> {
+    return this.http.get<JSON>(this.ruta + id);
   }
 
   getMyUser(): Observable<User> {
@@ -31,9 +31,5 @@ export class UserService {
 
   changeUsername(username: string){
     return this.http.post(this.ruta + "setusername/" + username, null);
-  }
-
-  addFriend(idFriend: string): Observable<JSON>{
-    return this.http.post<JSON>(this.ruta + "friends/" + idFriend, null);
   }
 }

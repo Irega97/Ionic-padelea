@@ -42,8 +42,14 @@
     <ion-row>
       <ion-col>
         <div style="text-align: center;">
-          <ion-button (click)="addFriend()">
+          <ion-button *ngIf="user.friendStatus == -1 || user.friendStatus == 0" (click)="addFriend()" [disabled] = "solicitud">
             <ion-icon name="person-add-sharp"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf= "user.friendStatus == 1" (click)="acceptFriend()">
+            ACEPTAR SOLICITUD
+          </ion-button>
+          <ion-button *ngIf= "user.friendStatus == 1" (click)="rejectFriend()">
+            RECHAZAR SOLICITUD
           </ion-button>
         </div>
       </ion-col>

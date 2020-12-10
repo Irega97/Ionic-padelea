@@ -2,6 +2,7 @@ import { ComponentsService } from './../../../../services/components.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-user',
@@ -10,10 +11,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserPage implements OnInit {
 
-  constructor(public userService: UserService, private route: ActivatedRoute, private component: ComponentsService) { }
+  constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, private component: ComponentsService) { }
 
   user;
   id;
+  solicitud: Boolean
 
   ngOnInit() {
   }
@@ -21,10 +23,14 @@ export class UserPage implements OnInit {
   ionViewWillEnter(){
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
-      console.log("id: ", this.id);
       this.userService.getUser(this.id).subscribe(data =>{
-        console.log("datica: ", data);
         this.user = data;
+        if (this.user.friendStatus == -1){
+          this.solicitud = false;
+        }
+        else{
+          this.solicitud = true;
+        }
       }, error => {
         console.log(error);
       });
@@ -32,11 +38,20 @@ export class UserPage implements OnInit {
   }
 
   addFriend(){
-    this.userService.addFriend(this.id).subscribe((data) => {
-      if(data) this.component.presentAlert("Amigo añadido correctamente!");
+    this.friendService.addFriend(this.id).subscribe((data) => {
+      if(data) this.component.presentAlert("Solicitud enviada correctamente!");
+      this.solicitud = true;
     }, (error) => {
       console.log(error);
       this.component.presentAlert("No se ha podido añadir");
     });
+  }
+
+  acceptFriend(){
+    this.component.presentAlert("Solicitud aceptada correctamente");
+  }
+
+  rejectFriend(){
+    this.component.presentAlert("Solicitud rechazada correctamente");
   }
 }
