@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
-import { MenuController } from '@ionic/angular';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-principal',
@@ -17,8 +14,7 @@ export class PrincipalPage implements OnInit {
 
   usuario: User;
   usuarios: User[];
-  constructor(private userService: UserService, private authService: AuthService, private http: HttpClient, private router: Router, private menu: MenuController,
-    private events: RefreshService) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
@@ -45,6 +41,7 @@ export class PrincipalPage implements OnInit {
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
+      this.events.disconnectSocket(this.usuario.username);
       this.router.navigate(['/auth/login']);
     })
   }

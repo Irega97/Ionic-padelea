@@ -1,4 +1,3 @@
-import { PrincipalPageRoutingModule } from './pages/home/principal/principal-routing.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -19,7 +18,6 @@ import {
 } from 'angularx-social-login';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({

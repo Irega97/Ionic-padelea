@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class RefreshService {
+export class EventsService {
 
-  constructor() { }
+  constructor(private socket: Socket) { }
 
   private dataSubject = new Subject<any>();
 
@@ -16,5 +18,13 @@ export class RefreshService {
 
   public getObservable(): Subject<any> {
     return this.dataSubject;
+  }
+
+  public connectSocket(id: String){
+    this.socket.connect.arguments(id);
+  }
+
+  public disconnectSocket(id: String){
+    this.socket.disconnect.arguments(id);
   }
 }

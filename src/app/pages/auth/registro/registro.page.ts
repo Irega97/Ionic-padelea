@@ -92,7 +92,6 @@ export class RegistroPage implements OnInit {
   async registerGoogle(){
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
-      console.log("GOOGLE PROFILE: ", user);
       this.authservicio.checkSocialAccount(user.email).subscribe(data => {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
@@ -116,7 +115,6 @@ export class RegistroPage implements OnInit {
   async registerFacebook(){
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((user) => {
-      console.log("FACEBOOK PROFILE: ", user);
       this.authservicio.checkSocialAccount(user.email).subscribe(data => {
         if (!data.value){
           let navigationExtras: NavigationExtras = {
