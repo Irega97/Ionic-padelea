@@ -6,6 +6,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Validator } from 'src/app/models/validator';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginPage implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authservicio: AuthService, private socialAuth: SocialAuthService,
-    private components: ComponentsService) { }
+    private components: ComponentsService, private events: EventsService) { }
 
   ngOnInit() {
     this.loginform = this.formBuilder.group({
@@ -51,6 +52,9 @@ export class LoginPage implements OnInit {
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
+      this.events.publish({
+        "topic":"loginUser"
+      })
       //this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
@@ -103,6 +107,9 @@ export class LoginPage implements OnInit {
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
           this.authservicio.addToken(jwt.token);
+          this.events.publish({
+            "topic":"loginUser"
+          })
           this.router.navigateByUrl('/principal');
         }, error =>{
           if (error.status = 409){
@@ -137,6 +144,9 @@ export class LoginPage implements OnInit {
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
           this.authservicio.addToken(jwt.token);
+          this.events.publish({
+            "topic":"loginUser"
+          })
           this.router.navigateByUrl('/principal');
         }, error =>{
 

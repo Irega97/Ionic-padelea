@@ -8,6 +8,7 @@ import { Validator } from 'src/app/models/validator'
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
 import config from 'src/environments/config';
 import { ComponentsService } from 'src/app/services/components.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-registro',
@@ -28,7 +29,7 @@ export class RegistroPage implements OnInit {
 
 
   constructor(private socialAuth: SocialAuthService,private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
-    private components: ComponentsService) { }
+    private components: ComponentsService, private events: EventsService) { }
 
   ngOnInit() {
     this.pulsado = false;
@@ -72,6 +73,9 @@ export class RegistroPage implements OnInit {
     }
     this.authservicio.register(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
+      this.events.publish({
+        "topic":"loginUser"
+      })
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status == 409){
@@ -105,6 +109,9 @@ export class RegistroPage implements OnInit {
           const u = {"provider": user.provider, "email": user.email}
           this.authservicio.login(u).subscribe((jwt: Token) => {
             this.authservicio.addToken(jwt.token);
+            this.events.publish({
+              "topic":"loginUser"
+            })
             this.router.navigateByUrl('/principal');
           });
         }
@@ -128,6 +135,9 @@ export class RegistroPage implements OnInit {
           const u = {"provider": user.provider, "email": user.email}
           this.authservicio.login(u).subscribe((jwt: Token) => {
             this.authservicio.addToken(jwt.token);
+            this.events.publish({
+              "topic":"loginUser"
+            })
             this.router.navigateByUrl('/principal');
           });
         }

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validator } from 'src/app/models/validator'
 import { ComponentsService } from 'src/app/services/components.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-setusername',
@@ -22,7 +23,7 @@ export class SetusernamePage implements OnInit {
   apellidos: string;
 
   constructor(public formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router,
-    private components: ComponentsService) {
+    private components: ComponentsService, private events: EventsService) {
   }
 
   ngOnInit() {
@@ -65,6 +66,9 @@ export class SetusernamePage implements OnInit {
     this.user.username = this.usernameForm.value.username;
     this.authService.register(this.user).subscribe((jwt: Token) => {
       this.authService.addToken(jwt.token);
+      this.events.publish({
+        "topic":"loginUser"
+      })
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){

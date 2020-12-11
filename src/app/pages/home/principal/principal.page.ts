@@ -20,28 +20,25 @@ export class PrincipalPage implements OnInit {
 
   ngOnInit() {
     this.userService.getMyUser().subscribe((data:any) => {
-      console.log(data);
       this.usuario = data;
       this.socket.connect();
       let username = {"id": data._id, "username": this.usuario.username};
       this.socket.emit('set-name', username); 
-    })
-    this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "updateUser") {
-        this.usuario = data.user;
-      }
-    })
-  }
+    });
 
-  ionViewWillEnter(){
-    this.userService.getMyUser().subscribe(data => {
-      this.usuario = data;
-    })
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser") {
         this.usuario = data.user;
       }
-    })
+      else if (data.topic == "loginUser"){
+        this.userService.getMyUser().subscribe((data:any) => {
+          this.usuario = data;
+          this.socket.connect();
+          let username = {"id": data._id, "username": this.usuario.username};
+          this.socket.emit('set-name', username); 
+        });
+      }
+    }) 
   }
 
   logout(){
