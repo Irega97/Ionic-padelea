@@ -31,6 +31,17 @@ export class PrincipalPage implements OnInit {
     })
   }
 
+  ionViewWillEnter(){
+    this.userService.getMyUser().subscribe(data => {
+      this.usuario = data;
+    })
+    this.events.getObservable().subscribe((data)=> {
+      if (data.topic == "updateUser") {
+        this.usuario = data.user;
+      }
+    })
+  }
+
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();

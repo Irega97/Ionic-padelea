@@ -26,10 +26,12 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-list *ngIf="user.friends && user.friends.length > 0; else noFriends">
-          <ion-item *ngFor="let friend of user.friends">
-            <ion-avatar slot="start">{{user.image}}</ion-avatar>
-            <ion-label>{{user.username}}</ion-label>
+        <ion-list *ngIf="friends && friends.length > 0; else noFriends">
+          <ion-item *ngFor="let friend of friends" [routerLink] = "['/principal/search/user', friend.user._id]">
+            <ion-avatar slot="start">
+              <ion-img [src]="friend.user.image"></ion-img>
+            </ion-avatar>
+            <ion-label>{{friend.user.username}}</ion-label>
           </ion-item>
         </ion-list>
         <ng-template #noFriends>
@@ -51,6 +53,9 @@
           </ion-button>
           <ion-button *ngIf= "user.friendStatus == 1" (click)="rejectFriend()">
             RECHAZAR SOLICITUD
+          </ion-button>
+          <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend()">
+            ELIMINAR AMIGO
           </ion-button>
         </div>
       </ion-col>
