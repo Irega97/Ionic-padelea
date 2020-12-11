@@ -5,7 +5,7 @@ import { User } from 'src/app/models/user';
 import { AuthService} from 'src/app/services/auth.service'
 import { Validator } from 'src/app/models/validator'
 import { UserService } from 'src/app/services/user.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-modperfil',
@@ -26,7 +26,7 @@ export class ModperfilPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
   constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
-    private events: RefreshService) { }
+    private events: EventsService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
@@ -47,17 +47,14 @@ export class ModperfilPage implements OnInit {
       }
       else{
         this.updateform = this.formBuilder.group({
-          name: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkname: [],
+          username: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkusername: [],
           //image: ['', Validators.nullValidator],
           nombre: [this.user.firstName, Validators.required],
           apellidos: [this.user.lastName, Validators.required]
         })
         this.providerform = false;
       }
-      
-  }, error =>{
-    console.log(error);
   })
   }
 
@@ -72,9 +69,7 @@ export class ModperfilPage implements OnInit {
       else{
         this.providerform = false;
         }
-      }, error => {
-    console.log(error);
-  });
+      });
   }
 
   update(){
@@ -112,12 +107,12 @@ export class ModperfilPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status = 409){
-        this.updateform.get('checkname').setValue(this.updateform.value.name);
+        this.updateform.get('checkusername').setValue(this.updateform.value.name);
         this.updateform.controls.name.setErrors({validUsername: true});
       }
       else if (error.status = 410){
-        this.updateform.get('checkmail').setValue(this.updateform.value.email);
-        this.updateform.controls.name.setErrors({validEmail: true});
+        this.updateform.get('checkemail').setValue(this.updateform.value.email);
+        this.updateform.controls.email.setErrors({validEmail: true});
       }
       console.log(error);
     });

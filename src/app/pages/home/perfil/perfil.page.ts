@@ -1,8 +1,7 @@
-import { toPublicName } from '@angular/compiler/src/i18n/serializers/xmb';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user'
-import { RefreshService } from 'src/app/services/refresh.service';
+import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class PerfilPage implements OnInit {
 
   usuario: User;
 
-  constructor(private userService: UserService, private router: Router, private events: RefreshService) { }
+  constructor(private userService: UserService, private router: Router, private events: EventsService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe(data => {
