@@ -16,6 +16,7 @@ export class UserPage implements OnInit {
   user;
   id;
   solicitud: Boolean
+  friends;
 
   ngOnInit() {
   }
@@ -34,6 +35,11 @@ export class UserPage implements OnInit {
       }, error => {
         console.log(error);
       });
+      this.friendService.getFriends(this.id).subscribe(data => {
+        
+        this.friends = data.friends;
+        console.log("friends: ", data);
+      })
     });
   }
 
@@ -60,10 +66,19 @@ export class UserPage implements OnInit {
   rejectFriend(){
     const body = {accept: false}
     this.friendService.changeStatus(this.id, body).subscribe(() => {
-      this.component.presentAlert("Solicitud aceptada correctamente");
+      this.component.presentAlert("Solicitud rechazada");
     }, (error) => {
       console.log(error);
       this.component.presentAlert("Internal error");
     });
+  }
+
+  deleteFriend(){
+    this.friendService.delFriend(this.id).subscribe(() => {
+      this.component.presentAlert("Amigo eliminado");
+    }, (error) => {
+      console.log(error);
+      this.component.presentAlert("Internal error");
+    })
   }
 }

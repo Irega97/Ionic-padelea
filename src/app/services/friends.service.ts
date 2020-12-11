@@ -11,12 +11,20 @@ export class FriendsService {
   ruta = environment.apiURL + "/friends/"
   constructor(private http: HttpClient) { }
 
+  getFriends(idFriend: string): Observable<any> {
+    return this.http.get<JSON>(this.ruta + idFriend);
+  }
+
   addFriend(idFriend: string): Observable<JSON>{
     return this.http.post<JSON>(this.ruta + idFriend, null);
   }
 
   changeStatus(idFriend: string, body): Observable<any>{
     return this.http.post<JSON>(this.ruta + idFriend + "/status", body);
+  }
+
+  delFriend(idFriend: string){
+    return this.http.delete(this.ruta + idFriend);
   }
 
 }
