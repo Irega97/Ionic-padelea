@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
 
 
@@ -8,7 +7,7 @@ import {Subject} from "rxjs";
 })
 export class EventsService {
 
-  constructor(private socket: Socket) { }
+  constructor() { }
 
   private dataSubject = new Subject<any>();
 
@@ -18,13 +17,5 @@ export class EventsService {
 
   public getObservable(): Subject<any> {
     return this.dataSubject;
-  }
-
-  public connectSocket(id: String){
-    this.socket.connect.arguments(id);
-  }
-
-  public disconnectSocket(id: String){
-    this.socket.disconnect.arguments(id);
   }
 }
