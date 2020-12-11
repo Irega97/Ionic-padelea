@@ -33,30 +33,20 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
     this.pulsado = false;
     this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validator.validUsername]],
-      checkname: [],
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmpassword: ['', [Validators.required, Validator.checkPassword]],
-      //image: ['', Validators.nullValidator],
-      email: ['', [Validators.required, Validators.email, Validator.validEmail]],
-      checkmail: []
-    });
-  }
-
-  ionViewWillEnter(){
-    this.registerform = this.formBuilder.group({
-      name: ['', [Validators.required, Validator.validUsername]],
-      checkname: [],
+      username: ['', [Validators.required, Validator.validUsername]],
+      checkusername: [],
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       password: ['', Validators.required],
       confirmpassword: ['', Validators.required],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
-      checkmail: []
-    }, {validator: Validator.checkPassword});
+      checkemail: []
+    }, { validator: Validator.checkPassword });
+  }
+
+  ionViewWillEnter(){
+    this.registerform.reset();
     this.pulsado = false;
   }
 
@@ -71,10 +61,10 @@ export class RegistroPage implements OnInit {
       name : nombre,
       firstName: this.registerform.value.nombre,
       lastName: this.registerform.value.apellidos,
-      username: this.registerform.value.name,
+      username: this.registerform.value.username,
       provider: 'formulario',
       email: this.registerform.value.email,
-      online: true,
+      online: false,
       public: true,
       image: config.defaultImage,
       password: this.authservicio.encryptPassword(this.registerform.value.password),
@@ -85,12 +75,12 @@ export class RegistroPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status == 409){
-        this.registerform.get('checkname').setValue(this.registerform.value.name);
-        this.registerform.controls.name.setErrors({validUsername: true});
+        this.registerform.get('checkusername').setValue(this.registerform.value.username);
+        this.registerform.controls.username.setErrors({validUsername: true});
       }
       else if (error.status == 410){
-        this.registerform.get('checkmail').setValue(this.registerform.value.email);
-        this.registerform.controls.name.setErrors({validEmail: true});
+        this.registerform.get('checkemail').setValue(this.registerform.value.email);
+        this.registerform.controls.email.setErrors({validEmail: true});
       }
     });
   }

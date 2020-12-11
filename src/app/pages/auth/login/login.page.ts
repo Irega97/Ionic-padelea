@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComponentsService } from 'src/app/services/components.service';
+import { Validator } from 'src/app/models/validator';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,6 @@ import { ComponentsService } from 'src/app/services/components.service';
 export class LoginPage implements OnInit {
 
   loginform: FormGroup;
-  error: string;
   pulsado: Boolean
 
   passwordinput = 'password';
@@ -26,26 +26,21 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.loginform = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      username: ['', [Validators.required, Validator.validUsername]],
+      checkusername: [],
+      password: ['', Validators.required]
     });
-    this.error = "";
     this.pulsado = false;
   }
 
   ionViewWillEnter(){
-    this.loginform = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
-    });
-    this.error = "";
+    this.loginform.reset();
     this.pulsado = false;
   }
 
   login(){
     this.pulsado = true;
     if (this.loginform.invalid){
-      this.error = "";
       return;
     }
 
@@ -61,10 +56,12 @@ export class LoginPage implements OnInit {
     }, error =>{
       if (error.status == 404){
        // this.components.dismissLoading();
-        this.error = "Este usuario no existe";
+        this.loginform.get('checkusername').setValue(this.loginform.value.username);
+        this.loginform.controls.username.setErrors({validUsername: true});
       }
       else if (error.status == 409){
-        this.error = "La contraseña no es correcta";
+        this.loginform.get('password').setValue('');
+        this.loginform.controls.password.setErrors({validUsername: true});
       }
     })
   }

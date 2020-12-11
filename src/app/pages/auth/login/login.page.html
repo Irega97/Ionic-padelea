@@ -15,7 +15,8 @@
         <ion-label position="floating" color= "primary">Nombre Usuario/Email:</ion-label>
         <ion-input type="string" formControlName="username"></ion-input>
       </ion-item>
-      <p *ngIf="!loginform.controls['username'].valid && (loginform.controls['username'].dirty || loginform.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+      <p *ngIf="loginform.controls['username'].hasError('required') && (loginform.controls['username'].dirty || loginform.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+      <p *ngIf="loginform.controls['username'].hasError('validUsername') && (loginform.controls['username'].dirty || loginform.controls['username'].touched || pulsado)"><ion-label color="danger">Este usuario no está registrado</ion-label></p>
   
       <ion-item>
         <ion-label position="floating" color= "primary">Contraseña:</ion-label>
@@ -24,7 +25,8 @@
           <ion-icon [name]="iconpassword"></ion-icon>
       </button>
       </ion-item>
-      <p *ngIf="!loginform.controls['password'].valid && (loginform.controls['password'].dirty || loginform.controls['password'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+      <p *ngIf="loginform.controls['password'].hasError('required') && (loginform.controls['password'].dirty || loginform.controls['password'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+      <p *ngIf="loginform.controls['password'].hasError('validUsername') && (loginform.controls['password'].dirty || loginform.controls['password'].touched || pulsado)"><ion-label color="danger">La contraseña es incorrecta</ion-label></p>
       <br>
       <div class="boton">
         <ion-button color="secondary" (click) = "login()">

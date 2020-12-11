@@ -17,7 +17,7 @@ export class ModperfilPage implements OnInit {
   updateform: FormGroup;
   user: User;
   nombre: string;
-  pulsado: Boolean;
+  pulsado: Boolean = false;
   providerform: Boolean;
 
   passwordinput = 'password';
@@ -29,20 +29,19 @@ export class ModperfilPage implements OnInit {
     private events: RefreshService) { }
 
   ngOnInit() {
-    this.pulsado = false;
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
       if (this.user.provider == "formulario"){
         this.updateform = this.formBuilder.group({
-          name: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkname: [],
+          username: [this.user.username, [Validators.required, Validator.validUsername]],
+          checkusername: [],
           nombre: [this.user.firstName, Validators.required],
           apellidos: [this.user.lastName, Validators.required],
           password: ['', Validators.required],
           confirmpassword: ['', Validators.required],
           //image: ['', Validators.nullValidator],
           email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-          checkmail: []
+          checkemail: []
         }, {validator: Validator.checkPassword});
         this.providerform = true;
       }
@@ -66,34 +65,16 @@ export class ModperfilPage implements OnInit {
     this.pulsado = false;
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
+      this.updateform.reset();
       if (this.user.provider == "formulario"){
-        this.updateform = this.formBuilder.group({
-          name: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkname: [],
-          nombre: [this.user.firstName, Validators.required],
-          apellidos: [this.user.lastName, Validators.required],
-          password: [''],
-          confirmpassword: [''],
-          //image: ['', Validators.nullValidator],
-          email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-          checkmail: []
-        }, {validator: Validator.checkPassword});
         this.providerform = true;
       }
       else{
-        this.updateform = this.formBuilder.group({
-          name: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkname: [],
-          //image: ['', Validators.nullValidator],
-          nombre: [this.user.firstName, Validators.required],
-          apellidos: [this.user.lastName, Validators.required]
-        })
         this.providerform = false;
-      }
-      
-  }, error =>{
+        }
+      }, error => {
     console.log(error);
-  })
+  });
   }
 
   update(){

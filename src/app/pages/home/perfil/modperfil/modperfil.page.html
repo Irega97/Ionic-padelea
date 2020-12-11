@@ -14,10 +14,10 @@
       
         <ion-item>
           <ion-label position="floating" color = "primary">Nombre Usuario*:</ion-label>
-          <ion-input type="string" formControlName="name"></ion-input>
+          <ion-input type="string" formControlName="username"></ion-input>
         </ion-item>
-        <p *ngIf="updateform.controls['name'].hasError('required') && (updateform.controls['name'].dirty || updateform.controls['name'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
-        <p *ngIf="updateform.controls['name'].hasError('validUsername') && (updateform.controls['name'].dirty || updateform.controls['name'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
+        <p *ngIf="updateform.controls['username'].hasError('required') && (updateform.controls['username'].dirty || updateform.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+        <p *ngIf="updateform.controls['username'].hasError('validUsername') && (updateform.controls['username'].dirty || updateform.controls['username'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
 
         <ion-item>
           <ion-label position="floating" color = "primary">Nombre*:</ion-label>
