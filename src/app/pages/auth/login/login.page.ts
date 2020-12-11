@@ -1,7 +1,7 @@
 import { Token } from './../../../models/token';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -55,17 +55,17 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error =>{
       if (error.status == 404){
-       // this.components.dismissLoading();
+       //this.components.dismissLoading();
         this.loginform.get('checkusername').setValue(this.loginform.value.username);
         this.loginform.controls.username.setErrors({validUsername: true});
       }
       else if (error.status == 409){
+        //this.components.dismissLoading();
         this.loginform.get('password').setValue('');
         this.loginform.controls.password.setErrors({validUsername: true});
       }
     })
   }
-
 
   goRegister(){
     this.router.navigate(['/auth/registro']);
@@ -95,7 +95,6 @@ export class LoginPage implements OnInit {
     let user;
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((googleUser) => {
-      console.log("GOOGLE PROFILE: ", googleUser);
       user = googleUser;
     });
 
@@ -130,7 +129,6 @@ export class LoginPage implements OnInit {
     let user;
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((facebookUser) => {
-      console.log("FACEBOOK PROFILE: ", facebookUser);
       user = facebookUser;
     });
 

@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   checkSocialAccount(email: string): Observable<{value: boolean}>{
-    return this.http.get<any>(this.ruta + '/checkSocial/' + email);
+    return this.http.get<any>(this.ruta + 'checkSocial/' + email);
   }
 
   signout(): Observable<any> {
