@@ -17,8 +17,7 @@ export class SetusernamePage implements OnInit {
 
   usernameForm: FormGroup;
   pulsado: Boolean = false;
-  user: User;
-  correcto: Boolean = false;
+  user;
   nombre: string;
   apellidos: string;
 
@@ -32,29 +31,14 @@ export class SetusernamePage implements OnInit {
       checkname: [],
     });
     if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.user = {
-        name: this.router.getCurrentNavigation().extras.state.name,
-        firstName: this.router.getCurrentNavigation().extras.state.firstName,
-        lastName: this.router.getCurrentNavigation().extras.state.lastName,
-        email: this.router.getCurrentNavigation().extras.state.email,
-        image: this.router.getCurrentNavigation().extras.state.image,
-        provider: this.router.getCurrentNavigation().extras.state.provider,
-        online: true,
-        public: true,
-        password: null,
-        username: null,
-        friends: []
-      };
-      this.correcto = true;
+      this.user =  this.router.getCurrentNavigation().extras.state.user;
+      console.log(this.user);
     }
   }
 
   ionViewWillEnter(){
     this.pulsado = false;
-    this.usernameForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validator.validUsername]],
-      checkname: [],
-    });
+    this.usernameForm.reset();
   }
 
   submitUsername() {

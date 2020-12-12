@@ -10,10 +10,10 @@
 <ion-content class="background">
   <ion-card id="card">
     <ion-card-content>
-      <div *ngIf="correcto">
+      <div *ngIf="user; else noUser">
         <ion-item>
           <ion-avatar slot = "start">
-            <ion-img [src]="user.image"></ion-img>
+            <ion-img [src]="user.photoUrl"></ion-img>
           </ion-avatar>
           <ion-label>
             <h2>{{user.name}}</h2>
@@ -28,22 +28,25 @@
           <p *ngIf="usernameForm.controls['username'].hasError('required') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
           <p *ngIf="usernameForm.controls['username'].hasError('validUsername') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
         </form>
-        <div class="boton">
+        <div style="text-align: center;">
           <ion-button color="secondary" (click) = "submitUsername()">
             REGISTRAR
           </ion-button>
+        </div>
+      </div>
+      <ng-template #noUser>
+        <div style="text-align: center;">
+          <ion-label color="danger">Parece que has entrado a esta página de forma incorrecta. Esta página solo es accesible si intentas registrarte con una Red Social</ion-label>
           <p>
-            <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Logueate!</a>
+            <ion-label color="danger">Si te estás intentando registrar con una red social y sigue apareciendo el mensaje anterior, ves a la página de login, refresca la página y vuelve a intentarlo</ion-label>
+          </p>
+          <p>
+            <ion-button color="secondary" (click) = "goLogin()">
+              VOLVER A LA PÁGINA DE INICIO
+            </ion-button>
           </p>
         </div>
-      </div>
-      <div *ngIf = "!correcto">
-        <div style="text-align: center;">
-          <ion-button color="secondary" (click) = "goLogin()">
-            VOLVER A LA PÁGINA DE INICIO
-          </ion-button>
-        </div>
-      </div>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>

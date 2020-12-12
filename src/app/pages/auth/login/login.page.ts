@@ -118,7 +118,7 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, firstName: user.firstName, lastName: user.lastName
+            user: user
           }
         };
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
@@ -151,12 +151,11 @@ export class LoginPage implements OnInit {
       else {
         let navigationExtras: NavigationExtras = {
           state: {
-            name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, firstName: user.firstName, lastName: user.lastName
+            user: user
           }
         };
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     });
   }
-
 }

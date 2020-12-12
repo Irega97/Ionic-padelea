@@ -94,54 +94,68 @@ export class RegistroPage implements OnInit {
   }
 
   async registerGoogle(){
+    let user;
     await this.socialAuth.signIn(GoogleLoginProvider.PROVIDER_ID);
-    await this.socialAuth.authState.subscribe((user) => {
-      this.authservicio.checkemail(user.email).subscribe(data => {
-        if (!data.value){
-          let navigationExtras: NavigationExtras = {
-            state: {
-              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, firstName: user.firstName, lastName: user.lastName
-            }
-          };
-          this.router.navigate(['auth/registro/setusername'], navigationExtras);
-        }
-        else{
-          const u = {"provider": user.provider, "email": user.email}
-          this.authservicio.login(u).subscribe((jwt: Token) => {
-            this.authservicio.addToken(jwt.token);
-            this.events.publish({
-              "topic":"loginUser"
-            })
-            this.router.navigateByUrl('/principal');
-          });
-        }
-      })
+    await this.socialAuth.authState.subscribe((googleUser) => {
+      user = googleUser;
+    });
+
+    this.authservicio.checkemail(user.email).subscribe(data => {
+      if(data.value === true) { 
+        const u = {"provider": user.provider, "email": user.email}
+        this.authservicio.login(u).subscribe((jwt: Token) => {
+          this.authservicio.addToken(jwt.token);
+          this.events.publish({
+            "topic":"loginUser"
+          })
+          this.router.navigateByUrl('/principal');
+        }, error =>{
+          if (error.status = 409){
+            this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
+          }
+        });
+      }
+      else {
+        let navigationExtras: NavigationExtras = {
+          state: {
+            user: user
+          }
+        };
+        this.router.navigate(['auth/registro/setusername'], navigationExtras);
+      };
     });
   }
 
   async registerFacebook(){
+    let user;
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
-    await this.socialAuth.authState.subscribe((user) => {
-      this.authservicio.checkemail(user.email).subscribe(data => {
-        if (!data.value){
-          let navigationExtras: NavigationExtras = {
-            state: {
-              name: user.name, email: user.email, provider: user.provider, image: user.photoUrl, firstName: user.firstName, lastName: user.lastName
-            }
-          };
-          this.router.navigate(['auth/registro/setusername'], navigationExtras);
-        }
-        else{
-          const u = {"provider": user.provider, "email": user.email}
-          this.authservicio.login(u).subscribe((jwt: Token) => {
-            this.authservicio.addToken(jwt.token);
-            this.events.publish({
-              "topic":"loginUser"
-            })
-            this.router.navigateByUrl('/principal');
-          });
-        }
-      })
+    await this.socialAuth.authState.subscribe((facebookUser) => {
+      user = facebookUser;
+    });
+
+    this.authservicio.checkemail(user.email).subscribe(data => {
+      if(data.value === true) { 
+        const u = {"provider": user.provider, "email": user.email}
+        this.authservicio.login(u).subscribe((jwt: Token) => {
+          this.authservicio.addToken(jwt.token);
+          this.events.publish({
+            "topic":"loginUser"
+          })
+          this.router.navigateByUrl('/principal');
+        }, error =>{
+          if (error.status = 409){
+            this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
+          }
+        });
+      }
+      else {
+        let navigationExtras: NavigationExtras = {
+          state: {
+            user: user
+          }
+        };
+        this.router.navigate(['auth/registro/setusername'], navigationExtras);
+      };
     });
   }
 
