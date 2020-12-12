@@ -23,8 +23,8 @@ export class AuthService {
     return this.http.post<Token>(this.ruta + "register", user);
   }
 
-  checkSocialAccount(email: string): Observable<{value: boolean}>{
-    return this.http.get<any>(this.ruta + 'checkSocial/' + email);
+  checkemail(email: string): Observable<{value: boolean}>{
+    return this.http.get<any>(this.ruta + 'checkemail/' + email);
   }
 
   signout(): Observable<any> {

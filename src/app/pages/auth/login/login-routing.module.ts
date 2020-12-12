@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: LoginPage
+  },  {
+    path: 'recuperarcuenta',
+    loadChildren: () => import('./recuperarcuenta/recuperarcuenta.module').then( m => m.RecuperarcuentaPageModule)
   }
+
 ];
 
 @NgModule({

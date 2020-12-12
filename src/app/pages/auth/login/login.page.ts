@@ -45,10 +45,8 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    //this.components.presentLoading("Por favor espera...");
-    const username = this.loginform.value.username;
-    const password = this.loginform.value.password;
-    const user = {'username': username, 'password': this.authservicio.encryptPassword(password), 'provider':'formulario'};
+    //this.components.presentLoading("Conectando...");
+    const user = {'username': this.loginform.value.username, 'password': this.authservicio.encryptPassword(this.loginform.value.password), 'provider':'formulario'};
 
     this.authservicio.login(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
@@ -92,7 +90,7 @@ export class LoginPage implements OnInit {
   }
 
   recuperarPassword(){
-
+    this.router.navigate(['/auth/login/recuperarcuenta']);
   }
 
   async loginGoogle(){
@@ -102,7 +100,7 @@ export class LoginPage implements OnInit {
       user = googleUser;
     });
 
-    this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+    this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
@@ -125,10 +123,6 @@ export class LoginPage implements OnInit {
         };
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
-    }, error =>{
-      if (error.status = 409){
-        this.components.presentAlert("Este email está registrado, pero no con la red social de Facebook");
-      }      
     });
   }
 
@@ -139,7 +133,7 @@ export class LoginPage implements OnInit {
       user = facebookUser;
     });
 
-    this.authservicio.checkSocialAccount(user.email).subscribe(data => {
+    this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
         this.authservicio.login(u).subscribe((jwt: Token) => {
@@ -149,7 +143,9 @@ export class LoginPage implements OnInit {
           })
           this.router.navigateByUrl('/principal');
         }, error =>{
-
+          if (error.status = 409){
+            this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
+          }
         });
       }
       else {

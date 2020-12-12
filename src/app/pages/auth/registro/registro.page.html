@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
     <ion-title mode=ios>REGISTRO</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -62,18 +65,15 @@
         <p *ngIf="registerform.controls['confirmpassword'].hasError('required') && (registerform.controls['confirmpassword'].dirty || registerform.controls['confirmpassword'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
         <p *ngIf="!registerform.controls['confirmpassword'].hasError('required') && registerform.hasError('checkPassword') && (registerform.controls['password'].dirty || registerform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
         
-        <div class="boton">
+        <div style="text-align: center;">
           <ion-button color="secondary" (click) = "register()">
             REGISTRAR
           </ion-button>
         </div>
       </form>
 
-    <div class="boton">
+    <div style="text-align: center;">
       <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Log in!</a>
-    </div>
-
-    <div class = "boton">
       <p>
           También te puedes Registrar con las Redes Sociales:
       </p>

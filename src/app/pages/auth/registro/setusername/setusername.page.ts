@@ -3,7 +3,7 @@ import { Token } from 'src/app/models/token';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Validator } from 'src/app/models/validator'
 import { ComponentsService } from 'src/app/services/components.service';
 import { EventsService } from 'src/app/services/events.service';
@@ -16,18 +16,17 @@ import { EventsService } from 'src/app/services/events.service';
 export class SetusernamePage implements OnInit {
 
   usernameForm: FormGroup;
-  pulsado: Boolean;
+  pulsado: Boolean = false;
   user: User;
   correcto: Boolean = false;
   nombre: string;
   apellidos: string;
 
-  constructor(public formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router,
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router,
     private components: ComponentsService, private events: EventsService) {
   }
 
   ngOnInit() {
-    this.pulsado = false;
     this.usernameForm = this.formBuilder.group({
       username: ['', [Validators.required, Validator.validUsername]],
       checkname: [],

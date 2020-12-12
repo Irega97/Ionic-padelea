@@ -35,7 +35,6 @@ export class UserPage implements OnInit {
         });
         this.friendService.getFriends(this.id).subscribe(data => {
           this.friends = data.friends;
-          console.log("friends: ", data);
         })
       });
   }
@@ -45,10 +44,6 @@ export class UserPage implements OnInit {
       if(data) this.component.presentAlert("Solicitud enviada correctamente!");
       this.solicitud = true;
       this.user.friendStatus = 0;
-      console.log("status: ", status);
-      this.events.publish({
-        "topic":"status-updated"
-      });
     }, (error) => {
       console.log(error);
       this.component.presentAlert("No se ha podido añadir");
@@ -60,10 +55,6 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.id, body).subscribe(() => {
       this.component.presentAlert("Solicitud aceptada correctamente");
       this.user.friendStatus = 2;
-      console.log("status: ", status);
-      this.events.publish({
-        "topic":"status-updated"
-      });
     }, (error) => {
       console.log(error);
       this.component.presentAlert("Internal error");
@@ -75,10 +66,6 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.id, body).subscribe(() => {
       this.component.presentAlert("Solicitud rechazada");
       this.user.friendStatus = -1;
-      console.log("status: ", status);
-      this.events.publish({
-        "topic":"status-updated"
-      });
     }, (error) => {
       console.log(error);
       this.component.presentAlert("Internal error");
@@ -89,10 +76,6 @@ export class UserPage implements OnInit {
     this.friendService.delFriend(this.id).subscribe(() => {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
-      console.log("status: ", status);
-      this.events.publish({
-        "topic":"status-updated"
-      });
     }, (error) => {
       console.log(error);
       this.component.presentAlert("Internal error");

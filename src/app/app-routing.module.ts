@@ -34,7 +34,17 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+          },
+          {
+            path: 'recuperarcuenta',
+            loadChildren: () => import('./pages/auth/login/recuperarcuenta/recuperarcuenta.module').then( m => m.RecuperarcuentaPageModule)
+          }
+        ]
+        
       },
       {
         path: 'registro',

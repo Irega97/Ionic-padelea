@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title  mode=ios *ngIf="usuario">{{usuario.username}}</ion-title>
-    <ion-buttons slot="start" (click)="back()">
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>

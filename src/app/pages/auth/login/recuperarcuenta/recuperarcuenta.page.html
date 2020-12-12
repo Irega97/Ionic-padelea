@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode=ios>RECUPERAR CUENTA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-card id="card">
+    <ion-card-content>
+      <form [formGroup]="emailForm">
+        <ion-item>
+          <ion-label position="floating" color= "primary">Introduce el correo de tu cuenta:</ion-label>
+          <ion-input type="string" formControlName="email"></ion-input>
+        </ion-item>
+        <p *ngIf="emailForm.controls['email'].hasError('required') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+        <p *ngIf="!emailForm.controls['email'].hasError('required') && emailForm.controls['email'].hasError('email') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
+        <p *ngIf="!emailForm.controls['email'].hasError('required') && emailForm.controls['email'].hasError('validEmail') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched || pulsado)"><ion-label color="danger">Este email no está registrado</ion-label></p>
+      </form>
+      <div style="text-align: center;">
+        <ion-button color="secondary" (click) = "submitemail()">
+          ENVIAR EMAIL
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
