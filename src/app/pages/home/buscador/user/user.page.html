@@ -44,18 +44,18 @@
     <ion-row>
       <ion-col>
         <div style="text-align: center;">
-          <ion-button *ngIf="user.friendStatus == -1 || user.friendStatus == 0" (click)="addFriend()" [disabled] = "solicitud">
-            <ion-label *ngIf="user.friendStatus == -1"> ENVIAR SOLICITUD</ion-label>
+          <ion-button *ngIf="user.friendStatus == -1 || user.friendStatus == 0" (click)="addFriend($event)" [disabled] = "solicitud">
+            <ion-label *ngIf="user.friendStatus != 0"> ENVIAR SOLICITUD</ion-label>
             <ion-label *ngIf="user.friendStatus == 0">SOLICITUD ENVIADA</ion-label>
           </ion-button>
-          <ion-button *ngIf= "user.friendStatus == 1" (click)="acceptFriend()">
-            ACEPTAR SOLICITUD
+          <ion-button *ngIf= "user.friendStatus == 1" (click)="acceptFriend($event)" >
+            <ion-label *ngIf="user.friendStatus == 1">ACEPTAR SOLICITUD</ion-label>
           </ion-button>
-          <ion-button *ngIf= "user.friendStatus == 1" (click)="rejectFriend()">
-            RECHAZAR SOLICITUD
+          <ion-button *ngIf= "user.friendStatus == 1" (click)="rejectFriend($event)">
+            <ion-label *ngIf="user.friendStatus == 1">RECHAZAR SOLICITUD</ion-label>
           </ion-button>
-          <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend()">
-            ELIMINAR AMIGO
+          <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend($event)">
+            <ion-label *ngIf="user.friendStatus == 2">ELIMINAR AMIGO</ion-label>
           </ion-button>
         </div>
       </ion-col>

@@ -1,3 +1,4 @@
+import { EventsService } from 'src/app/services/events.service';
 import { UserService } from './../../../services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -13,13 +14,20 @@ export class BuscadorPage implements OnInit {
 
   usersSearch;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private events: EventsService) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
-      this.usersSearch = this.users;
-      
+      this.usersSearch = this.users;      
+    });
+    this.events.getObservable().subscribe((data)=> {
+      if (data.topic == "loginUser") {
+        this.userService.getUsers().subscribe((data) => {
+          this.users = data;
+          this.usersSearch = this.users;      
+        });
+      }
     });
   }
 
