@@ -1,10 +1,9 @@
 import { EventsService } from 'src/app/services/events.service';
-import { ComponentsService } from './../../../../services/components.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
-import { NumberSymbol } from '@angular/common';
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-user',

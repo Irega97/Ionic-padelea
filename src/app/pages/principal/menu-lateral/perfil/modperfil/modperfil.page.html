@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/principal"></ion-back-button>
+      <ion-back-button defaultHref="/principal/perfil"></ion-back-button>
     </ion-buttons>
     <ion-title mode=ios>MODIFICAR PERFIL</ion-title>
   </ion-toolbar>
@@ -40,9 +40,10 @@
         <ion-label position="floating" color = "primary">Email*:</ion-label>
         <ion-input type="string" formControlName="email"></ion-input>
       </ion-item>
+      <p *ngIf="updateform.controls['email'].hasError('required') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
       <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('email') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
-      <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('validUsername') && (updateform.controls['email'].dirty || updateform.controls['email].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
-
+      <p *ngIf="!updateform.controls['email'].hasError('required') && updateform.controls['email'].hasError('validEmail') && (updateform.controls['email'].dirty || updateform.controls['email'].touched || pulsado)"><ion-label color="danger">Debes introducir un email válido</ion-label></p>
+      
       <ion-item>
         <ion-label position="floating" color = "primary">Contraseña:</ion-label>
           <ion-input [type]="passwordinput" formControlName="password"></ion-input>

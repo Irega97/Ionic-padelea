@@ -32,7 +32,7 @@ export class SetusernamePage implements OnInit {
     });
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user =  this.router.getCurrentNavigation().extras.state.user;
-      console.log(this.user);
+      this.user.image = this.router.getCurrentNavigation().extras.state.user.photoUrl;
     }
   }
 
@@ -59,9 +59,5 @@ export class SetusernamePage implements OnInit {
         this.usernameForm.controls.username.setErrors({validUsername: true});
       }
     });
-  }
-
-  goLogin(){
-    this.router.navigate(['/auth/login']);
   }
 }

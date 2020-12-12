@@ -15,11 +15,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./pages/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
+        loadChildren: () => import('./pages/principal/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
       },
       {
         path: 'perfil',
-        loadChildren: () => import('./pages/home/perfil/perfil.module').then( m => m.PerfilPageModule)
+        loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then( m => m.PerfilPageModule)
+      },
+      {
+        path: 'sobrenosotros',
+        loadChildren: () => import('./pages/principal/menu-lateral/sobrenosotros/sobrenosotros.module').then( m => m.SobrenosotrosPageModule)
       }
     ]
   },
@@ -60,7 +64,7 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

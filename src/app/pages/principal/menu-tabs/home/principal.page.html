@@ -4,6 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title mode=ios>GRUPO 1 EA</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="notifications-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -47,6 +50,12 @@
         <ion-item (click) = "goAmigos()">
           <ion-button fill = "clear" expand = "full">
             Amigos
+            <ion-icon slot="start" name="people"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item (click) = "goInfo()">
+          <ion-button fill = "clear" expand = "full">
+            Sobre Nosotros
             <ion-icon slot="start" name="people"></ion-icon>
           </ion-button>
         </ion-item>

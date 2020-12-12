@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
 import { Socket } from 'ngx-socket-io';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-principal',
@@ -16,7 +17,7 @@ export class PrincipalPage implements OnInit {
   usuario: User;
   usuarios: User[];
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
-    private socket: Socket) { }
+    private socket: Socket, private menu: MenuController) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe((data:any) => {
@@ -41,10 +42,15 @@ export class PrincipalPage implements OnInit {
     }) 
   }
 
+  ionViewWillLeave(){
+    this.menu.close('first');
+  }
+
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
       this.socket.disconnect();
+      this.menu.close('first');
       this.router.navigate(['/auth/login']);
     })
   }
@@ -55,18 +61,24 @@ export class PrincipalPage implements OnInit {
         user: this.usuario
       }
     };
-      this.router.navigate(['/principal/perfil'], navigationExtras);
+    this.menu.close('first');
+    this.router.navigate(['/principal/perfil'], navigationExtras);
   }
 
   goTorneos(){
-
+    this.menu.close('first');
   }
 
   goPartidos(){
-
+    this.menu.close('first');
   }
 
   goAmigos(){
-    
+    this.menu.close('first');
+  }
+
+  goInfo(){
+    this.menu.close('first');
+    this.router.navigate(['/principal/sobrenosotros']);
   }
 }

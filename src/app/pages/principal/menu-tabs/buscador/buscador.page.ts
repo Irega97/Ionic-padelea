@@ -1,6 +1,6 @@
 import { EventsService } from 'src/app/services/events.service';
-import { UserService } from './../../../services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({

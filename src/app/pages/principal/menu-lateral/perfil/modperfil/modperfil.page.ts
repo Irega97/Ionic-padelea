@@ -59,10 +59,10 @@ export class ModperfilPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    //this.updateform.reset();
     this.pulsado = false;
     this.userService.getMyUser().subscribe(data => {
       this.user = data;
-      this.updateform.reset();
       if (this.user.provider == "formulario"){
         this.providerform = true;
       }
@@ -82,7 +82,7 @@ export class ModperfilPage implements OnInit {
       name: nombre, 
       firstName: this.updateform.value.nombre, 
       lastName: this.updateform.value.nombre, 
-      username: this.updateform.value.name,
+      username: this.updateform.value.username,
       image: this.user.image, 
       email: this.user.email,
       password: "",
@@ -107,8 +107,8 @@ export class ModperfilPage implements OnInit {
       this.router.navigate(['/principal']);
     }, error => {
       if (error.status = 409){
-        this.updateform.get('checkusername').setValue(this.updateform.value.name);
-        this.updateform.controls.name.setErrors({validUsername: true});
+        this.updateform.get('checkusername').setValue(this.updateform.value.username);
+        this.updateform.controls.username.setErrors({validUsername: true});
       }
       else if (error.status = 410){
         this.updateform.get('checkemail').setValue(this.updateform.value.email);

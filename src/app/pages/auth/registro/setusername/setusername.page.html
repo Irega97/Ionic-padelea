@@ -13,7 +13,7 @@
       <div *ngIf="user; else noUser">
         <ion-item>
           <ion-avatar slot = "start">
-            <ion-img [src]="user.photoUrl"></ion-img>
+            <ion-img [src]="user.image"></ion-img>
           </ion-avatar>
           <ion-label>
             <h2>{{user.name}}</h2>
@@ -41,8 +41,8 @@
             <ion-label color="danger">Si te estás intentando registrar con una red social y sigue apareciendo el mensaje anterior, ves a la página de login, refresca la página y vuelve a intentarlo</ion-label>
           </p>
           <p>
-            <ion-button color="secondary" (click) = "goLogin()">
-              VOLVER A LA PÁGINA DE INICIO
+            <ion-button color="secondary">
+              <ion-back-button defaultHref="/auth/registro"></ion-back-button>VOLVER A LA PÁGINA DE REGISTRO
             </ion-button>
           </p>
         </div>

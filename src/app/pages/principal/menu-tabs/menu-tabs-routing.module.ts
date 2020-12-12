@@ -1,4 +1,3 @@
-import { AuthGuard } from './../../shared/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -11,11 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/principal/principal.module').then(m => m.PrincipalPageModule)
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/home/principal.module').then(m => m.PrincipalPageModule)
       },
       {
         path: 'search',
-        loadChildren: () => import('../home/buscador/buscador.module').then(m => m.BuscadorPageModule)
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/buscador/buscador.module').then(m => m.BuscadorPageModule)
+      },
+      {
+        path: 'chats',
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/chats/chat.module').then(m => m.ChatPageModule)
       },
       {
         path: '',
@@ -28,7 +31,12 @@ const routes: Routes = [
     path: '',
     redirectTo: '/principal/home',
     pathMatch: 'full'
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chats/chat.module').then( m => m.ChatPageModule)
   }
+
 ];
 
 @NgModule({
