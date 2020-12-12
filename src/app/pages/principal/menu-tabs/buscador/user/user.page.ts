@@ -34,6 +34,7 @@ export class UserPage implements OnInit {
         });
         this.friendService.getFriends(this.id).subscribe(data => {
           this.friends = data.friends;
+          console.log(this.friends);
         })
       });
   }
