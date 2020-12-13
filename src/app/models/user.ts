@@ -1,4 +1,5 @@
 export interface User {
+    _id: string;
     name: string;
     firstName: string;
     lastName: string;
@@ -9,5 +10,6 @@ export interface User {
     online : boolean;
     public: boolean;
     provider: string;
-    friends: User[];
+    friends: [];
+    notifications: Notification[];
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { User } from 'src/app/models/user'
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
@@ -32,6 +32,11 @@ export class PerfilPage implements OnInit {
 }
 
   modificar(){
-    this.router.navigate(['/principal/perfil/modperfil']);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        user: this.usuario
+      }
+    };
+    this.router.navigate(['/principal/perfil/modperfil'], navigationExtras);
   }
 }

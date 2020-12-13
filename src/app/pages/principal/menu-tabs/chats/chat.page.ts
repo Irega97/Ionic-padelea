@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
+import { ToastController } from '@ionic/angular';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-chat',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatPage implements OnInit {
 
-  constructor() { }
+  message = '';
+  messages= []; 
+
+  constructor( private eventService: EventsService ) { }
 
   ngOnInit() {
   }
-
 }

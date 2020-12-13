@@ -16,7 +16,6 @@ export class ModperfilPage implements OnInit {
 
   updateform: FormGroup;
   user: User;
-  nombre: string;
   pulsado: Boolean = false;
   providerform: Boolean;
 
@@ -29,49 +28,56 @@ export class ModperfilPage implements OnInit {
     private events: EventsService) { }
 
   ngOnInit() {
-    this.userService.getMyUser().subscribe(data => {
-      this.user = data;
-      if (this.user.provider == "formulario"){
-        this.updateform = this.formBuilder.group({
-          username: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkusername: [],
-          nombre: [this.user.firstName, Validators.required],
-          apellidos: [this.user.lastName, Validators.required],
-          password: ['', Validators.required],
-          confirmpassword: ['', Validators.required],
-          //image: ['', Validators.nullValidator],
-          email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-          checkemail: []
-        }, {validator: Validator.checkPassword});
-        this.providerform = true;
+    if (this.router.getCurrentNavigation().extras.state != undefined){
+      this.user = this.router.getCurrentNavigation().extras.state.user;
+      this.crearFormulario();
+    }
+
+    else{
+      this.userService.getMyUser().subscribe(data => {
+        this.user = data;
+        this.crearFormulario();
+      })
+    }
+
+    this.events.getObservable().subscribe(data=>{
+      if (data.topic == "updateUser"){
+        this.user = data.user;
       }
-      else{
-        this.updateform = this.formBuilder.group({
-          username: [this.user.username, [Validators.required, Validator.validUsername]],
-          checkusername: [],
-          //image: ['', Validators.nullValidator],
-          nombre: [this.user.firstName, Validators.required],
-          apellidos: [this.user.lastName, Validators.required]
-        })
-        this.providerform = false;
-      }
-  })
+    })
   }
 
   ionViewWillEnter(){
-    //this.updateform.reset();
     this.pulsado = false;
-    this.userService.getMyUser().subscribe(data => {
-      this.user = data;
-      if (this.user.provider == "formulario"){
-        this.providerform = true;
-      }
-      else{
-        this.providerform = false;
-        }
-      });
   }
 
+  crearFormulario(){
+    if (this.user.provider == "formulario"){
+      this.updateform = this.formBuilder.group({
+        username: [this.user.username, [Validators.required, Validator.validUsername]],
+        checkusername: [],
+        nombre: [this.user.firstName, Validators.required],
+        apellidos: [this.user.lastName, Validators.required],
+        password: ['', Validators.required],
+        confirmpassword: ['', Validators.required],
+        //image: ['', Validators.nullValidator],
+        email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
+        checkemail: []
+      }, {validator: Validator.checkPassword});
+      this.providerform = true;
+    }
+    else{
+      console.log(this.user);
+      this.updateform = this.formBuilder.group({
+        username: [this.user.username, [Validators.required, Validator.validUsername]],
+        checkusername: [],
+        //image: ['', Validators.nullValidator],
+        nombre: [this.user.firstName, Validators.required],
+        apellidos: [this.user.lastName, Validators.required]
+      })
+      this.providerform = false;
+    }
+  }
   update(){
     this.pulsado = true;
     if (this.updateform.invalid){
@@ -99,7 +105,6 @@ export class ModperfilPage implements OnInit {
     }
 
     this.userService.update(userupdate).subscribe((data) => {
-      console.log("Update de: ", data);
       this.events.publish({
         "topic": "updateUser",
         "user": userupdate
