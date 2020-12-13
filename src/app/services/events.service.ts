@@ -8,7 +8,6 @@ import {Subject} from "rxjs";
 })
 export class EventsService {
 
-  private conectado: Boolean = false;
   constructor(private socket: Socket) { }
 
   private dataSubject = new Subject<any>();
@@ -25,7 +24,6 @@ export class EventsService {
     this.socket.connect();
     let data = {"id": id, "username": username};
     this.socket.emit('nuevoConectado', data); 
-    this.conectado = true;
     this.socket.fromEvent('nuevoConectado').subscribe(data =>{
       this.publish({
         "topic": "nuevoConectado",

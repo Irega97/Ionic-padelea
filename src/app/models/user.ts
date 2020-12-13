@@ -11,5 +11,5 @@ export interface User {
     public: boolean;
     provider: string;
     friends: [];
-    notifications: [];
+    notifications: Notification[];
 }

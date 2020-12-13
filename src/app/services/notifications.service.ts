@@ -11,7 +11,7 @@ export class NotificationsService {
   ruta = environment.apiURL + "/notifications/"
   constructor(private http: HttpClient) { }
 
-  getNumberNotifications(): Observable<any>{
-    return this.http.get<any>(this.ruta + "all");
+  getMyNotifications(): Observable<any>{
+    return this.http.get<any>(this.ruta + "me");
   }
 }

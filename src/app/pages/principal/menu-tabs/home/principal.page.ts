@@ -16,16 +16,19 @@ export class PrincipalPage implements OnInit {
 
   usuario: User;
   usuarios: User[];
+  numNotificaciones: number;
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
     private menu: MenuController, private notificationsService: NotificationsService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe((data:any) => {
       this.usuario = data;
-      this.notificationsService.getNumberNotifications().subscribe(data =>{
-        this.usuario.notifications = data.notifications;
-      })
       this.events.connectSocket(data._id, data.username);
+    });
+
+    this.notificationsService.getMyNotifications().subscribe(data =>{
+      this.usuario.notifications = data.notifications;
+      this.numNotificaciones = this.usuario.notifications.length;
     });
 
     this.events.getObservable().subscribe((data)=> {
@@ -33,6 +36,11 @@ export class PrincipalPage implements OnInit {
         this.usuario = data.user;
       }
       else if (data.topic == "loginUser"){
+        this.notificationsService.getMyNotifications().subscribe(data =>{
+          this.usuario.notifications = data.notifications;
+          this.numNotificaciones = this.usuario.notifications.length;
+        });
+        
         this.userService.getMyUser().subscribe((data:any) => {
           this.usuario = data;
           this.events.connectSocket(data._id, data.username);
