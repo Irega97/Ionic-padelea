@@ -17,15 +17,15 @@ export class UserService {
     return this.http.get<User[]>(this.ruta + "all");
   }
 
-  getUser(id: String): Observable<JSON> {
-    return this.http.get<JSON>(this.ruta + id);
+  getUser(id: String): Observable<User> {
+    return this.http.get<User>(this.ruta + id);
   }
 
   getMyUser(): Observable<User> {
     return this.http.get<User>(this.ruta + "me");
   }
 
-  update(user: User): Observable<Token> {
+  update(user): Observable<Token> {
     return this.http.post<Token>(this.ruta + "me", user);
   }
 

@@ -4,8 +4,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user'
 import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
-import { Socket } from 'ngx-socket-io';
 import { MenuController } from '@ionic/angular';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-principal',
@@ -17,14 +17,15 @@ export class PrincipalPage implements OnInit {
   usuario: User;
   usuarios: User[];
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
-    private socket: Socket, private menu: MenuController) { }
+    private menu: MenuController, private notificationsService: NotificationsService) { }
 
   ngOnInit() {
     this.userService.getMyUser().subscribe((data:any) => {
       this.usuario = data;
-      this.socket.connect();
-      let username = {"id": data._id, "username": this.usuario.username};
-      this.socket.emit('set-name', username); 
+      this.notificationsService.getNumberNotifications().subscribe(data =>{
+        this.usuario.notifications = data.notifications;
+      })
+      this.events.connectSocket(data._id, data.username);
     });
 
     this.events.getObservable().subscribe((data)=> {
@@ -34,9 +35,11 @@ export class PrincipalPage implements OnInit {
       else if (data.topic == "loginUser"){
         this.userService.getMyUser().subscribe((data:any) => {
           this.usuario = data;
-          this.socket.connect();
-          let username = {"id": data._id, "username": this.usuario.username};
-          this.socket.emit('set-name', username); 
+          this.events.connectSocket(data._id, data.username);
+          this.events.publish({
+            "topic": "updateUser",
+            "user": this.usuario
+          })
         });
       }
     }) 
@@ -49,7 +52,7 @@ export class PrincipalPage implements OnInit {
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
-      this.socket.disconnect();
+      this.events.disconnectSocket();
       this.menu.close('first');
       this.router.navigate(['/auth/login']);
     })

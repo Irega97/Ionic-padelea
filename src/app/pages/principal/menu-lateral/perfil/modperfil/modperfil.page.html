@@ -23,11 +23,13 @@
           <ion-label position="floating" color = "primary">Nombre*:</ion-label>
           <ion-input type="string" formControlName="nombre"></ion-input>
         </ion-item>
+        <p *ngIf="updateform.controls['nombre'].hasError('required') && (updateform.controls['nombre'].dirty || updateform.controls['nombre'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
 
         <ion-item>
           <ion-label position="floating" color = "primary">Apellidos*:</ion-label>
           <ion-input type="string" formControlName="apellidos"></ion-input>
         </ion-item>
+        <p *ngIf="updateform.controls['apellidos'].hasError('required') && (updateform.controls['apellidos'].dirty || updateform.controls['apellidos'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
 
     <!--
         <ion-item>

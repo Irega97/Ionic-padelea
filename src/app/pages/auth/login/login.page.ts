@@ -56,13 +56,12 @@ export class LoginPage implements OnInit {
       //this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
+      //this.components.dismissLoading();
       if (error.status == 404){
-       //this.components.dismissLoading();
         this.loginform.get('checkusername').setValue(this.loginform.value.username);
         this.loginform.controls.username.setErrors({validUsername: true});
       }
       else if (error.status == 409){
-        //this.components.dismissLoading();
         this.loginform.get('password').setValue('');
         this.loginform.controls.password.setErrors({validUsername: true});
       }

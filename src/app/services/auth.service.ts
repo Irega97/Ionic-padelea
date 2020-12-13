@@ -18,7 +18,7 @@ export class AuthService {
     return this.http.post<Token>(this.ruta + "login", user);
   }
 
-  register(user: User): Observable<Token> {
+  register(user): Observable<Token> {
     return this.http.post<Token>(this.ruta + "register", user);
   }
 

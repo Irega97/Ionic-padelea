@@ -15,7 +15,6 @@ export class ChatPage implements OnInit {
   constructor(private socket: Socket, private toastCtrl: ToastController ) { }
 
   ngOnInit() {
-
     this.socket.connect();
   }
   
@@ -23,9 +22,8 @@ export class ChatPage implements OnInit {
     this.socket.emit('send-message', { text: this.message });
     this.message = '';
   }
+
   ionViewWillLeave() {
     this.socket.disconnect();
   }
-
-
 }

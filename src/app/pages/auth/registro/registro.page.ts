@@ -56,7 +56,8 @@ export class RegistroPage implements OnInit {
     if (this.registerform.invalid){
       return;
     }
-
+    
+    //this.components.presentLoading("Conectando...");
     let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellidos;
     let user = {
       name : nombre,
@@ -76,8 +77,10 @@ export class RegistroPage implements OnInit {
       this.events.publish({
         "topic":"loginUser"
       })
+      //this.components.dismissLoading()
       this.router.navigate(['/principal']);
     }, error => {
+      //this.components.dismissLoading()
       if (error.status == 409){
         this.registerform.get('checkusername').setValue(this.registerform.value.username);
         this.registerform.controls.username.setErrors({validUsername: true});
