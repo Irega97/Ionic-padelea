@@ -8,6 +8,8 @@ import {Subject} from "rxjs";
 })
 export class EventsService {
 
+  message = '';
+
   constructor(private socket: Socket) { }
 
   private dataSubject = new Subject<any>();
@@ -35,4 +37,16 @@ export class EventsService {
   public disconnectSocket(){
     this.socket.disconnect();
   }
+
+  public createChatRoom(chatId : String){
+
+    this.socket.emit('nuevaSala', chatId)
+
+  }
+
+  public sendMessage() {
+    this.socket.emit('send-message', { text: this.message });
+    this.message = '';
+  }
+
 }
