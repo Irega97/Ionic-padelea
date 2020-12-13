@@ -64,7 +64,8 @@ const routes: Routes = [
         ]
       }
     ]
-  },
+  }
+
 ];
 
 @NgModule({
