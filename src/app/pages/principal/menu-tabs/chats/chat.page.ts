@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ToastController } from '@ionic/angular';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-chat',
@@ -12,18 +13,8 @@ export class ChatPage implements OnInit {
   message = '';
   messages= []; 
 
-  constructor(private socket: Socket, private toastCtrl: ToastController ) { }
+  constructor( private eventService: EventsService ) { }
 
   ngOnInit() {
-    this.socket.connect();
-  }
-  
-  sendMessage() {
-    this.socket.emit('send-message', { text: this.message });
-    this.message = '';
-  }
-
-  ionViewWillLeave() {
-    this.socket.disconnect();
   }
 }
