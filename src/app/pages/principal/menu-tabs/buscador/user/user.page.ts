@@ -21,7 +21,6 @@ export class UserPage implements OnInit {
   friends;
 
   ngOnInit() {
-      
       this.route.paramMap.subscribe(paramMap => {
         this.id = paramMap.get('id');
         this.userService.getUser(this.id).subscribe(data =>{

@@ -96,6 +96,11 @@ export class PrincipalPage implements OnInit {
 
   goNotificaciones(){
     this.menu.close('first');
-    this.router.navigate(['/principal/notificaciones']);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        notifications: this.usuario.notifications
+      }
+    };
+    this.router.navigate(['/principal/notificaciones'], navigationExtras);
   }
 }
