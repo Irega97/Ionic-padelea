@@ -32,6 +32,12 @@ export class EventsService {
         "user": data
       })
     });
+    this.socket.fromEvent('newNotification').subscribe(data =>{
+      this.publish({
+        "topic": "nuevaNotificacion",
+        "notification": data
+      });
+    })
   }
 
   public disconnectSocket(){

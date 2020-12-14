@@ -32,6 +32,9 @@
           <ion-button color="secondary" (click) = "submitUsername()">
             REGISTRAR
           </ion-button>
+          <p>
+            <ion-label>¿Ya tienes una cuenta?</ion-label><a (click)="goLogin()">¡Log in!</a>
+          </p>
         </div>
       </div>
       <ng-template #noUser>
@@ -42,7 +45,7 @@
           </p>
           <p>
             <ion-button color="secondary">
-              <ion-back-button defaultHref="/auth/registro"></ion-back-button>VOLVER A LA PÁGINA DE REGISTRO
+              <ion-back-button defaultHref="/auth/registro"></ion-back-button>
             </ion-button>
           </p>
         </div>

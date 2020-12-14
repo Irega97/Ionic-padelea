@@ -28,7 +28,7 @@ export class SetusernamePage implements OnInit {
   ngOnInit() {
     this.usernameForm = this.formBuilder.group({
       username: ['', [Validators.required, Validator.validUsername]],
-      checkname: [],
+      checkusername: [],
     });
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user =  this.router.getCurrentNavigation().extras.state.user;
@@ -39,6 +39,10 @@ export class SetusernamePage implements OnInit {
   ionViewWillEnter(){
     this.pulsado = false;
     this.usernameForm.reset();
+  }
+
+  goLogin(){
+    this.router.navigate(['/auth/login']);
   }
 
   submitUsername() {
@@ -57,7 +61,7 @@ export class SetusernamePage implements OnInit {
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){
-        this.usernameForm.get('checkname').setValue(this.usernameForm.value.username);
+        this.usernameForm.get('checkusername').setValue(this.usernameForm.value.username);
         this.usernameForm.controls.username.setErrors({validUsername: true});
         //this.components.dismissLoading();
       }
