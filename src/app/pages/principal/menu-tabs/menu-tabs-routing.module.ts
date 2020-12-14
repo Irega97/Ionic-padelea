@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('src/app/pages/principal/menu-tabs/chats/chat.module').then(m => m.ChatPageModule)
       },
       {
+        path: 'torneos',
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/torneos/torneos.module').then( m => m.TorneosPageModule)
+      },
+      {
         path: '',
         redirectTo: '/principal/home',
         pathMatch: 'full'
@@ -35,7 +39,12 @@ const routes: Routes = [
   {
     path: 'chat',
     loadChildren: () => import('./chats/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'torneos',
+    loadChildren: () => import('./torneos/torneos.module').then( m => m.TorneosPageModule)
   }
+
 
 ];
 

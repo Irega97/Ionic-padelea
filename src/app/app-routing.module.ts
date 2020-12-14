@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       {
+        path: 'amigos',
+        loadChildren: () => import('./pages/principal/menu-lateral/amigos/amigos.module').then( m => m.AmigosPageModule)
+      },
+      {
         path: 'sobrenosotros',
         loadChildren: () => import('./pages/principal/menu-lateral/sobrenosotros/sobrenosotros.module').then(m => m.SobrenosotrosPageModule)
       },
@@ -68,7 +72,7 @@ const routes: Routes = [
         ]
       }
     ]
-  },
+  }
 ];
 
 @NgModule({

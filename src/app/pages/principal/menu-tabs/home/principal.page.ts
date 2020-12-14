@@ -86,6 +86,7 @@ export class PrincipalPage implements OnInit {
 
   goAmigos(){
     this.menu.close('first');
+    this.router.navigate(['/principal/amigos']);
   }
 
   goInfo(){
