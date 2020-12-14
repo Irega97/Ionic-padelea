@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title mode=ios>GRUPO 1 EA</ion-title>
-    <ion-buttons slot="end" class="badge-button">
+    <ion-buttons slot="end" class="badge-button" (click) = "goNotificaciones()">
       <ion-icon size="large" name="notifications-outline"></ion-icon>
       <ion-badge *ngIf="numNotificaciones > 0"class="badge-one" color="danger">{{numNotificaciones}}</ion-badge>
     </ion-buttons>

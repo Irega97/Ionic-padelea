@@ -29,6 +29,9 @@ export class UserPage implements OnInit {
           if (this.user.friendStatus == -1){
             this.solicitud = false;
           }
+          else if (this.user.friendStatus == 0){
+            this.solicitud = true;
+          }
         }, error => {
           console.log(error);
         });

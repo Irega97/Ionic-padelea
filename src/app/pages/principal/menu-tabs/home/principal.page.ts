@@ -16,7 +16,7 @@ export class PrincipalPage implements OnInit {
 
   usuario: User;
   usuarios: User[];
-  numNotificaciones: number;
+  numNotificaciones: number = 0;
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
     private menu: MenuController, private notificationsService: NotificationsService) { }
 
@@ -91,5 +91,10 @@ export class PrincipalPage implements OnInit {
   goInfo(){
     this.menu.close('first');
     this.router.navigate(['/principal/sobrenosotros']);
+  }
+
+  goNotificaciones(){
+    this.menu.close('first');
+    this.router.navigate(['/principal/notificaciones']);
   }
 }

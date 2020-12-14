@@ -19,11 +19,15 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
-        loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then( m => m.PerfilPageModule)
+        loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       {
         path: 'sobrenosotros',
-        loadChildren: () => import('./pages/principal/menu-lateral/sobrenosotros/sobrenosotros.module').then( m => m.SobrenosotrosPageModule)
+        loadChildren: () => import('./pages/principal/menu-lateral/sobrenosotros/sobrenosotros.module').then(m => m.SobrenosotrosPageModule)
+      },
+      {
+        path: 'notificaciones',
+        loadChildren: () => import('./pages/principal/menu-tabs/home/notificaciones/notificaciones.module').then(m => m.NotificacionesPageModule)
       }
     ]
   },
