@@ -78,6 +78,7 @@ export class PrincipalPage implements OnInit {
 
   goTorneos(){
     this.menu.close('first');
+    this.router.navigate(['/principal/my-torneos']);
   }
 
   goPartidos(){

@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then(m => m.PerfilPageModule)
       },
       {
+        path: 'my-torneos',
+        loadChildren: () => import('./pages/principal/menu-lateral/torneos/torneos.module').then( m => m.TorneosPageModule)
+      },
+      //PATH PARTIDOS
+      {
         path: 'amigos',
         loadChildren: () => import('./pages/principal/menu-lateral/amigos/amigos.module').then( m => m.AmigosPageModule)
       },
@@ -73,6 +78,7 @@ const routes: Routes = [
       }
     ]
   }
+
 ];
 
 @NgModule({
