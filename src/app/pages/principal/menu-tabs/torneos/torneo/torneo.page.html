@@ -1,0 +1,47 @@
+<ion-header *ngIf="torneo">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{torneo.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="torneo">
+  <ion-grid class = "ion-no-padding">
+    <ion-row>
+      <ion-col class = "ion-no-padding">
+      <!-- <ion-avatar>
+        <ion-img [src]="torneo.image"></ion-img>
+      </ion-avatar> -->
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <h4> JUGADORES</h4>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list *ngIf="players && players.length > 0; else noPlayers">
+          <ion-item *ngFor="let player of players" [routerLink] = "['/principal/search/user', player.user._id]">
+            <ion-avatar slot="start">
+              <ion-img [src]="player.user.image"></ion-img>
+            </ion-avatar>
+            <ion-label>{{player.user.name}}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ng-template #noPlayers>
+          <ion-text>
+            <p class ="ion-text-center">Aún no se ha unido nadie</p>
+          </ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div style="text-align: center;">
+          <ion-button (click)="joinTorneo()">
+            <ion-label>UNIRTE</ion-label>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>

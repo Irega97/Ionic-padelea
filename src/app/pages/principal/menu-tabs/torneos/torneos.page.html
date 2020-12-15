@@ -1,9 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>torneos</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title mode=ios>TORNEOS</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
+  <ion-list *ngIf = "torneos && torneosSearch.length > 0; else noTorneos">
+    <ion-item *ngFor="let torneo of torneosSearch" [routerLink] = "['/principal/torneos/torneo', torneo._id]">
+      <!-- <ion-avatar slot="start">
+        <ion-img [src]="user.image"></ion-img>
+      </ion-avatar> -->
+      <ion-label>
+        {{torneo.name}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-template #noTorneos>
+    <ion-text>
+      <p class ="ion-text-center">No hay torneos disponibles</p>
+    </ion-text>
+  </ng-template>
+    <div>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [routerLink] = "['/principal/torneos/new']">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
 
 </ion-content>

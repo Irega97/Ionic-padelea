@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="torneoForm">
+    <ion-item>
+      <ion-label position="floating" color= "primary">nombre del Torneo:</ion-label>
+      <!-- <ion-label position="floating" color= "primary">Descripcion de torneo:</ion-label> -->
+      <ion-input type="string" formControlName="name"></ion-input>
+    </ion-item>
+   <!--  <ion-item>
+      <ion-label position="floating" color= "primary">Descripcion de torneo:</ion-label> 
+      <ion-input type="string" formControlName="name"></ion-input>
+    </ion-item> -->
+    <!--  <ion-item>
+      <ion-label position="floating" color= "primary">Numero de participantes: </ion-label> 
+      <ion-input type="string" formControlName="name"></ion-input>
+    </ion-item> -->
+
+    <div style="text-align: center;">
+      <ion-button color="secondary" (click) = "submitTorneo()">Crear Torneo</ion-button>
+    </div>
+  </form>
+  
+  
+</ion-content>

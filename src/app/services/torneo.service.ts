@@ -30,6 +30,6 @@ export class TorneoService {
   
   
   joinTorneo(idTorneo: string): Observable<any> {
-    return this.http.post<JSON>(this.ruta + idTorneo, null);
+    return this.http.post<any>(this.ruta + 'join/' + idTorneo, null);
   }
 }
