@@ -32,9 +32,9 @@ export class NewTorneoPage implements OnInit {
     }
     this.torneoService.createTorneo(data).subscribe((data)=>{
       if(data != null) {
-        this.events.publish("new-torneo");
         this.components.presentAlert("Torneo creado con éxito");
         this.router.navigateByUrl('principal/torneos');
+        this.events.publish({"topic":"new-torneo"});
       }
     });
   }

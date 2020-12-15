@@ -16,6 +16,13 @@
       </ion-avatar> -->
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="isAdmin==true">
+      <ion-col style="text-align: center;">
+        <ion-button (click)="goAdmin()">
+          <ion-label> ADMINISTRAR</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <h4> JUGADORES</h4>
     </ion-row>
@@ -39,7 +46,7 @@
     <ion-row>
       <ion-col>
         <div style="text-align: center;">
-          <ion-button (click)="joinTorneo()">
+          <ion-button *ngIf="joined==false" (click)="joinTorneo()">
             <ion-label>UNIRTE</ion-label>
           </ion-button>
         </div>
