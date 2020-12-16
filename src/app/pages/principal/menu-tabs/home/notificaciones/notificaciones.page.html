@@ -8,9 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf= "notifications">
+  <ion-list *ngIf= "notifications && notifications.length > 0; else noNotifications">
     <ion-item *ngFor= "let notification of notifications" (click) = "goNotification(notification)">
       <ion-label>{{notification.description}}</ion-label>
     </ion-item>
   </ion-list>
+  <ng-template #noNotifications>
+    <ion-text>
+      <p class ="ion-text-center">No hay notificaciones pendientes</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

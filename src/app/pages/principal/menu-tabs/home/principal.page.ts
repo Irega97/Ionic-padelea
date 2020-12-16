@@ -36,11 +36,6 @@ export class PrincipalPage implements OnInit {
         this.usuario = data.user;
       }
       else if (data.topic == "loginUser"){
-        this.notificationsService.getMyNotifications().subscribe(data =>{
-          this.usuario.notifications = data.notifications;
-          this.numNotificaciones = this.usuario.notifications.length;
-        });
-        
         this.userService.getMyUser().subscribe((data:any) => {
           this.usuario = data;
           this.events.connectSocket(data._id, data.username);
@@ -48,6 +43,11 @@ export class PrincipalPage implements OnInit {
             "topic": "updateUser",
             "user": this.usuario
           })
+        });
+
+        this.notificationsService.getMyNotifications().subscribe(data =>{
+          this.usuario.notifications = data.notifications;
+          this.numNotificaciones = this.usuario.notifications.length;
         });
       }
     }) 
@@ -102,6 +102,7 @@ export class PrincipalPage implements OnInit {
         notifications: this.usuario.notifications
       }
     };
+    console.log("Notifications to: ", this.usuario.notifications);
     this.router.navigate(['/principal/notificaciones'], navigationExtras);
   }
 }
