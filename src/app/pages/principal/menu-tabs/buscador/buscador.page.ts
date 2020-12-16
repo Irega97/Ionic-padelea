@@ -40,9 +40,7 @@ export class BuscadorPage implements OnInit {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {
       this.usersSearch = this.users.filter((user)=>{
-        //console.log("q: " +user.username, user.username.indexOf(query));
         if(user.username && query != ''){
-          console.log("P ", user);
           return (user.username.toLowerCase().indexOf(query) > -1)
         }
         else return user;

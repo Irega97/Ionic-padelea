@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
 import { MenuController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { Notification } from 'src/app/models/notification';
 
 @Component({
   selector: 'app-principal',
@@ -21,7 +22,7 @@ export class PrincipalPage implements OnInit {
     private menu: MenuController, private notificationsService: NotificationsService) { }
 
   ngOnInit() {
-    this.userService.getMyUser().subscribe((data:any) => {
+    this.userService.getMyUser().subscribe(data => {
       this.usuario = data;
       this.events.connectSocket(data._id, data.username);
     });
@@ -36,7 +37,7 @@ export class PrincipalPage implements OnInit {
         this.usuario = data.user;
       }
       else if (data.topic == "loginUser"){
-        this.userService.getMyUser().subscribe((data:any) => {
+        this.userService.getMyUser().subscribe(data => {
           this.usuario = data;
           this.events.connectSocket(data._id, data.username);
           this.events.publish({
@@ -49,6 +50,15 @@ export class PrincipalPage implements OnInit {
           this.usuario.notifications = data.notifications;
           this.numNotificaciones = this.usuario.notifications.length;
         });
+      }
+      else if (data.topic == "deleteNotification"){
+        this.numNotificaciones--;
+        this.usuario.notifications = this.usuario.notifications.filter(notification =>{
+          if(notification.type == data.notification.type && notification.origen == data.notification.origen){
+            let i = this.usuario.notifications.indexOf(notification);
+            this.usuario.notifications.splice(i, 1);
+          }
+        })
       }
     }) 
   }
