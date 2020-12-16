@@ -1,6 +1,6 @@
 import { EventsService } from 'src/app/services/events.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -13,12 +13,13 @@ import { ComponentsService } from 'src/app/services/components.service';
 export class UserPage implements OnInit {
 
   constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, 
-              private component: ComponentsService, private events: EventsService) { }
+              private component: ComponentsService, private events: EventsService, private router: Router) { }
 
   user;
   id;
   solicitud: Boolean
   friends;
+  notification: Notification;
 
   ngOnInit() {
       this.route.paramMap.subscribe(paramMap => {
@@ -45,9 +46,6 @@ export class UserPage implements OnInit {
       if(data) this.component.presentAlert("Solicitud enviada correctamente!");
       this.solicitud = true;
       this.user.friendStatus = 0;
-    }, (error) => {
-      console.log(error);
-      this.component.presentAlert("No se ha podido añadir");
     });
   }
 
@@ -56,9 +54,11 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.id, body).subscribe(() => {
       this.component.presentAlert("Solicitud aceptada correctamente");
       this.user.friendStatus = 2;
-    }, (error) => {
-      console.log(error);
-      this.component.presentAlert("Internal error");
+      let notification = {"type":"Amigos", "origen": this.id};
+      this.events.publish({
+        "topic": "deleteNotification",
+        "notification": notification
+      });
     });
   }
 
@@ -67,9 +67,11 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.id, body).subscribe(() => {
       this.component.presentAlert("Solicitud rechazada");
       this.user.friendStatus = -1;
-    }, (error) => {
-      console.log(error);
-      this.component.presentAlert("Internal error");
+      let notification = {"type":"Amigos", "origen": this.id};
+      this.events.publish({
+        "topic": "deleteNotification",
+        "notification": notification
+      });
     });
   }
 
@@ -77,9 +79,6 @@ export class UserPage implements OnInit {
     this.friendService.delFriend(this.id).subscribe(() => {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
-    }, (error) => {
-      console.log(error);
-      this.component.presentAlert("Internal error");
     })
   }
 }
