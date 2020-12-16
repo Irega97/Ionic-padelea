@@ -1,3 +1,5 @@
+import { Chat } from "./chat";
+
 export interface User {
     _id: string;
     name: string;
@@ -11,5 +13,6 @@ export interface User {
     public: boolean;
     provider: string;
     friends: [];
+    chats: Chat[];
     notifications: Notification[];
 }
