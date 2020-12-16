@@ -1,7 +1,7 @@
-import { EventsService } from './../../../../../services/events.service';
-import { ComponentsService } from './../../../../../services/components.service';
+import { EventsService } from '../../../../../../services/events.service';
+import { ComponentsService } from '../../../../../../services/components.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TorneoService } from './../../../../../services/torneo.service';
+import { TorneoService } from '../../../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
