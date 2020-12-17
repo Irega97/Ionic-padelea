@@ -18,6 +18,15 @@
       <p class ="ion-text-center">No tienes ningún chat</p>
     </ion-text>
   </ng-template>
+
+  <div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button [routerLink] = "['/principal/chat/new']">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  
 </ion-content>
 
 

@@ -31,7 +31,5 @@ export class ChatService{
   delChat(idChat: string){
     return this.http.delete(this.ruta + idChat);
   }
-
-
-
+  
 }
