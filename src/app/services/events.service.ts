@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
+import { ComponentsService } from './components.service';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ export class EventsService {
 
   message = '';
 
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket, private components: ComponentsService) { }
 
   private dataSubject = new Subject<any>();
 
@@ -23,21 +24,20 @@ export class EventsService {
   }
 
   public connectSocket(id: String, username: String){
-    this.socket.connect();
     let data = {"id": id, "username": username};
     this.socket.emit('nuevoConectado', data); 
-    this.socket.fromEvent('nuevoConectado').subscribe(data =>{
-      this.publish({
-        "topic": "nuevoConectado",
-        "user": data
-      })
-    });
-    this.socket.fromEvent('newNotification').subscribe(data =>{
-      this.publish({
-        "topic": "nuevaNotificacion",
-        "notification": data
-      });
+    this.socket.on('nuevaNotificacion', notificacion => {
+      console.log("notificacion", notificacion);
+      this.components.presentAlert("Notificacion Recibida");
     })
+  }
+
+  public pruebaSocket(id){
+    this.socket.emit('nuevaNotificacion', id);
+  }
+
+  public enviarNotificacion(notification){
+    this.socket.emit('nuevaNotificacion', notification);
   }
 
   public disconnectSocket(){
@@ -45,9 +45,7 @@ export class EventsService {
   }
 
   public createChatRoom(chatId : String){
-
     this.socket.emit('nuevaSala', chatId)
-
   }
 
   public sendMessage() {

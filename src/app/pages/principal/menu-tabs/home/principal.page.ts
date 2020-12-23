@@ -67,6 +67,11 @@ export class PrincipalPage implements OnInit {
     this.menu.close('first');
   }
 
+  pruebaSocket(){
+    console.log("Pulsado");
+    this.events.pruebaSocket('5fe114f59ae33747848520a3');
+  }
+
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
