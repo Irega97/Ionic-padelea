@@ -28,14 +28,15 @@ export class ModperfilPage implements OnInit {
     private events: EventsService) { }
 
   ngOnInit() {
-    if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.user = this.router.getCurrentNavigation().extras.state.user;
+    if (this.userService.user != undefined){
+      this.user = this.userService.user;
       this.crearFormulario();
     }
 
     else{
       this.userService.getMyUser().subscribe(data => {
         this.user = data;
+        this.userService.user = data;
         this.crearFormulario();
       })
     }
@@ -67,7 +68,6 @@ export class ModperfilPage implements OnInit {
       this.providerform = true;
     }
     else{
-      console.log(this.user);
       this.updateform = this.formBuilder.group({
         username: [this.user.username, [Validators.required, Validator.validUsername]],
         checkusername: [],
@@ -83,6 +83,7 @@ export class ModperfilPage implements OnInit {
     if (this.updateform.invalid){
       return;
     }
+
     let nombre = this.updateform.value.nombre + " " + this.updateform.value.apellidos;
     let userupdate = { 
       name: nombre, 
@@ -92,10 +93,8 @@ export class ModperfilPage implements OnInit {
       image: this.user.image, 
       email: this.user.email,
       password: "",
-      online: true,
       public: true,
-      provider: this.user.provider,
-      friends: null
+      provider: this.user.provider
     };
     if (this.user.provider == "formulario"){
       userupdate.email = this.updateform.value.email;
@@ -105,9 +104,15 @@ export class ModperfilPage implements OnInit {
     }
 
     this.userService.update(userupdate).subscribe((data) => {
+      this.userService.user.name = userupdate.name;
+      this.userService.user.firstName = userupdate.firstName;
+      this.userService.user.lastName = userupdate.lastName;
+      this.userService.user.image = userupdate.image;
+      this.userService.user.email = userupdate.email;
+      this.userService.user.username = userupdate.username;
       this.events.publish({
         "topic": "updateUser",
-        "user": userupdate
+        "user": this.userService.user
     });
       this.router.navigate(['/principal']);
     }, error => {
@@ -119,7 +124,6 @@ export class ModperfilPage implements OnInit {
         this.updateform.get('checkemail').setValue(this.updateform.value.email);
         this.updateform.controls.email.setErrors({validEmail: true});
       }
-      console.log(error);
     });
   }
 

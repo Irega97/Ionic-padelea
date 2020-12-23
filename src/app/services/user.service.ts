@@ -10,6 +10,8 @@ import { Token } from 'src/app/models/token';
 })
 export class UserService {
 
+  user: User;
+  
   ruta = environment.apiURL + "/user/"
   constructor(private http: HttpClient) { }
 

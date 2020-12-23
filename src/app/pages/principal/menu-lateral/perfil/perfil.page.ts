@@ -16,13 +16,16 @@ export class PerfilPage implements OnInit {
   constructor(private userService: UserService, private router: Router, private events: EventsService) { }
 
   ngOnInit() {
-    if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.usuario = this.router.getCurrentNavigation().extras.state.user
+    if (this.userService.user != undefined){
+      this.usuario = this.userService.user;
     }
+
     else{
       this.userService.getMyUser().subscribe(data => {
         this.usuario = data;
+        this.userService.user = this.usuario;
     })
+
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser") {
         this.usuario = data.user;
@@ -32,11 +35,6 @@ export class PerfilPage implements OnInit {
 }
 
   modificar(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        user: this.usuario
-      }
-    };
-    this.router.navigate(['/principal/perfil/modperfil'], navigationExtras);
+    this.router.navigate(['/principal/perfil/modperfil']);
   }
 }

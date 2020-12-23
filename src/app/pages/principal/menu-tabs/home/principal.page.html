@@ -13,7 +13,8 @@
 
 <ion-content>
   <ion-img src="assets/images/EnProceso.jpg"></ion-img>
-  <ion-menu side="start" menuId="first" contentId="main">
+
+  <ion-menu side="start" menuId="first" contentId="main" type="overlay">
     <ion-header>
       <div *ngIf="usuario">
           <ion-item color="secondary">
@@ -68,12 +69,6 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-
-  <ion-list *ngIf = "usuarios && usuarios.length > 0">
-    <ion-item *ngFor="let usuario of usuarios">
-      {{usuario.username}}
-    </ion-item>
-  </ion-list>
   <ion-router-outlet id="main"></ion-router-outlet>
 
   <ion-button (click) = "pruebaSocket()">PRUEBA</ion-button>
