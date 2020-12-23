@@ -6,7 +6,6 @@ import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
 import { MenuController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { Notification } from 'src/app/models/notification';
 
 @Component({
   selector: 'app-principal',
@@ -16,29 +15,41 @@ import { Notification } from 'src/app/models/notification';
 export class PrincipalPage implements OnInit {
 
   usuario: User;
-  usuarios: User[];
   numNotificaciones: number = 0;
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
-    private menu: MenuController, private notificationsService: NotificationsService) { }
+    private notificationsService: NotificationsService, private menu: MenuController) { }
 
   ngOnInit() {
-    this.userService.getMyUser().subscribe(data => {
-      this.usuario = data;
-      this.events.connectSocket(data._id, data.username);
-    });
+    if (this.userService.user != undefined){
+      this.usuario = this.userService.user;
+      this.notificationsService.getMyNotifications().subscribe(data =>{
+        this.usuario.notifications = data.notifications;
+        this.numNotificaciones = this.usuario.notifications.length;
+      });
+    }
 
-    this.notificationsService.getMyNotifications().subscribe(data =>{
-      this.usuario.notifications = data.notifications;
-      this.numNotificaciones = this.usuario.notifications.length;
-    });
+    else{
+      this.userService.getMyUser().subscribe(data => {
+        this.userService.user = data;
+        this.usuario = data;
+        this.events.connectSocket(data._id, data.username);
+  
+        this.notificationsService.getMyNotifications().subscribe(data =>{
+          this.usuario.notifications = data.notifications;
+          this.numNotificaciones = this.usuario.notifications.length;
+        });
+      });
+    }
 
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser") {
         this.usuario = data.user;
       }
+
       else if (data.topic == "loginUser"){
         this.userService.getMyUser().subscribe(data => {
           this.usuario = data;
+          this.userService.user = this.usuario;
           this.events.connectSocket(data._id, data.username);
           this.events.publish({
             "topic": "updateUser",
@@ -51,6 +62,7 @@ export class PrincipalPage implements OnInit {
           this.numNotificaciones = this.usuario.notifications.length;
         });
       }
+
       else if (data.topic == "deleteNotification"){
         this.numNotificaciones--;
         this.usuario.notifications = this.usuario.notifications.filter(notification =>{
@@ -67,11 +79,6 @@ export class PrincipalPage implements OnInit {
     this.menu.close('first');
   }
 
-  pruebaSocket(){
-    console.log("Pulsado");
-    this.events.pruebaSocket('5fe114f59ae33747848520a3');
-  }
-
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
@@ -82,13 +89,8 @@ export class PrincipalPage implements OnInit {
   }
 
   goPerfil(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        user: this.usuario
-      }
-    };
     this.menu.close('first');
-    this.router.navigate(['/principal/perfil'], navigationExtras);
+    this.router.navigate(['/principal/perfil']);
   }
 
   goTorneos(){
@@ -117,7 +119,6 @@ export class PrincipalPage implements OnInit {
         notifications: this.usuario.notifications
       }
     };
-    console.log("Notifications to: ", this.usuario.notifications);
     this.router.navigate(['/principal/notificaciones'], navigationExtras);
   }
 }

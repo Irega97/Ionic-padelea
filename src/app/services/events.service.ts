@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
+import { User } from '../models/user';
 import { ComponentsService } from './components.service';
 
 
@@ -8,8 +9,6 @@ import { ComponentsService } from './components.service';
   providedIn: 'root'
 })
 export class EventsService {
-
-  message = '';
 
   constructor(private socket: Socket, private components: ComponentsService) { }
 
@@ -32,10 +31,6 @@ export class EventsService {
     })
   }
 
-  public pruebaSocket(id){
-    this.socket.emit('nuevaNotificacion', id);
-  }
-
   public enviarNotificacion(notification){
     this.socket.emit('nuevaNotificacion', notification);
   }
@@ -49,8 +44,6 @@ export class EventsService {
   }
 
   public sendMessage() {
-    this.socket.emit('send-message', { text: this.message });
-    this.message = '';
+    this.socket.emit('send-message', { text: "prueba" });
   }
-
 }

@@ -19,6 +19,7 @@ export class AmigosPage implements OnInit {
       this.friends = data.friends;
       this.friendsSearch = this.friends;      
     });
+
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "loginUser") {
         this.friendService.getMyFriends().subscribe((data) => {
@@ -33,9 +34,7 @@ export class AmigosPage implements OnInit {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {
       this.friendsSearch = this.friends.filter((friend)=>{
-        //console.log("q: " +user.username, user.username.indexOf(query));
         if(friend.user.username && query != ''){
-          console.log("P ", friend);
           return (friend.user.username.toLowerCase().indexOf(query) > -1)
         }
         else return friend.user;
