@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,7 @@ import { ComponentsService } from 'src/app/services/components.service';
 export class UserPage implements OnInit {
 
   constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, 
-              private component: ComponentsService, private events: EventsService, private router: Router) { }
+              private component: ComponentsService, private events: EventsService, private location: Location) { }
 
   user;
   id;
@@ -82,5 +83,9 @@ export class UserPage implements OnInit {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
     })
+  }
+
+  buttonBack(){
+    this.location.back()
   }
 }

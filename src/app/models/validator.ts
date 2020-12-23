@@ -24,6 +24,15 @@ export class Validator {
     }
   }
 
+  static checkTorneoName(group: FormGroup){
+    if(group.parent != undefined){
+      if(group.value == group.parent.value.checkTorneoName)
+        return ({checkTorneoName:true});
+      else 
+        return null;
+    }
+  }
+
   static checkPassword(group: FormGroup){
     if (group.value.password != group.value.confirmpassword){
       return ({checkPassword:true})

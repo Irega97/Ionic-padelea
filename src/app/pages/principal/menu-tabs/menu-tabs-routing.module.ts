@@ -35,17 +35,7 @@ const routes: Routes = [
     path: '',
     redirectTo: '/principal/home',
     pathMatch: 'full'
-  },
-  {
-    path: 'chat',
-    loadChildren: () => import('./chats/chat.module').then( m => m.ChatPageModule)
-  },
-  {
-    path: 'torneos',
-    loadChildren: () => import('./torneos/torneos.module').then( m => m.TorneosPageModule)
   }
-
-
 ];
 
 @NgModule({

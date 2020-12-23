@@ -1,7 +1,7 @@
 <ion-header *ngIf="user">
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/principal/search"></ion-back-button>
+      <ion-back-button (click)="buttonBack()" defaultHref=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{user.username}}</ion-title>
   </ion-toolbar>

@@ -29,11 +29,11 @@
     <ion-row>
       <ion-col>
         <ion-list *ngIf="players && players.length > 0; else noPlayers">
-          <ion-item *ngFor="let player of players" [routerLink] = "['/principal/search/user', player.user._id]">
+          <ion-item *ngFor="let player of players" [routerLink] = "['/principal/search/user', player._id]">
             <ion-avatar slot="start">
-              <ion-img [src]="player.user.image"></ion-img>
+              <ion-img [src]="player.image"></ion-img>
             </ion-avatar>
-            <ion-label>{{player.user.name}}</ion-label>
+            <ion-label>{{player.name}}</ion-label>
           </ion-item>
         </ion-list>
         <ng-template #noPlayers>
