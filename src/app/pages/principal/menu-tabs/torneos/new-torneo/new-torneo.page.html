@@ -27,7 +27,7 @@
     <ion-item>
       <ion-label position="floating" color="primary">Formato*</ion-label>
       <ion-select formControlName="reglamento">
-        <ion-select-option value="liga">Liga</ion-select-option>
+        <ion-select-option value="liga PMT">Liga PMT</ion-select-option>
       </ion-select>
     </ion-item>
     <p *ngIf="torneoForm.controls['reglamento'].hasError('required') && (torneoForm.controls['reglamento'].dirty || torneoForm.controls['reglamento'].touched || pulsado)"><ion-label color="danger">Debes seleccionar un valor</ion-label></p>
