@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 export class UserPage implements OnInit {
 
   constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, 
-              private component: ComponentsService, private events: EventsService) { }
+              private component: ComponentsService, private events: EventsService, private location: Location) { }
 
   user;
   id;
@@ -83,5 +83,9 @@ export class UserPage implements OnInit {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
     })
+  }
+
+  buttonBack(){
+    this.location.back()
   }
 }

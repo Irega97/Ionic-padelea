@@ -32,7 +32,7 @@ export class NewTorneoPage implements OnInit {
       reglamento: ['', [Validators.required]],
       numRondas: ['', [Validators.required]],
       maxPlayers: ['', [Validators.required]],
-      participa: ['', [Validators.required]]
+      participa: [true, [Validators.required]]
     });
   }
 
