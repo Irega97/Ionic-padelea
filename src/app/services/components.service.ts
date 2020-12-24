@@ -34,8 +34,16 @@ export class ComponentsService {
     const loading = await this.loadingController.create({
       message: mensaje
     });
-    loading.present();
+    return loading.present();
   }
+
+  /*async presentLoadingHTML() {
+    const loading = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'prueba'
+    })
+    loading.present();
+  }*/
 
   dismissLoading(){
     this.loadingController.dismiss();

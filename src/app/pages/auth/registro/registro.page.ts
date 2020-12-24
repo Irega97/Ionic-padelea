@@ -59,37 +59,38 @@ export class RegistroPage implements OnInit {
       return;
     }
     
-    this.components.presentLoading("Conectando...");
-    let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellidos;
-    let user = {
-      name : nombre,
-      firstName: this.registerform.value.nombre,
-      lastName: this.registerform.value.apellidos,
-      username: this.registerform.value.username,
-      provider: 'formulario',
-      email: this.registerform.value.email,
-      private: this.registerform.value.private,
-      image: config.defaultImage,
-      password: this.authservicio.encryptPassword(this.registerform.value.password)
-    }
-    this.authservicio.register(user).subscribe((jwt: Token) => {
-      this.authservicio.addToken(jwt.token);
-      this.events.publish({
-        "topic":"loginUser"
-      })
-      this.components.dismissLoading()
-      this.router.navigate(['/principal']);
-    }, error => {
-      this.components.dismissLoading()
-      if (error.status == 409){
-        this.registerform.get('checkusername').setValue(this.registerform.value.username);
-        this.registerform.controls.username.setErrors({validUsername: true});
+    this.components.presentLoading("Conectando...").then(() => {
+      let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellidos;
+      let user = {
+        name : nombre,
+        firstName: this.registerform.value.nombre,
+        lastName: this.registerform.value.apellidos,
+        username: this.registerform.value.username,
+        provider: 'formulario',
+        email: this.registerform.value.email,
+        private: this.registerform.value.private,
+        image: config.defaultImage,
+        password: this.authservicio.encryptPassword(this.registerform.value.password)
       }
-      else if (error.status == 410){
-        this.registerform.get('checkemail').setValue(this.registerform.value.email);
-        this.registerform.controls.email.setErrors({validEmail: true});
-      }
-    });
+      this.authservicio.register(user).subscribe((jwt: Token) => {
+        this.authservicio.addToken(jwt.token);
+        this.events.publish({
+          "topic":"loginUser"
+        })
+        this.components.dismissLoading()
+        this.router.navigate(['/principal']);
+      }, error => {
+        this.components.dismissLoading()
+        if (error.status == 409){
+          this.registerform.get('checkusername').setValue(this.registerform.value.username);
+          this.registerform.controls.username.setErrors({validUsername: true});
+        }
+        else if (error.status == 410){
+          this.registerform.get('checkemail').setValue(this.registerform.value.email);
+          this.registerform.controls.email.setErrors({validEmail: true});
+        }
+      });
+    })
   }
 
   goLogin(){
@@ -103,34 +104,35 @@ export class RegistroPage implements OnInit {
       user = googleUser;
     });
 
-    this.components.presentLoading("Conectando...");
-    this.authservicio.checkemail(user.email).subscribe(data => {
-      if(data.value === true) { 
-        const u = {"provider": user.provider, "email": user.email}
-        this.authservicio.login(u).subscribe((jwt: Token) => {
-          this.authservicio.addToken(jwt.token);
-          this.events.publish({
-            "topic":"loginUser"
+    this.components.presentLoading("Conectando...").then(() => {
+      this.authservicio.checkemail(user.email).subscribe(data => {
+        if(data.value === true) { 
+          const u = {"provider": user.provider, "email": user.email}
+          this.authservicio.login(u).subscribe((jwt: Token) => {
+            this.authservicio.addToken(jwt.token);
+            this.events.publish({
+              "topic":"loginUser"
+            });
+            this.components.dismissLoading();
+            this.router.navigateByUrl('/principal');
+          }, error =>{
+            this.components.dismissLoading();
+            if (error.status = 409){
+              this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
+            }
           });
+        }
+        else {
+          let navigationExtras: NavigationExtras = {
+            state: {
+              user: user
+            }
+          };
           this.components.dismissLoading();
-          this.router.navigateByUrl('/principal');
-        }, error =>{
-          this.components.dismissLoading();
-          if (error.status = 409){
-            this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
-          }
-        });
-      }
-      else {
-        let navigationExtras: NavigationExtras = {
-          state: {
-            user: user
-          }
+          this.router.navigate(['auth/registro/setusername'], navigationExtras);
         };
-        this.components.dismissLoading();
-        this.router.navigate(['auth/registro/setusername'], navigationExtras);
-      };
-    });
+      });
+    })
   }
 
   async registerFacebook(){
@@ -140,34 +142,35 @@ export class RegistroPage implements OnInit {
       user = facebookUser;
     });
 
-    this.components.presentLoading("Conectando...");
-    this.authservicio.checkemail(user.email).subscribe(data => {
-      if(data.value === true) { 
-        const u = {"provider": user.provider, "email": user.email}
-        this.authservicio.login(u).subscribe((jwt: Token) => {
-          this.authservicio.addToken(jwt.token);
-          this.events.publish({
-            "topic":"loginUser"
+    this.components.presentLoading("Conectando...").then(() => {
+      this.authservicio.checkemail(user.email).subscribe(data => {
+        if(data.value === true) { 
+          const u = {"provider": user.provider, "email": user.email}
+          this.authservicio.login(u).subscribe((jwt: Token) => {
+            this.authservicio.addToken(jwt.token);
+            this.events.publish({
+              "topic":"loginUser"
+            });
+            this.components.dismissLoading();
+            this.router.navigateByUrl('/principal');
+          }, error =>{
+            this.components.dismissLoading();
+            if (error.status = 409){
+              this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
+            }
           });
+        }
+        else {
+          let navigationExtras: NavigationExtras = {
+            state: {
+              user: user
+            }
+          };
           this.components.dismissLoading();
-          this.router.navigateByUrl('/principal');
-        }, error =>{
-          this.components.dismissLoading();
-          if (error.status = 409){
-            this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
-          }
-        });
-      }
-      else {
-        let navigationExtras: NavigationExtras = {
-          state: {
-            user: user
-          }
+          this.router.navigate(['auth/registro/setusername'], navigationExtras);
         };
-        this.components.dismissLoading();
-        this.router.navigate(['auth/registro/setusername'], navigationExtras);
-      };
-    });
+      });
+    })
   }
 
   VistaPassword(){

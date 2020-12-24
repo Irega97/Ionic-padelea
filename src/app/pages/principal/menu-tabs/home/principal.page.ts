@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
 import { MenuController } from '@ionic/angular';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-principal',
@@ -17,7 +18,7 @@ export class PrincipalPage implements OnInit {
   usuario: User;
   numNotificaciones: number = 0;
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService,
-    private notificationsService: NotificationsService, private menu: MenuController) { }
+    private notificationsService: NotificationsService, private menu: MenuController, private components: ComponentsService) { }
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -29,9 +30,11 @@ export class PrincipalPage implements OnInit {
     }
 
     else{
+      //this.components.presentLoadingHTML();
       this.userService.getMyUser().subscribe(data => {
         this.userService.user = data;
         this.usuario = data;
+        //this.components.dismissLoading();
         this.events.connectSocket(data._id, data.username);
   
         this.notificationsService.getMyNotifications().subscribe(data =>{

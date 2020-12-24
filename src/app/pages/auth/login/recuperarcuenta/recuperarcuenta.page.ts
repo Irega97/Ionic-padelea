@@ -34,24 +34,24 @@ export class RecuperarcuentaPage implements OnInit {
       return;
     }
     
-    this.components.presentLoading("Conectando...");
-    this.authservice.checkemail(this.emailForm.value.email).subscribe(data =>{
-      this.components.dismissLoading();
-      if (data.value == true){
-        if (data.provider == "formulario"){
-          this.components.presentAlert("Por ahora no disponemos de servicio para recuperarla");
+    this.components.presentLoading("Conectando...").then(() => {
+      this.authservice.checkemail(this.emailForm.value.email).subscribe(data =>{
+        this.components.dismissLoading();
+        if (data.value == true){
+          if (data.provider == "formulario"){
+            this.components.presentAlert("Por ahora no disponemos de servicio para recuperarla");
+          }
+          else{
+            this.components.presentAlert("Te has registrado usando una cuenta de " + data.provider + ". Prueba a iniciar sesión mediante " + data.provider);
+          }
+          this.router.navigate(['/auth/login']);
         }
+        
         else{
-          this.components.presentAlert("Te has registrado usando una cuenta de " + data.provider + ". Prueba a iniciar sesión mediante " + data.provider);
+          this.emailForm.get('checkemail').setValue(this.emailForm.value.email);
+          this.emailForm.controls.email.setErrors({validEmail: true});
         }
-        this.router.navigate(['/auth/login']);
-      }
-      
-      else{
-        this.emailForm.get('checkemail').setValue(this.emailForm.value.email);
-        this.emailForm.controls.email.setErrors({validEmail: true});
-      }
+      })
     })
   }
-
 }
