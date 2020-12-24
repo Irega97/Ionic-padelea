@@ -29,6 +29,7 @@ export class SetusernamePage implements OnInit {
     this.usernameForm = this.formBuilder.group({
       username: ['', [Validators.required, Validator.validUsername]],
       checkusername: [],
+      private: []
     });
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user =  this.router.getCurrentNavigation().extras.state.user;
@@ -39,6 +40,7 @@ export class SetusernamePage implements OnInit {
   ionViewWillEnter(){
     this.pulsado = false;
     this.usernameForm.reset();
+    this.usernameForm.get('private').setValue(false);
   }
 
   goLogin(){
@@ -50,8 +52,11 @@ export class SetusernamePage implements OnInit {
     if (this.usernameForm.invalid){
       return;
     }
+
     //this.components.presentLoading("Conectando...");
     this.user.username = this.usernameForm.value.username;
+    this.user.private = this.usernameForm.value.private;
+    console.log("Nuevo usuario", this.user);
     this.authService.register(this.user).subscribe((jwt: Token) => {
       this.authService.addToken(jwt.token);
       this.events.publish({

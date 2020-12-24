@@ -11,7 +11,7 @@ export interface User {
     image: string;
     email: string;
     online : boolean;
-    public: boolean;
+    private: boolean;
     provider: string;
     friends: [];
     chats: Chat[];

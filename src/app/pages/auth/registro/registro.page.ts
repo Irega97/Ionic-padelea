@@ -42,12 +42,14 @@ export class RegistroPage implements OnInit {
       confirmpassword: ['', Validators.required],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
-      checkemail: []
+      checkemail: [],
+      private: []
     }, { validator: Validator.checkPassword });
   }
 
   ionViewWillEnter(){
     this.registerform.reset();
+    this.registerform.get('private').setValue(false);
     this.pulsado = false;
   }
 
@@ -66,8 +68,7 @@ export class RegistroPage implements OnInit {
       username: this.registerform.value.username,
       provider: 'formulario',
       email: this.registerform.value.email,
-      online: false,
-      public: true,
+      private: this.registerform.value.private,
       image: config.defaultImage,
       password: this.authservicio.encryptPassword(this.registerform.value.password),
       friends: []

@@ -30,8 +30,4 @@ export class UserService {
   update(user): Observable<Token> {
     return this.http.post<Token>(this.ruta + "me", user);
   }
-
-  changeUsername(username: string){
-    return this.http.post(this.ruta + "setusername/" + username, null);
-  }
 }
