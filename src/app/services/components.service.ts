@@ -13,7 +13,7 @@ export class ComponentsService {
       message: mensaje,
       buttons: ['OK']
     })
-    await alert.present();
+    alert.present();
   }
 
   async presentToast(notification){
@@ -27,14 +27,14 @@ export class ComponentsService {
         }
       ]
     })
-    await toast.present();
+    toast.present();
   }
 
   async presentLoading(mensaje: string) {
     const loading = await this.loadingController.create({
       message: mensaje
     });
-    await loading.present();
+    loading.present();
   }
 
   dismissLoading(){

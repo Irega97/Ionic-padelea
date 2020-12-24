@@ -45,18 +45,17 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    //this.components.presentLoading("Conectando...");
+    this.components.presentLoading("Conectando...");
     const user = {'username': this.loginform.value.username, 'password': this.authservicio.encryptPassword(this.loginform.value.password), 'provider':'formulario'};
-
     this.authservicio.login(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
       this.events.publish({
         "topic":"loginUser"
       })
-      //this.components.dismissLoading();
+      this.components.dismissLoading();
       this.router.navigate(['/principal']);
     }, error =>{
-      //this.components.dismissLoading();
+      this.components.dismissLoading();
       if (error.status == 404){
         this.loginform.get('checkusername').setValue(this.loginform.value.username);
         this.loginform.controls.username.setErrors({validUsername: true});
@@ -99,16 +98,19 @@ export class LoginPage implements OnInit {
       user = googleUser;
     });
 
+    this.components.presentLoading("Conectando...");
     this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
-        const u = {"provider": user.provider, "email": user.email}
+        const u = {"provider": user.provider, "email": user.email};
         this.authservicio.login(u).subscribe((jwt: Token) => {
           this.authservicio.addToken(jwt.token);
           this.events.publish({
             "topic":"loginUser"
-          })
+          });
+          this.components.dismissLoading();
           this.router.navigateByUrl('/principal');
         }, error =>{
+          this.components.dismissLoading();
           if (error.status = 409){
             this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
           }
@@ -120,6 +122,7 @@ export class LoginPage implements OnInit {
             user: user
           }
         };
+        this.components.dismissLoading();
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     });
@@ -132,16 +135,19 @@ export class LoginPage implements OnInit {
       user = facebookUser;
     });
 
+    this.components.presentLoading("Conectando...");
     this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
-        const u = {"provider": user.provider, "email": user.email}
+        const u = {"provider": user.provider, "email": user.email};
         this.authservicio.login(u).subscribe((jwt: Token) => {
           this.authservicio.addToken(jwt.token);
           this.events.publish({
             "topic":"loginUser"
-          })
+          });
+          this.components.dismissLoading();
           this.router.navigateByUrl('/principal');
         }, error =>{
+          this.components.dismissLoading();
           if (error.status = 409){
             this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
           }
@@ -153,6 +159,7 @@ export class LoginPage implements OnInit {
             user: user
           }
         };
+        this.components.dismissLoading();
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     });

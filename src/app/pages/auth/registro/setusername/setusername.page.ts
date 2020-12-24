@@ -53,22 +53,21 @@ export class SetusernamePage implements OnInit {
       return;
     }
 
-    //this.components.presentLoading("Conectando...");
+    this.components.presentLoading("Conectando...");
     this.user.username = this.usernameForm.value.username;
     this.user.private = this.usernameForm.value.private;
-    console.log("Nuevo usuario", this.user);
     this.authService.register(this.user).subscribe((jwt: Token) => {
       this.authService.addToken(jwt.token);
       this.events.publish({
         "topic":"loginUser"
       })
-      //this.components.dismissLoading();
+      this.components.dismissLoading();
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){
+        this.components.dismissLoading();
         this.usernameForm.get('checkusername').setValue(this.usernameForm.value.username);
         this.usernameForm.controls.username.setErrors({validUsername: true});
-        //this.components.dismissLoading();
       }
     });
   }

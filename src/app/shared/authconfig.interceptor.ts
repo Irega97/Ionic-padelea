@@ -9,7 +9,7 @@ import { throwError } from 'rxjs';
 @Injectable()
 
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router, private component: ComponentsService) {}
+    constructor(private router: Router, private components: ComponentsService) {}
 
     // Modifica la petición HTTP añadiendole la cabecera con el jwt
     intercept(req: HttpRequest<any>, next: HttpHandler){
@@ -24,20 +24,23 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(authReq).pipe(
                 catchError((err: HttpErrorResponse) => {
                     if(err.status === 401) {
-                        localStorage.removeItem("ACCESS_TOKEN");
-                        this.component.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
-                        this.router.navigateByUrl("auth/login");
+                        this.components.dismissLoading();
+                        this.components.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
                     }
                     else if(err.status === 500 || err.status == 0) {
-                        this.component.presentAlert("No se ha podido conectar con el servidor");
+                        this.components.dismissLoading();
+                        this.components.presentAlert("No se ha podido conectar con el servidor. Serás redirigido a la página del Login");
                     }
+                    localStorage.removeItem("ACCESS_TOKEN");
+                    this.router.navigateByUrl("auth/login");
                     return throwError(err);
                 }));
         }
         return next.handle(req).pipe(
             catchError((err: HttpErrorResponse) => {
                 if(err.status === 500 || err.status == 0){
-                    this.component.presentAlert("No se ha podido conectar con el servidor");
+                    this.components.dismissLoading();
+                    this.components.presentAlert("No se ha podido conectar con el servidor");
                 }
                 return throwError(err);
             })

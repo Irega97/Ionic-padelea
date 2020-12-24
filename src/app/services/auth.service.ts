@@ -22,7 +22,7 @@ export class AuthService {
     return this.http.post<Token>(this.ruta + "register", user);
   }
 
-  checkemail(email: string): Observable<{value: boolean}>{
+  checkemail(email: string): Observable<{value: boolean, provider: String}>{
     return this.http.get<any>(this.ruta + 'checkemail/' + email);
   }
 
