@@ -63,6 +63,11 @@ export class PrincipalPage implements OnInit {
         });
       }
 
+      else if (data.topic == "nuevaNotificacion"){
+        this.numNotificaciones++;
+        this.usuario.notifications.push(data.notification);
+      }
+
       else if (data.topic == "deleteNotification"){
         this.numNotificaciones--;
         this.usuario.notifications = this.usuario.notifications.filter(notification =>{

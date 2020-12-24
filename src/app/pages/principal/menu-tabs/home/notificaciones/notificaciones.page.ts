@@ -19,11 +19,13 @@ export class NotificacionesPage implements OnInit {
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.notifications = this.router.getCurrentNavigation().extras.state.notifications;
     }
+
     else{
       this.notificationService.getMyNotifications().subscribe(data=>{
         this.notifications = data.notifications;
       })
     }
+
     this.events.getObservable().subscribe(data =>{
       if (data.topic == "deleteNotification"){
         this.notifications = this.notifications.filter(notification =>{

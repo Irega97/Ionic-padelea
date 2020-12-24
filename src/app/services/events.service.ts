@@ -24,10 +24,13 @@ export class EventsService {
 
   public connectSocket(id: String, username: String){
     let data = {"id": id, "username": username};
-    this.socket.emit('nuevoConectado', data); 
-    this.socket.on('nuevaNotificacion', notificacion => {
-      console.log("notificacion", notificacion);
-      this.components.presentAlert("Notificacion Recibida");
+    this.socket.emit('nuevoConectado', data);
+    this.socket.on('nuevaNotificacion', notification => {
+      this.components.presentToast(notification);
+      this.publish({
+        "topic": "nuevaNotificacion",
+        "notification": notification
+      })
     })
   }
 

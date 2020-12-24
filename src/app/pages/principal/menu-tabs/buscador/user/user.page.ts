@@ -45,7 +45,7 @@ export class UserPage implements OnInit {
   addFriend(){
     this.friendService.addFriend(this.id).subscribe((data) => {
       this.component.presentAlert("Solicitud enviada correctamente!");
-      let notification = {"type": "Amigos", "description":"Alguien quiere ser tu amigo", "status": 0, "destino": this.id};
+      let notification = {"type": "Amigos", "description":"Alguien quiere ser tu amigo", "status": 0, "origen": this.userService.user._id, "destino": this.id};
       this.events.enviarNotificacion(notification);
       this.solicitud = true;
       this.user.friendStatus = 0;
