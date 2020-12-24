@@ -38,9 +38,9 @@ export class NewTorneoPage implements OnInit {
 
   submitTorneo(){
     this.pulsado=true
-    if(this.torneoForm.invalid){
+    /* if(this.torneoForm.invalid){
       return;
-    }
+    } */
 
     let data = {
       "name": this.torneoForm.value.name,

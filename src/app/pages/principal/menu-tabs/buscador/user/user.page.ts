@@ -1,6 +1,6 @@
 import { EventsService } from 'src/app/services/events.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 export class UserPage implements OnInit {
 
   constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, 
-              private component: ComponentsService, private events: EventsService, private location: Location) { }
+              private component: ComponentsService, private events: EventsService, private location: Location, private router: Router) { }
 
   user;
   id;
@@ -24,7 +24,7 @@ export class UserPage implements OnInit {
 
   ngOnInit() {
       this.route.paramMap.subscribe(paramMap => {
-        this.id = paramMap.get('id');
+      this.id = paramMap.get('id');
         this.userService.getUser(this.id).subscribe(data =>{
           this.user = data;
           console.log(data);

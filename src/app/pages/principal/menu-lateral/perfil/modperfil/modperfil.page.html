@@ -65,10 +65,10 @@
           <p *ngIf="!updateform.controls['confirmpassword'].hasError('required') && updateform.controls['confirmpassword'].hasError('checkPassword') && (updateform.controls['password'].dirty || updateform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
         </div>
       
-        <ion-label>PRIVACIDAD DE LA CUENTA:</ion-label>
+        <ion-label style="margin-left: 14px; ">Visibilidad de la cuenta:</ion-label>
         <ion-item>
           <ion-checkbox formControlName="private" slot="start"></ion-checkbox>
-          <ion-label color="primary">Solo mis amigos verán mis publicaciones</ion-label>
+          <ion-label color="primary">Solo amigos</ion-label>
         </ion-item>
       </form>
 
