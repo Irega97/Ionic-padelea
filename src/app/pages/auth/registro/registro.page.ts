@@ -42,12 +42,14 @@ export class RegistroPage implements OnInit {
       confirmpassword: ['', Validators.required],
       //image: ['', Validators.nullValidator],
       email: ['', [Validators.required, Validators.email, Validator.validEmail]],
-      checkemail: []
+      checkemail: [],
+      private: []
     }, { validator: Validator.checkPassword });
   }
 
   ionViewWillEnter(){
     this.registerform.reset();
+    this.registerform.get('private').setValue(false);
     this.pulsado = false;
   }
 
@@ -57,7 +59,7 @@ export class RegistroPage implements OnInit {
       return;
     }
     
-    //this.components.presentLoading("Conectando...");
+    this.components.presentLoading("Conectando...");
     let nombre = this.registerform.value.nombre + " " + this.registerform.value.apellidos;
     let user = {
       name : nombre,
@@ -66,21 +68,19 @@ export class RegistroPage implements OnInit {
       username: this.registerform.value.username,
       provider: 'formulario',
       email: this.registerform.value.email,
-      online: false,
-      public: true,
+      private: this.registerform.value.private,
       image: config.defaultImage,
-      password: this.authservicio.encryptPassword(this.registerform.value.password),
-      friends: []
+      password: this.authservicio.encryptPassword(this.registerform.value.password)
     }
     this.authservicio.register(user).subscribe((jwt: Token) => {
       this.authservicio.addToken(jwt.token);
       this.events.publish({
         "topic":"loginUser"
       })
-      //this.components.dismissLoading()
+      this.components.dismissLoading()
       this.router.navigate(['/principal']);
     }, error => {
-      //this.components.dismissLoading()
+      this.components.dismissLoading()
       if (error.status == 409){
         this.registerform.get('checkusername').setValue(this.registerform.value.username);
         this.registerform.controls.username.setErrors({validUsername: true});
@@ -103,6 +103,7 @@ export class RegistroPage implements OnInit {
       user = googleUser;
     });
 
+    this.components.presentLoading("Conectando...");
     this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
@@ -110,9 +111,11 @@ export class RegistroPage implements OnInit {
           this.authservicio.addToken(jwt.token);
           this.events.publish({
             "topic":"loginUser"
-          })
+          });
+          this.components.dismissLoading();
           this.router.navigateByUrl('/principal');
         }, error =>{
+          this.components.dismissLoading();
           if (error.status = 409){
             this.components.presentAlert("Este correo está registrado, pero no con la red social de Google");
           }
@@ -124,6 +127,7 @@ export class RegistroPage implements OnInit {
             user: user
           }
         };
+        this.components.dismissLoading();
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     });
@@ -136,6 +140,7 @@ export class RegistroPage implements OnInit {
       user = facebookUser;
     });
 
+    this.components.presentLoading("Conectando...");
     this.authservicio.checkemail(user.email).subscribe(data => {
       if(data.value === true) { 
         const u = {"provider": user.provider, "email": user.email}
@@ -143,9 +148,11 @@ export class RegistroPage implements OnInit {
           this.authservicio.addToken(jwt.token);
           this.events.publish({
             "topic":"loginUser"
-          })
+          });
+          this.components.dismissLoading();
           this.router.navigateByUrl('/principal');
         }, error =>{
+          this.components.dismissLoading();
           if (error.status = 409){
             this.components.presentAlert("Este correo está registrado, pero no con la red social de Facebook");
           }
@@ -157,6 +164,7 @@ export class RegistroPage implements OnInit {
             user: user
           }
         };
+        this.components.dismissLoading();
         this.router.navigate(['auth/registro/setusername'], navigationExtras);
       };
     });
@@ -193,5 +201,4 @@ export class RegistroPage implements OnInit {
       this.iconconfirmpassword = "eye-off";
     }
   }
-
 }

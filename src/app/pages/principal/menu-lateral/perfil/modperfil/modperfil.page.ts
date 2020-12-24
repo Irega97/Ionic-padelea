@@ -63,7 +63,8 @@ export class ModperfilPage implements OnInit {
         confirmpassword: ['', Validators.required],
         //image: ['', Validators.nullValidator],
         email: [this.user.email, [Validators.required, Validators.email, Validator.validEmail]],
-        checkemail: []
+        checkemail: [],
+        private: [this.user.private]
       }, {validator: Validator.checkPassword});
       this.providerform = true;
     }
@@ -73,7 +74,8 @@ export class ModperfilPage implements OnInit {
         checkusername: [],
         //image: ['', Validators.nullValidator],
         nombre: [this.user.firstName, Validators.required],
-        apellidos: [this.user.lastName, Validators.required]
+        apellidos: [this.user.lastName, Validators.required],
+        private: [this.user.private]
       })
       this.providerform = false;
     }
@@ -93,7 +95,7 @@ export class ModperfilPage implements OnInit {
       image: this.user.image, 
       email: this.user.email,
       password: "",
-      public: true,
+      private: this.updateform.value.private,
       provider: this.user.provider
     };
     if (this.user.provider == "formulario"){
@@ -110,6 +112,7 @@ export class ModperfilPage implements OnInit {
       this.userService.user.image = userupdate.image;
       this.userService.user.email = userupdate.email;
       this.userService.user.username = userupdate.username;
+      this.userService.user.private = userupdate.private;
       this.events.publish({
         "topic": "updateUser",
         "user": this.userService.user
@@ -158,5 +161,4 @@ export class ModperfilPage implements OnInit {
       this.iconconfirmpassword = "eye-off";
     }
   }
-
 }

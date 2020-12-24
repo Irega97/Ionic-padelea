@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validator } from 'src/app/models/validator';
 import { AuthService } from 'src/app/services/auth.service';
+import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
   selector: 'app-recuperarcuenta',
@@ -13,7 +14,7 @@ export class RecuperarcuentaPage implements OnInit {
 
   emailForm: FormGroup;
   pulsado: Boolean = false;
-  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authservice: AuthService, private router: Router, private components: ComponentsService) { }
 
   ngOnInit() {
     this.emailForm = this.formBuilder.group({
@@ -32,10 +33,20 @@ export class RecuperarcuentaPage implements OnInit {
     if (this.emailForm.invalid){
       return;
     }
+    
+    this.components.presentLoading("Conectando...");
     this.authservice.checkemail(this.emailForm.value.email).subscribe(data =>{
+      this.components.dismissLoading();
       if (data.value == true){
+        if (data.provider == "formulario"){
+          this.components.presentAlert("Por ahora no disponemos de servicio para recuperarla");
+        }
+        else{
+          this.components.presentAlert("Te has registrado usando una cuenta de " + data.provider + ". Prueba a iniciar sesión mediante " + data.provider);
+        }
         this.router.navigate(['/auth/login']);
       }
+      
       else{
         this.emailForm.get('checkemail').setValue(this.emailForm.value.email);
         this.emailForm.controls.email.setErrors({validEmail: true});

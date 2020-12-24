@@ -29,6 +29,7 @@ export class SetusernamePage implements OnInit {
     this.usernameForm = this.formBuilder.group({
       username: ['', [Validators.required, Validator.validUsername]],
       checkusername: [],
+      private: []
     });
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user =  this.router.getCurrentNavigation().extras.state.user;
@@ -39,6 +40,7 @@ export class SetusernamePage implements OnInit {
   ionViewWillEnter(){
     this.pulsado = false;
     this.usernameForm.reset();
+    this.usernameForm.get('private').setValue(false);
   }
 
   goLogin(){
@@ -50,20 +52,22 @@ export class SetusernamePage implements OnInit {
     if (this.usernameForm.invalid){
       return;
     }
-    //this.components.presentLoading("Conectando...");
+
+    this.components.presentLoading("Conectando...");
     this.user.username = this.usernameForm.value.username;
+    this.user.private = this.usernameForm.value.private;
     this.authService.register(this.user).subscribe((jwt: Token) => {
       this.authService.addToken(jwt.token);
       this.events.publish({
         "topic":"loginUser"
       })
-      //this.components.dismissLoading();
+      this.components.dismissLoading();
       this.router.navigateByUrl('/principal');
     }, error => {
       if (error.status = 409){
+        this.components.dismissLoading();
         this.usernameForm.get('checkusername').setValue(this.usernameForm.value.username);
         this.usernameForm.controls.username.setErrors({validUsername: true});
-        //this.components.dismissLoading();
       }
     });
   }
