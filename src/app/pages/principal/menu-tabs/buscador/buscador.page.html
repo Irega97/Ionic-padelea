@@ -10,7 +10,7 @@
     <ion-spinner></ion-spinner>
   </div>
   <ion-list *ngIf = "users && usersSearch.length > 0; else noUsers">
-    <ion-item *ngFor="let user of usersSearch" [routerLink] = "['/principal/search/user', user._id]">
+    <ion-item *ngFor="let user of usersSearch" [routerLink] = "['/principal/user', user._id]">
       <ion-avatar slot="start">
         <ion-img [src]="user.image"></ion-img>
       </ion-avatar>

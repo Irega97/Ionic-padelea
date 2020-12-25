@@ -1,5 +1,5 @@
-import { TorneoService } from './../../../../services/torneo.service';
-import { EventsService } from './../../../../services/events.service';
+import { TorneoService } from '../../../../services/torneo.service';
+import { EventsService } from '../../../../services/events.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

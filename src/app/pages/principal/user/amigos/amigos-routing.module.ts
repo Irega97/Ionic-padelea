@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        loadChildren: () => import('../../menu-tabs/buscador/user/user.module').then(m => m.UserPageModule)
+        loadChildren: () => import('../user.module').then(m => m.UserPageModule)
       }
     ]
   }

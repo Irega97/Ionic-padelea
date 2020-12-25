@@ -1,4 +1,4 @@
-import { FriendsService } from './../../../../services/friends.service';
+import { FriendsService } from '../../../../services/friends.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
 

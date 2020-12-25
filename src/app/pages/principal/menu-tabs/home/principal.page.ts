@@ -42,12 +42,6 @@ export class PrincipalPage implements OnInit {
 
       else if (data.topic == "deleteNotification"){
         this.numNotificaciones--;
-        this.usuario.notifications = this.usuario.notifications.filter(notification =>{
-          if(notification.type == data.notification.type && notification.origen == data.notification.origen){
-            let i = this.usuario.notifications.indexOf(notification);
-            this.usuario.notifications.splice(i, 1);
-          }
-        })
       }
     }) 
   }
@@ -70,7 +64,7 @@ export class PrincipalPage implements OnInit {
 
   goPerfil(){
     this.menu.close('first');
-    this.router.navigate(['/principal/search/user/' + this.userService.user._id]);
+    this.router.navigate(['/principal/user/' + this.userService.user._id]);
   }
 
   goTorneos(){

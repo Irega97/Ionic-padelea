@@ -17,22 +17,18 @@ const routes: Routes = [
         path: '',
         loadChildren: () => import('./pages/principal/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
       },
-      {
-        path: 'my-torneos',
-        loadChildren: () => import('./pages/principal/menu-lateral/torneos/torneos.module').then( m => m.TorneosPageModule)
-      },
       //PATH PARTIDOS
       {
-        path: 'amigos',
-        loadChildren: () => import('./pages/principal/menu-lateral/amigos/amigos.module').then( m => m.AmigosPageModule)
-      },
-      {
         path: 'sobrenosotros',
-        loadChildren: () => import('./pages/principal/menu-lateral/sobrenosotros/sobrenosotros.module').then(m => m.SobrenosotrosPageModule)
+        loadChildren: () => import('./pages/principal/sobrenosotros/sobrenosotros.module').then(m => m.SobrenosotrosPageModule)
       },
       {
         path: 'notificaciones',
         loadChildren: () => import('./pages/principal/menu-tabs/home/notificaciones/notificaciones.module').then(m => m.NotificacionesPageModule)
+      },
+      {
+        path: 'user',
+        loadChildren: () => import('./pages/principal/user/user.module').then(m => m.UserPageModule)
       }
     ]
   },

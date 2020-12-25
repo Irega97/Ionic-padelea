@@ -49,6 +49,7 @@ export class NewTorneoPage implements OnInit {
     if(this.torneoForm.invalid){
       return;
     }
+    
     let finIns: Date = new Date(this.torneoForm.value.finInscripcion);
     let inicio: Date = new Date (this.torneoForm.value.fechaInicio);
     finIns = new Date(finIns.setHours(23, 59, 59, 999));
