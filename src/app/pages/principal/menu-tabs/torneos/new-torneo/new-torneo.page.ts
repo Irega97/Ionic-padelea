@@ -15,6 +15,7 @@ export class NewTorneoPage implements OnInit {
 
   torneoForm;
   pulsado = false;
+  minDate;
 
   constructor(private formBuilder: FormBuilder, private torneoService: TorneoService, private router: Router,
     private components: ComponentsService, private events: EventsService) {
@@ -33,14 +34,21 @@ export class NewTorneoPage implements OnInit {
       numRondas: ['', [Validators.required]],
       maxPlayers: ['', [Validators.required]],
       participa: [true]
-    });
+    }, { validator : Validator.checkFecha });
+  }
+
+  ionViewWillEnter(){
+    this.pulsado = false;
+    this.minDate = new Date().toISOString();
+    this.torneoForm.reset();
+    this.torneoForm.get('participa').setValue(true);
   }
 
   submitTorneo(){
     this.pulsado=true
-    /* if(this.torneoForm.invalid){
+    if(this.torneoForm.invalid){
       return;
-    } */
+    }
 
     let data = {
       "name": this.torneoForm.value.name,
@@ -54,7 +62,6 @@ export class NewTorneoPage implements OnInit {
       "maxPlayers": this.torneoForm.value.maxPlayers,
       "participa": this.torneoForm.value.participa
     }
-    console.log(this.torneoForm.value.participa)
     console.log(data);
     this.torneoService.createTorneo(data).subscribe((data)=>{
       if(data != null) {

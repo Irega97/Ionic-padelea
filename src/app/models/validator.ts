@@ -41,4 +41,16 @@ export class Validator {
       return(null);
     }
   }
+
+  static checkFecha(group: FormGroup){
+    console.log("Fecha Inicio", group.value.fechaInicio);
+    console.log("Fecha Inscripcion", group.value.finInscripcion);
+    if (group.value.fechaInicio < group.value.finInscripcion){
+      console.log("Entra en el if");
+      return ({checkFecha:true});
+    }
+    else{
+      return null;
+    }
+  }
 }

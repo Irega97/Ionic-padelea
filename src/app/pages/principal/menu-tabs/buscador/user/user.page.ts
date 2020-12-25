@@ -27,7 +27,6 @@ export class UserPage implements OnInit {
       this.id = paramMap.get('id');
         this.userService.getUser(this.id).subscribe(data =>{
           this.user = data;
-          console.log(data);
           if (this.user.friendStatus == -1){
             this.solicitud = false;
           }
