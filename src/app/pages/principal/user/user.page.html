@@ -47,7 +47,7 @@
     <ion-row>
       <ion-col>
         <ion-list *ngIf="friends && friends.length > 0; else noFriends">
-          <ion-item *ngFor="let friend of friends" [routerLink] = "['/principal/search/user', friend.user._id]">
+          <ion-item *ngFor="let friend of friends" [routerLink] = "['/user', friend.user._id]">
             <ion-avatar slot="start">
               <ion-img [src]="friend.user.image"></ion-img>
             </ion-avatar>

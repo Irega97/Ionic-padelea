@@ -4,27 +4,22 @@ import { UserPage } from './user.page';
 
 const routes: Routes = [
   {
-    path: ':id',
-    component: UserPage,
-    children: [
-          {
-            path: 'amigos',
-            loadChildren: () => import('./amigos/amigos.module').then(m => m.AmigosPageModule)
-          },
-          {
-            path: 'torneos',
-            loadChildren: () => import('./torneos/torneos.module').then(m => m.TorneosPageModule)
-          }
-          /*{
-            path: 'informacion',
-            loadChildren: 
-          }*/
-        ]
+    path: '',
+    component: UserPage
+  },
+    /* {
+      path: 'amigos',
+      loadChildren: () => import('../user/amigos/amigos.module').then(m => m.AmigosPageModule)
+    }, */
+  {
+    path: 'torneos',
+    loadChildren: () => import('../user/torneos/torneos.module').then(m => m.TorneosPageModule)
   },
   {
-    path: 'modperfil',
-    loadChildren: () => import('src/app/pages/principal/user/modperfil/modperfil.module').then(m => m.ModperfilPageModule)
+    path: 'friends',
+    loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   }
+
 ];
 
 @NgModule({

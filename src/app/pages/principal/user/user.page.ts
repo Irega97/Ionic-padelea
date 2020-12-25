@@ -68,7 +68,7 @@ export class UserPage implements OnInit {
   }
 
   modificar(){
-    this.router.navigate(['/principal/modperfil']);
+    this.router.navigate(['/user/modperfil']);
   }
 
   addFriend(){

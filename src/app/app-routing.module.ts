@@ -25,13 +25,27 @@ const routes: Routes = [
       {
         path: 'notificaciones',
         loadChildren: () => import('./pages/principal/menu-tabs/home/notificaciones/notificaciones.module').then(m => m.NotificacionesPageModule)
-      },
-      {
-        path: 'user',
-        loadChildren: () => import('./pages/principal/user/user.module').then(m => m.UserPageModule)
       }
     ]
   },
+  {
+    path: 'user',
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: ':id',
+        loadChildren: () => import('src/app/pages/principal/user/user.module').then(m => m.UserPageModule)
+      },
+      {
+        path: 'modperfil',
+        loadChildren: () => import('src/app/pages/principal/user/modperfil/modperfil.module').then(m => m.ModperfilPageModule)
+      }
+    ]
+  },
+  /* {
+    path: 'torneo',
+    loadChildren: () => import('./pages/principal/menu-tabs/torneos/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
+  }, */
   {
     path: 'auth',
     canActivateChild: [NoauthGuard],

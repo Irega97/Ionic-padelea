@@ -1,13 +1,13 @@
-import { FriendsService } from '../../../../services/friends.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
-  selector: 'app-amigos',
-  templateUrl: './amigos.page.html',
-  styleUrls: ['./amigos.page.scss'],
+  selector: 'app-friends',
+  templateUrl: './friends.page.html',
+  styleUrls: ['./friends.page.scss'],
 })
-export class AmigosPage implements OnInit {
+export class FriendsPage implements OnInit {
 
   friends
   friendsSearch;
