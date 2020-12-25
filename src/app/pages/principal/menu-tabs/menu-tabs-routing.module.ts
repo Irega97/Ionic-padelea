@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('src/app/pages/principal/menu-tabs/buscador/buscador.module').then(m => m.BuscadorPageModule)
       },
       {
+        path: 'modperfil',
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/buscador/user/modperfil/modperfil.module').then(m => m.ModperfilPageModule)
+      },
+      {
         path: 'chats',
         loadChildren: () => import('src/app/pages/principal/menu-tabs/chats/chat.module').then(m => m.ChatPageModule)
       },

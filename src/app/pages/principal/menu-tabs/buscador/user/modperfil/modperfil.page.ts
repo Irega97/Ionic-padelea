@@ -6,6 +6,7 @@ import { AuthService} from 'src/app/services/auth.service'
 import { Validator } from 'src/app/models/validator'
 import { UserService } from 'src/app/services/user.service';
 import { EventsService } from 'src/app/services/events.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-modperfil',
@@ -25,7 +26,7 @@ export class ModperfilPage implements OnInit {
   iconconfirmpassword = "eye-off";
 
   constructor(private userService: UserService, private authservicio: AuthService, private formBuilder: FormBuilder, private router: Router,
-    private events: EventsService) { }
+    private events: EventsService, private location: Location) { }
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -50,6 +51,10 @@ export class ModperfilPage implements OnInit {
 
   ionViewWillEnter(){
     this.pulsado = false;
+  }
+
+  goBack(){
+    this.location.back();
   }
 
   crearFormulario(){

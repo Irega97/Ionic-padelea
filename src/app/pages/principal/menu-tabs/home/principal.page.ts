@@ -99,7 +99,7 @@ export class PrincipalPage implements OnInit {
 
   goPerfil(){
     this.menu.close('first');
-    this.router.navigate(['/principal/perfil']);
+    this.router.navigate(['/principal/search/user/' + this.userService.user._id]);
   }
 
   goTorneos(){

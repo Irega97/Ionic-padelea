@@ -18,10 +18,6 @@ const routes: Routes = [
         loadChildren: () => import('./pages/principal/menu-tabs/menu-tabs.module').then(m => m.MenuTabsPageModule)
       },
       {
-        path: 'perfil',
-        loadChildren: () => import('./pages/principal/menu-lateral/perfil/perfil.module').then(m => m.PerfilPageModule)
-      },
-      {
         path: 'my-torneos',
         loadChildren: () => import('./pages/principal/menu-lateral/torneos/torneos.module').then( m => m.TorneosPageModule)
       },

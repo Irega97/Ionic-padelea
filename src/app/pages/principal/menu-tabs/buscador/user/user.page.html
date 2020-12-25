@@ -1,7 +1,7 @@
 <ion-header *ngIf="user">
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button (click)="buttonBack()" defaultHref=""></ion-back-button>
+      <ion-back-button (click) = "goBack()" defaultHref=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{user.username}}</ion-title>
   </ion-toolbar>
@@ -22,6 +22,11 @@
       <ion-col>
         <ion-list>
           <ion-item>Correo: {{user.email}}</ion-item>
+          <div style="text-align: center;" *ngIf="tuPerfil">
+            <ion-button slot="end" color="secondary" (click) = "modificar()">
+              MODIFICAR PERFIL
+            </ion-button>
+          </div>
           <!-- <ion-item>Online: {{user.online}}</ion-item> -->
         </ion-list>
       </ion-col>

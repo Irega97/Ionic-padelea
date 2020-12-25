@@ -18,15 +18,37 @@ export class UserPage implements OnInit {
 
   user;
   id;
+  tuPerfil: Boolean;
   solicitud: Boolean
   friends;
   notification: Notification;
 
   ngOnInit() {
-      this.route.paramMap.subscribe(paramMap => {
+      if (this.userService.user == undefined){
+        this.userService.getMyUser().subscribe(data =>{
+          this.userService.user = data;
+          this.compararId();
+        })
+      }
+
+      else{
+        this.compararId();
+      }
+  }
+
+  compararId(){
+    this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
+      
+      if (this.id == this.userService.user._id){
+        this.tuPerfil = true;
+        this.user = this.userService.user;
+      }
+
+      else{
         this.userService.getUser(this.id).subscribe(data =>{
           this.user = data;
+          this.tuPerfil = false;
           if (this.user.friendStatus == -1){
             this.solicitud = false;
           }
@@ -39,7 +61,12 @@ export class UserPage implements OnInit {
         this.friendService.getFriends(this.id).subscribe(data => {
           this.friends = data.friends;
         })
-      });
+      } 
+    });
+  }
+
+  modificar(){
+    this.router.navigate(['/principal/modperfil']);
   }
 
   addFriend(){
@@ -85,7 +112,7 @@ export class UserPage implements OnInit {
     })
   }
 
-  buttonBack(){
-    this.location.back()
+  goBack(){
+    this.location.back();
   }
 }
