@@ -28,7 +28,7 @@
           <p *ngIf="usernameForm.controls['username'].hasError('required') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
           <p *ngIf="!usernameForm.controls['username'].hasError('required') && usernameForm.controls['username'].hasError('validUsername') && (usernameForm.controls['username'].dirty || usernameForm.controls['username'].touched || pulsado)"><ion-label color="danger">Este nombre de usuario ya existe</ion-label></p>
           
-          <ion-label>PRIVACIDAD DE LA CUENTA:</ion-label>
+          <ion-label style="margin-left: 14px; ">Visibilidad de la cuenta:</ion-label>
           <ion-item>
             <ion-checkbox formControlName="private" slot="start"></ion-checkbox>
             <ion-label color="primary">Solo mis amigos verán mis publicaciones</ion-label>

@@ -28,6 +28,10 @@ export class RecuperarcuentaPage implements OnInit {
     this.pulsado = false;
   }
 
+  goLogin(){
+    this.router.navigate(['/auth/login']);
+  }
+
   submitemail(){
     this.pulsado = true;
     if (this.emailForm.invalid){

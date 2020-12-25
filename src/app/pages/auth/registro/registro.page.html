@@ -65,7 +65,7 @@
         <p *ngIf="registerform.controls['confirmpassword'].hasError('required') && (registerform.controls['confirmpassword'].dirty || registerform.controls['confirmpassword'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
         <p *ngIf="!registerform.controls['confirmpassword'].hasError('required') && registerform.hasError('checkPassword') && (registerform.controls['password'].dirty || registerform.controls['password'].touched || pulsado)"><ion-label color="danger">Las contraseñas tienen que coincidir</ion-label></p>
         
-        <ion-label>PRIVACIDAD DE LA CUENTA:</ion-label>
+        <ion-label style="margin-left: 14px; ">Visibilidad de la cuenta:</ion-label>
         <ion-item>
           <ion-checkbox formControlName="private" slot="start"></ion-checkbox>
           <ion-label color="primary">Solo mis amigos verán mis publicaciones</ion-label>
