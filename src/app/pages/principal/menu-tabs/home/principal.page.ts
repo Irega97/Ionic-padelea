@@ -23,52 +23,21 @@ export class PrincipalPage implements OnInit {
   ngOnInit() {
     if (this.userService.user != undefined){
       this.usuario = this.userService.user;
-      this.notificationsService.getMyNotifications().subscribe(data =>{
-        this.usuario.notifications = data.notifications;
-        this.numNotificaciones = this.usuario.notifications.length;
-      });
-    }
-
-    else{
-      //this.components.presentLoadingHTML();
-      this.userService.getMyUser().subscribe(data => {
-        this.userService.user = data;
-        this.usuario = data;
-        //this.components.dismissLoading();
-        this.events.connectSocket(data._id, data.username);
-  
-        this.notificationsService.getMyNotifications().subscribe(data =>{
-          this.usuario.notifications = data.notifications;
-          this.numNotificaciones = this.usuario.notifications.length;
-        });
+      this.notificationsService.getMyNotifications(true).subscribe(data =>{
+        this.numNotificaciones = data.length;
       });
     }
 
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser") {
         this.usuario = data.user;
-      }
-
-      else if (data.topic == "loginUser"){
-        this.userService.getMyUser().subscribe(data => {
-          this.usuario = data;
-          this.userService.user = this.usuario;
-          this.events.connectSocket(data._id, data.username);
-          this.events.publish({
-            "topic": "updateUser",
-            "user": this.usuario
-          })
-        });
-
-        this.notificationsService.getMyNotifications().subscribe(data =>{
-          this.usuario.notifications = data.notifications;
-          this.numNotificaciones = this.usuario.notifications.length;
+        this.notificationsService.getMyNotifications(true).subscribe(data =>{
+          this.numNotificaciones = data.length;
         });
       }
 
       else if (data.topic == "nuevaNotificacion"){
         this.numNotificaciones++;
-        this.usuario.notifications.push(data.notification);
       }
 
       else if (data.topic == "deleteNotification"){
@@ -90,9 +59,11 @@ export class PrincipalPage implements OnInit {
   logout(){
     this.authService.signout().subscribe(data =>{
       localStorage.clear();
-      this.userService.user == undefined;
+      this.userService.user = undefined;
+      this.userService.i = 0;
       this.events.disconnectSocket();
       this.menu.close('first');
+      this.authService.reload = true;
       this.router.navigate(['/auth/login']);
     })
   }

@@ -16,18 +16,16 @@ export class NotificacionesPage implements OnInit {
   constructor(private router: Router, private notificationService: NotificationsService, private events: EventsService) { }
 
   ngOnInit() {
-    if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.notifications = this.router.getCurrentNavigation().extras.state.notifications;
-    }
-
-    else{
-      this.notificationService.getMyNotifications().subscribe(data=>{
-        this.notifications = data.notifications;
-      })
-    }
+    this.notificationService.getMyNotifications(false).subscribe(data=>{
+      this.notifications = data.notifications;
+    })
 
     this.events.getObservable().subscribe(data =>{
-      if (data.topic == "deleteNotification"){
+      if (data.topic == "nuevaNotificacion"){
+        this.notifications.push(data.notification);
+      }
+
+      else if (data.topic == "deleteNotification"){
         this.notifications = this.notifications.filter(notification =>{
           if(notification.type == data.notification.type && notification.origen == data.notification.origen){
             let i = this.notifications.indexOf(notification);

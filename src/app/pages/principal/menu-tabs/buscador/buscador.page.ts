@@ -13,19 +13,23 @@ export class BuscadorPage implements OnInit {
   @Input() users;
 
   usersSearch;
+  cargando: Boolean = true;
 
   constructor(private userService: UserService, private events: EventsService) { }
 
   ngOnInit() {
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
-      this.usersSearch = this.users;      
+      this.usersSearch = this.users;   
+      this.cargando = false;   
     });
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "loginUser") {
+        this.cargando = true;
         this.userService.getUsers().subscribe((data) => {
           this.users = data;
-          this.usersSearch = this.users;      
+          this.usersSearch = this.users;   
+          this.cargando = false;   
         });
       }
     });

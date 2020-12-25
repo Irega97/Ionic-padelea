@@ -26,13 +26,15 @@ export class AuthInterceptor implements HttpInterceptor {
                     if(err.status === 401) {
                         this.components.dismissLoading();
                         this.components.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
+                        localStorage.removeItem("ACCESS_TOKEN");
+                        this.router.navigateByUrl("auth/login");
                     }
                     else if(err.status === 500 || err.status == 0) {
                         this.components.dismissLoading();
                         this.components.presentAlert("No se ha podido conectar con el servidor. Serás redirigido a la página del Login");
+                        localStorage.removeItem("ACCESS_TOKEN");
+                        this.router.navigateByUrl("auth/login");
                     }
-                    localStorage.removeItem("ACCESS_TOKEN");
-                    this.router.navigateByUrl("auth/login");
                     return throwError(err);
                 }));
         }

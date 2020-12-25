@@ -19,21 +19,21 @@ export class UserPage implements OnInit {
   user;
   id;
   tuPerfil: Boolean;
-  solicitud: Boolean
+  solicitud: Boolean;
   friends;
   notification: Notification;
 
   ngOnInit() {
-      if (this.userService.user == undefined){
-        this.userService.getMyUser().subscribe(data =>{
-          this.userService.user = data;
-          this.compararId();
-        })
-      }
+    if (this.userService.user != undefined){
+      this.compararId();
+    }
 
-      else{
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "updateUser"){
+        this.user = data.user;
         this.compararId();
       }
+    })
   }
 
   compararId(){
@@ -56,7 +56,9 @@ export class UserPage implements OnInit {
             this.solicitud = true;
           }
         }, error => {
-          console.log(error);
+          if (error.status == 404){
+            this.goBack();
+          }
         });
         this.friendService.getFriends(this.id).subscribe(data => {
           this.friends = data.friends;

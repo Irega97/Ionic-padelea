@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
+  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar> 
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
   <ion-list *ngIf = "users && usersSearch.length > 0; else noUsers">
     <ion-item *ngFor="let user of usersSearch" [routerLink] = "['/principal/search/user', user._id]">
       <ion-avatar slot="start">
@@ -16,7 +19,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ng-template #noUsers>
+  <ng-template *ngIf="!cargando" #noUsers>
     <ion-text>
       <p class ="ion-text-center">No hay usuarios</p>
     </ion-text>

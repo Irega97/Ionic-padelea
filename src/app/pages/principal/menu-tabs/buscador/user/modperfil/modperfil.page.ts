@@ -34,14 +34,6 @@ export class ModperfilPage implements OnInit {
       this.crearFormulario();
     }
 
-    else{
-      this.userService.getMyUser().subscribe(data => {
-        this.user = data;
-        this.userService.user = data;
-        this.crearFormulario();
-      })
-    }
-
     this.events.getObservable().subscribe(data=>{
       if (data.topic == "updateUser"){
         this.user = data.user;

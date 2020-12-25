@@ -49,20 +49,22 @@ export class NewTorneoPage implements OnInit {
     if(this.torneoForm.invalid){
       return;
     }
-
+    let finIns: Date = new Date(this.torneoForm.value.finInscripcion);
+    let inicio: Date = new Date (this.torneoForm.value.fechaInicio);
+    finIns = new Date(finIns.setHours(23, 59, 59, 999));
+    inicio = new Date(inicio.setHours(1, 0, 0, 0));
     let data = {
       "name": this.torneoForm.value.name,
       "type": this.torneoForm.value.type,
       "description": this.torneoForm.value.description,
-      "fechaInicio": this.torneoForm.value.fechaInicio,
-      "finInscripcion": this.torneoForm.value.finInscripcion,
+      "fechaInicio": inicio,
+      "finInscripcion": finIns,
       "ubicacion": this.torneoForm.value.ubicacion,
       "reglamento": this.torneoForm.value.reglamento,
       "numRondas": this.torneoForm.value.numRondas,
       "maxPlayers": this.torneoForm.value.maxPlayers,
       "participa": this.torneoForm.value.participa
     }
-    console.log(data);
     this.torneoService.createTorneo(data).subscribe((data)=>{
       if(data != null) {
         this.components.presentAlert("Torneo creado con éxito");

@@ -13,7 +13,20 @@
     <ion-avatar style="width: 90px; height: 90px;">
       <ion-img id="img" [src]="user.image"></ion-img>
     </ion-avatar>
-    <h2 style="margin-left: 15px; padding-top: 20px;">{{user.name}}</h2>
+    <ion-label>
+      <h1 style="margin-left: 15px; padding-top: 20px;">{{user.name}}</h1>
+      <ion-row>
+        <ion-col>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a><ion-icon name="information-circle-outline"></ion-icon></a></h3>
+        </ion-col>
+        <ion-col>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a>AMIGOS: 10</a></h3>
+        </ion-col>
+        <ion-col>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a>TORNEOS: 10</a></h3>
+        </ion-col>
+      </ion-row>
+    </ion-label>
     </ion-row>
     <ion-row>
       <h3 style="padding-left: 5px;">INFORMACIÓN</h3>

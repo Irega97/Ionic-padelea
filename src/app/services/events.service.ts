@@ -10,7 +10,7 @@ import { ComponentsService } from './components.service';
 })
 export class EventsService {
 
-  conectado: Boolean = true;
+  private conectado: Boolean = true;
   constructor(private socket: Socket, private components: ComponentsService) { }
 
   private dataSubject = new Subject<any>();
@@ -23,13 +23,13 @@ export class EventsService {
     return this.dataSubject;
   }
 
-  public connectSocket(id: String, username: String){
+  public connectSocket(user: User){
     if (!this.conectado){
       this.socket.connect();
       this.conectado = true;
     }
 
-    let data = {"id": id, "username": username};
+    let data = {"id": user._id, "username": user.username};
     this.socket.emit('nuevoConectado', data);
     this.socket.on('nuevaNotificacion', notification => {
       this.components.presentToast(notification);

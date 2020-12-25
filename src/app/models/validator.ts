@@ -1,4 +1,4 @@
-import{ AbstractControl, FormControl, FormGroup } from '@angular/forms'
+import{ FormGroup } from '@angular/forms'
 
 export class Validator {
 
@@ -43,10 +43,11 @@ export class Validator {
   }
 
   static checkFecha(group: FormGroup){
-    console.log("Fecha Inicio", group.value.fechaInicio);
-    console.log("Fecha Inscripcion", group.value.finInscripcion);
-    if (group.value.fechaInicio < group.value.finInscripcion){
-      console.log("Entra en el if");
+    let finIns: Date = new Date(group.value.finInscripcion);
+    let inicio: Date = new Date (group.value.fechaInicio);
+    finIns = new Date(finIns.setHours(23, 59, 59, 999));
+    inicio = new Date(inicio.setHours(0, 0, 0, 0));
+    if (inicio < finIns){
       return ({checkFecha:true});
     }
     else{
