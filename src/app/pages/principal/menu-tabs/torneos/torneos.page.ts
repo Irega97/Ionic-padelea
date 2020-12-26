@@ -16,7 +16,6 @@ export class TorneosPage implements OnInit {
 
   ngOnInit() {
     this.torneoService.getTorneos().subscribe((data) => {
-      console.log(data);
       this.torneos = data;
       this.torneosSearch = this.torneos;      
     }); 
@@ -28,26 +27,17 @@ export class TorneosPage implements OnInit {
         });
       }
     });
-    
   }
-
-  /* const searchbar = document.querySelector('ion-searchbar');
-  const items = this.users;
-
-  searchbar.addEventListener('ionInput', handleInput); */
 
   handleInput(event) {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {
       this.torneosSearch = this.torneos.filter((torneo)=>{
-        //console.log("q: " +user.username, user.username.indexOf(query));
         if(torneo.name && query != ''){
-          console.log("P ", torneo);
           return (torneo.name.toLowerCase().indexOf(query) > -1)
         }
         else return torneo;
       });
     });
   }
-
 }

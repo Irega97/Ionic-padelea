@@ -47,7 +47,6 @@ export class UserPage implements OnInit {
 
       else{
         this.userService.getUser(this.username).subscribe(data =>{
-          console.log(data);
           this.user = data;
           this.tuPerfil = false;
           if (this.user.friendStatus == -1){
@@ -69,7 +68,7 @@ export class UserPage implements OnInit {
   }
 
   modificar(){
-    this.router.navigateByUrl('/user/'+ this.userService.user.username + '/updperfil');
+    this.router.navigateByUrl('/user/'+ this.userService.user.username + '/modificar');
   }
 
   addFriend(){

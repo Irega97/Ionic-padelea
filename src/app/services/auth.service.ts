@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../models/user';
 import * as CryptoJS from 'crypto-js';
 import { Token } from 'src/app/models/token';
 
@@ -37,7 +36,6 @@ export class AuthService {
       var cipherPsswd = CryptoJS.SHA256(password).toString();
       return cipherPsswd;
     } catch (e) {
-      console.log(e);
     }
   }
 

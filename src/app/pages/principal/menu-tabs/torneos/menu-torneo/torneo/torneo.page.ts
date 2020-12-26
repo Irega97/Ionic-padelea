@@ -24,13 +24,10 @@ export class TorneoPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
       this.torneoService.getTorneo(this.name).subscribe(data =>{
-        console.log(data);
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;
         this.torneo = data.torneo;
         this.players = data.torneo.players;
-      }, error => {
-        console.log(error);
       });
     });
     this.events.getObservable().subscribe((data)=> {
@@ -38,12 +35,9 @@ export class TorneoPage implements OnInit {
         this.route.paramMap.subscribe(paramMap => {
           this.name = paramMap.get('name');
           this.torneoService.getTorneo(this.name).subscribe(data =>{
-            console.log(data);
             this.joined = data.joined;
             this.torneo = data.torneo;
             this.players = data.torneo.players;
-          }, error => {
-            console.log(error);
           });
         });
       }
@@ -53,7 +47,7 @@ export class TorneoPage implements OnInit {
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe(() => {
       this.events.publish({"topic":"new-player"});
-      this.component.presentAlert("Te has unido a "+this.torneo.name);
+      this.component.presentAlert("Te has unido a " + this.torneo.name);
     }, (error)=>{
       console.log(error);
       this.component.presentAlert("No has podido unirte");

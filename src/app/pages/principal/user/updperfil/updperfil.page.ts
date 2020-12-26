@@ -29,7 +29,6 @@ export class UpdperfilPage implements OnInit {
     private events: EventsService, private location: Location) { }
 
   ngOnInit() {
-    console.log("cris tonti");
     if (this.userService.user != undefined){
       this.user = this.userService.user;
       this.crearFormulario();
@@ -159,5 +158,4 @@ export class UpdperfilPage implements OnInit {
       this.iconconfirmpassword = "eye-off";
     }
   }
-
 }

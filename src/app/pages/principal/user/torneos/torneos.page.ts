@@ -16,7 +16,6 @@ export class TorneosPage implements OnInit {
 
   ngOnInit() {
     this.torneoService.getMyTorneos().subscribe((data) => {
-      console.log(data);
       this.torneos = data.torneos;
       this.torneosSearch = this.torneos;      
     });
@@ -35,7 +34,6 @@ export class TorneosPage implements OnInit {
     requestAnimationFrame(() => {
       this.torneosSearch = this.torneos.filter((t)=>{
         if(t.torneo.name && query != ''){
-          console.log("P ", t.torneo);
           return (t.torneo.name.toLowerCase().indexOf(query) > -1)
         }
         else return t.torneo;
