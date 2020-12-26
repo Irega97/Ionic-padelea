@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ModperfilPageRoutingModule } from './modperfil-routing.module';
+import { UpdperfilPageRoutingModule } from './updperfil-routing.module';
 
-import { ModperfilPage } from './modperfil.page';
+import { UpdperfilPage } from './updperfil.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule, 
-    ModperfilPageRoutingModule
+    ReactiveFormsModule,
+    UpdperfilPageRoutingModule
   ],
-  declarations: [ModperfilPage]
+  declarations: [UpdperfilPage]
 })
-export class ModperfilPageModule {}
+export class UpdperfilPageModule {}

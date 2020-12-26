@@ -64,12 +64,12 @@ export class PrincipalPage implements OnInit {
 
   goPerfil(){
     this.menu.close('first');
-    this.router.navigate(['/user/' + this.userService.user._id]);
+    this.router.navigate(['/user/' + this.userService.user.username]);
   }
 
   goTorneos(){
     this.menu.close('first');
-    this.router.navigate(['/user/' + this.userService.user._id + '/torneos']);
+    this.router.navigate(['/user/' + this.userService.user.username + '/torneos']);
   }
 
   goPartidos(){
@@ -78,7 +78,7 @@ export class PrincipalPage implements OnInit {
 
   goAmigos(){
     this.menu.close('first');
-    this.router.navigate(['/user/' + this.userService.user._id + '/friends']);
+    this.router.navigate(['/user/' + this.userService.user.username + '/amigos']);
   }
 
   goInfo(){

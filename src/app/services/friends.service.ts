@@ -11,24 +11,24 @@ export class FriendsService {
   ruta = environment.apiURL + "/friends/"
   constructor(private http: HttpClient) { }
 
-  getFriends(idFriend: string): Observable<any> {
-    return this.http.get<JSON>(this.ruta + idFriend);
+  getFriends(usernameFriend: string): Observable<any> {
+    return this.http.get<JSON>(this.ruta + usernameFriend);
   }
 
   getMyFriends(): Observable<any> {
     return this.http.get<JSON>(this.ruta + 'me/all');
   }
 
-  addFriend(idFriend: string): Observable<JSON>{
-    return this.http.post<JSON>(this.ruta + idFriend, null);
+  addFriend(usernameFriend: string): Observable<JSON>{
+    return this.http.post<JSON>(this.ruta + usernameFriend, null);
   }
 
-  changeStatus(idFriend: string, body): Observable<any>{
-    return this.http.post<JSON>(this.ruta + idFriend + "/status", body);
+  changeStatus(usernameFriend: string, body): Observable<any>{
+    return this.http.post<JSON>(this.ruta + usernameFriend + "/status", body);
   }
 
-  delFriend(idFriend: string){
-    return this.http.delete(this.ruta + idFriend);
+  delFriend(usernameFriend: string){
+    return this.http.delete(this.ruta + usernameFriend);
   }
 
 }

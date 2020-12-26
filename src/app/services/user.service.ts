@@ -21,8 +21,8 @@ export class UserService {
     return this.http.get<User[]>(this.ruta + "all");
   }
 
-  getUser(id: String): Observable<User> {
-    return this.http.get<User>(this.ruta + id);
+  getUser(username: String): Observable<User> {
+    return this.http.get<User>(this.ruta + username);
   }
 
   getMyUser(): void {

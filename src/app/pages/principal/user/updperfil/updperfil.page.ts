@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { AuthService} from 'src/app/services/auth.service'
-import { Validator } from 'src/app/models/validator'
-import { UserService } from 'src/app/services/user.service';
+import { Validator } from 'src/app/models/validator';
+import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
-import { Location } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common'
 
 @Component({
-  selector: 'app-modperfil',
-  templateUrl: './modperfil.page.html',
-  styleUrls: ['./modperfil.page.scss'],
+  selector: 'app-updperfil',
+  templateUrl: './updperfil.page.html',
+  styleUrls: ['./updperfil.page.scss'],
 })
-export class ModperfilPage implements OnInit {
+export class UpdperfilPage implements OnInit {
 
   updateform: FormGroup;
   user: User;
@@ -29,6 +29,7 @@ export class ModperfilPage implements OnInit {
     private events: EventsService, private location: Location) { }
 
   ngOnInit() {
+    console.log("cris tonti");
     if (this.userService.user != undefined){
       this.user = this.userService.user;
       this.crearFormulario();
@@ -102,7 +103,7 @@ export class ModperfilPage implements OnInit {
       }
     }
 
-    this.userService.update(userupdate).subscribe((data) => {
+    this.userService.update(userupdate).subscribe(() => {
       this.userService.user.name = userupdate.name;
       this.userService.user.firstName = userupdate.firstName;
       this.userService.user.lastName = userupdate.lastName;
@@ -158,4 +159,5 @@ export class ModperfilPage implements OnInit {
       this.iconconfirmpassword = "eye-off";
     }
   }
+
 }

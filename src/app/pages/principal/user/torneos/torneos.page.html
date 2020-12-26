@@ -10,7 +10,7 @@
 <ion-content>
   <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
   <ion-list *ngIf = "torneos && torneosSearch.length > 0; else noTorneos">
-    <ion-item *ngFor="let t of torneosSearch" [routerLink] = "['/principal/torneos/torneo', t.torneo._id]">
+    <ion-item *ngFor="let t of torneosSearch" [routerLink] = "['/torneo', t.torneo.name]">
       <!-- <ion-avatar slot="start">
         <ion-img [src]="friend.user.image"></ion-img>
       </ion-avatar> -->

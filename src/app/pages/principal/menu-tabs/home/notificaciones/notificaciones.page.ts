@@ -38,7 +38,7 @@ export class NotificacionesPage implements OnInit {
 
   goNotification(notification) {
     if (notification.type == "Amigos"){
-      this.router.navigate(['/principal/search/user/' + notification.origen]);
+      this.router.navigate(['/user/' + notification.origen]);
     }
   }
 }

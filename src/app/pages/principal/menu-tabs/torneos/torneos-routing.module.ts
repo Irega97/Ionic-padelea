@@ -6,20 +6,11 @@ import { TorneosPage } from './torneos.page';
 const routes: Routes = [
   {
     path: '',
-    component: TorneosPage
-  },
-  {
-    path: 'torneo',
-    children: [
-      {
-        path: ':id',
-        loadChildren: () => import('./menu-torneo/torneo/torneo.module').then( m => m.TorneoPageModule)
-      }
-    ]
+    component: TorneosPage,
   },
   {
     path: 'new',
-    loadChildren: () => import('./new-torneo/new-torneo.module').then( m => m.NewTorneoPageModule)
+    loadChildren: () => import('./new-torneo/new-torneo.module').then(m => m.NewTorneoPageModule)
   },
   {
     path: 'menu-torneo',

@@ -33,19 +33,21 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: ':id',
+        path: ':username',
         loadChildren: () => import('src/app/pages/principal/user/user.module').then(m => m.UserPageModule)
-      },
-      {
-        path: 'modperfil',
-        loadChildren: () => import('src/app/pages/principal/user/modperfil/modperfil.module').then(m => m.ModperfilPageModule)
       }
     ]
   },
-  /* {
+  {
     path: 'torneo',
-    loadChildren: () => import('./pages/principal/menu-tabs/torneos/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
-  }, */
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: ':name',
+        loadChildren: () => import('./pages/principal/menu-tabs/torneos/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
+      }
+    ]
+  },
   {
     path: 'auth',
     canActivateChild: [NoauthGuard],

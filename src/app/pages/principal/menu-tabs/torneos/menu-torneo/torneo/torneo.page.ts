@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class TorneoPage implements OnInit {
 
   torneo;
-  id;
+  name;
   isAdmin;
   players;
   joined: boolean;
@@ -22,8 +22,8 @@ export class TorneoPage implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      this.id = paramMap.get('id');
-      this.torneoService.getTorneo(this.id).subscribe(data =>{
+      this.name = paramMap.get('name');
+      this.torneoService.getTorneo(this.name).subscribe(data =>{
         console.log(data);
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;
@@ -36,8 +36,8 @@ export class TorneoPage implements OnInit {
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-player") {
         this.route.paramMap.subscribe(paramMap => {
-          this.id = paramMap.get('id');
-          this.torneoService.getTorneo(this.id).subscribe(data =>{
+          this.name = paramMap.get('name');
+          this.torneoService.getTorneo(this.name).subscribe(data =>{
             console.log(data);
             this.joined = data.joined;
             this.torneo = data.torneo;
@@ -51,7 +51,7 @@ export class TorneoPage implements OnInit {
   }
 
   joinTorneo(){
-    this.torneoService.joinTorneo(this.id).subscribe(() => {
+    this.torneoService.joinTorneo(this.name).subscribe(() => {
       this.events.publish({"topic":"new-player"});
       this.component.presentAlert("Te has unido a "+this.torneo.name);
     }, (error)=>{
@@ -61,6 +61,6 @@ export class TorneoPage implements OnInit {
   }
 
   goAdmin(){
-    this.router.navigateByUrl("principal/torneos/torneo/"+this.id+"/admin");
+    this.router.navigateByUrl("torneo/"+this.name+"/admin");
   }
 }
