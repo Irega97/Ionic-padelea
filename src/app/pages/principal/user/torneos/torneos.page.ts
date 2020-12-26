@@ -1,6 +1,7 @@
 import { TorneoService } from '../../../../services/torneo.service';
 import { EventsService } from '../../../../services/events.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-torneos',
@@ -9,24 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TorneosPage implements OnInit {
 
-  torneos
+  torneos;
   torneosSearch;
+  username: string;
 
-  constructor(private torneoService: TorneoService, private events: EventsService) { }
+  constructor(private torneoService: TorneoService, private events: EventsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.torneoService.getMyTorneos().subscribe((data) => {
-      this.torneos = data.torneos;
-      this.torneosSearch = this.torneos;      
+    this.route.paramMap.subscribe(paramMap => {
+      this.username = paramMap.get('username');
+      this.torneoService.getTorneosUser(this.username).subscribe((data) => {
+        this.torneos = data.torneos;
+        this.torneosSearch = this.torneos;      
+      });
     });
-    this.events.getObservable().subscribe((data)=> {
+    
+    /*this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-torneo") {
-        this.torneoService.getMyTorneos().subscribe((data) => {
+        this.torneoService.getTorneosUser("cristian").subscribe((data) => {
           this.torneos = data.torneos;
           this.torneosSearch = this.torneos;      
         });
       }
-    });
+    });*/
   }
 
   handleInput(event) {

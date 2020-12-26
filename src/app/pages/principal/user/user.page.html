@@ -1,7 +1,7 @@
 <ion-header *ngIf="user">
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button (click) = "goBack()" defaultHref=""></ion-back-button>
+      <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
     <ion-title>{{user.username}}</ion-title>
   </ion-toolbar>
@@ -20,10 +20,10 @@
           <h3 style="margin-left: 15px; padding-top: 20px;"><a><ion-icon name="information-circle-outline"></ion-icon></a></h3>
         </ion-col>
         <ion-col>
-          <h3 style="margin-left: 15px; padding-top: 20px;"><a>AMIGOS: 10</a></h3>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goAmigos()">AMIGOS: {{numAmigos}}</a></h3>
         </ion-col>
         <ion-col>
-          <h3 style="margin-left: 15px; padding-top: 20px;"><a>TORNEOS: 10</a></h3>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goTorneos()">TORNEOS: {{numTorneos}}</a></h3>
         </ion-col>
       </ion-row>
     </ion-label>
@@ -45,21 +45,6 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-list *ngIf="friends && friends.length > 0; else noFriends">
-          <ion-item *ngFor="let friend of friends" [routerLink] = "['/user', friend.user._id]">
-            <ion-avatar slot="start">
-              <ion-img [src]="friend.user.image"></ion-img>
-            </ion-avatar>
-            <ion-label>{{friend.user.username}}</ion-label>
-          </ion-item>
-        </ion-list>
-        <ng-template #noFriends>
-          <ion-text>
-            <p class ="ion-text-center">No tiene amigos</p>
-          </ion-text>
-        </ng-template>
-      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>

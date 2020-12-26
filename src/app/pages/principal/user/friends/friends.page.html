@@ -10,7 +10,7 @@
 <ion-content>
   <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
   <ion-list *ngIf = "friends && friendsSearch.length > 0; else noFriends">
-    <ion-item *ngFor="let friend of friendsSearch" [routerLink] = "['/principal/search/user', friend.user._id]">
+    <ion-item *ngFor="let friend of friendsSearch" [routerLink] = "['/user', friend.user.username]">
       <ion-avatar slot="start">
         <ion-img [src]="friend.user.image"></ion-img>
       </ion-avatar>

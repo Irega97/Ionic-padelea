@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 import { FriendsService } from 'src/app/services/friends.service';
 
@@ -9,25 +10,29 @@ import { FriendsService } from 'src/app/services/friends.service';
 })
 export class FriendsPage implements OnInit {
 
-  friends
+  friends;
   friendsSearch;
+  username: string;
 
-  constructor(private friendService: FriendsService, private events: EventsService) { }
+  constructor(private friendService: FriendsService, private events: EventsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.friendService.getMyFriends().subscribe((data) => {
-      this.friends = data.friends;
-      this.friendsSearch = this.friends;      
+    this.route.paramMap.subscribe(paramMap => {
+      this.username = paramMap.get('username');
+      this.friendService.getFriends(this.username).subscribe((data) => {
+        this.friends = data.friends;
+        this.friendsSearch = this.friends;      
+      });
     });
 
-    this.events.getObservable().subscribe((data)=> {
+    /*this.events.getObservable().subscribe((data)=> {
       if (data.topic == "loginUser") {
         this.friendService.getMyFriends().subscribe((data) => {
           this.friends = data.friends;
           this.friendsSearch = this.friends;      
         });
       }
-    });
+    });*/
   }
 
   handleInput(event) {

@@ -37,6 +37,7 @@ export class UpdperfilPage implements OnInit {
     this.events.getObservable().subscribe(data=>{
       if (data.topic == "updateUser"){
         this.user = data.user;
+        this.crearFormulario();
       }
     })
   }

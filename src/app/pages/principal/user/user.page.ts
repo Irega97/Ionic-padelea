@@ -20,7 +20,8 @@ export class UserPage implements OnInit {
   username;
   tuPerfil: Boolean;
   solicitud: Boolean;
-  friends;
+  numAmigos: Number = 0;
+  numTorneos: Number = 0;
   notification: Notification;
 
   ngOnInit() {
@@ -43,11 +44,17 @@ export class UserPage implements OnInit {
       if (this.username == this.userService.user.username){
         this.tuPerfil = true;
         this.user = this.userService.user;
+        this.userService.getNum().subscribe(data => {
+          this.numAmigos = data.numAmigos;
+          this.numTorneos = data.numTorneos;
+        })
       }
 
       else{
         this.userService.getUser(this.username).subscribe(data =>{
           this.user = data;
+          this.numAmigos = this.user.numAmigos;
+          this.numTorneos = this.user.numTorneos;
           this.tuPerfil = false;
           if (this.user.friendStatus == -1){
             this.solicitud = false;
@@ -57,18 +64,23 @@ export class UserPage implements OnInit {
           }
         }, error => {
           if (error.status == 404){
-            this.goBack();
+            this.location.back();
           }
         });
-        this.friendService.getFriends(this.username).subscribe(data => {
-          this.friends = data.friends;
-        })
       } 
     });
   }
 
   modificar(){
     this.router.navigateByUrl('/user/'+ this.userService.user.username + '/modificar');
+  }
+
+  goAmigos(){
+    this.router.navigateByUrl('/user/'+ this.username + '/amigos');
+  }
+
+  goTorneos(){
+    this.router.navigateByUrl('/user/'+ this.username + '/torneos');
   }
 
   addFriend(){
@@ -112,9 +124,5 @@ export class UserPage implements OnInit {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
     })
-  }
-
-  goBack(){
-    this.location.back();
   }
 }

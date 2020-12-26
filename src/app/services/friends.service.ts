@@ -15,10 +15,6 @@ export class FriendsService {
     return this.http.get<JSON>(this.ruta + usernameFriend);
   }
 
-  getMyFriends(): Observable<any> {
-    return this.http.get<JSON>(this.ruta + 'me/all');
-  }
-
   addFriend(usernameFriend: string): Observable<JSON>{
     return this.http.post<JSON>(this.ruta + usernameFriend, null);
   }
@@ -30,5 +26,4 @@ export class FriendsService {
   delFriend(usernameFriend: string){
     return this.http.delete(this.ruta + usernameFriend);
   }
-
 }
