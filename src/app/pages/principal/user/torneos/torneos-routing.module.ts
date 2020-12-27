@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: ':name',
-        loadChildren: () => import('../../menu-tabs/torneos/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
+        loadChildren: () => import('../../menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
       }
     ]
   }

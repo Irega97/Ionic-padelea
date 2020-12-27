@@ -11,12 +11,7 @@ const routes: Routes = [
   {
     path: 'new',
     loadChildren: () => import('./new-torneo/new-torneo.module').then(m => m.NewTorneoPageModule)
-  },
-  {
-    path: 'menu-torneo',
-    loadChildren: () => import('./menu-torneo/menu-torneo.module').then( m => m.MenuTorneoPageModule)
   }
-
 ];
 
 @NgModule({

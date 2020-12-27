@@ -1,0 +1,30 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="/">
+      <ion-icon name="trophy-outline"></ion-icon>
+      <ion-label>Torneo</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="reglamento">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <ion-label>Reglamento</ion-label>
+    </ion-tab-button>
+  
+    <ion-tab-button tab="ranking">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Ranking</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="vueltas">
+      <ion-icon name="tennisball-outline"></ion-icon>
+      <ion-label>Vueltas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="admin" *ngIf="isAdmin">
+      <ion-icon name="cog-outline"></ion-icon>
+      <ion-label>Administrar</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>
+

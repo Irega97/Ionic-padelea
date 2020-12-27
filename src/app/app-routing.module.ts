@@ -44,7 +44,7 @@ const routes: Routes = [
     children: [
       {
         path: ':name',
-        loadChildren: () => import('./pages/principal/menu-tabs/torneos/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
+        loadChildren: () => import('./pages/principal/menu-torneo/menu-torneo.module').then(m => m.MenuTorneoPageModule)
       }
     ]
   },

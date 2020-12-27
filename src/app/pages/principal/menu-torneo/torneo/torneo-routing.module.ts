@@ -7,10 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: TorneoPage
-  },
-  {
-    path: 'admin',
-    loadChildren: () => import('./admin-torneo/admin-torneo.module').then( m => m.AdminTorneoPageModule)
   }
 ];
 
