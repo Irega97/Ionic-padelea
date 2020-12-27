@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
+import { NotificacionesPage } from '../menu-tabs/home/notificaciones/notificaciones.page';
 
 @Component({
   selector: 'app-user',
@@ -20,8 +21,8 @@ export class UserPage implements OnInit {
   username;
   tuPerfil: Boolean;
   solicitud: Boolean;
-  numAmigos: Number = 0;
-  numTorneos: Number = 0;
+  numAmigos: number = 0;
+  numTorneos: number = 0;
   notification: Notification;
 
   ngOnInit() {
@@ -33,6 +34,12 @@ export class UserPage implements OnInit {
       if (data.topic == "updateUser"){
         this.user = data.user;
         this.compararId();
+      }
+      else if (data.topic == "nuevaNotificacion"){
+        let notification = data.notification;
+        if (notification.type == "Amigos" && notification.status == 0 && notification.origen == this.username){
+          this.user.friendStatus = 1;
+        }
       }
     })
   }
@@ -102,11 +109,14 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.username, body).subscribe(() => {
       this.component.presentAlert("Solicitud aceptada correctamente");
       this.user.friendStatus = 2;
-      let notification = {"type":"Amigos", "origen": this.username};
+      this.numAmigos++;
+      let notification = {"type":"Amigos", "origen": this.username, "status": 0};
       this.events.publish({
         "topic": "deleteNotification",
         "notification": notification
       });
+      let notification1 = {"type": "Amigos", "description": this.userService.user.username + " te ha aceptado como amigo", "status": 1, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
+      this.events.enviarNotificacion(notification1);
     });
   }
 
