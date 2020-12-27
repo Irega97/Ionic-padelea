@@ -36,7 +36,7 @@ export class UserService {
         this.events.publish({
           "topic": "updateUser",
           "user": this.user
-        })
+        });
         this.events.connectSocket(this.user);
       })
     }

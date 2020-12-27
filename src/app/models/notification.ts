@@ -3,4 +3,5 @@ export interface Notification {
     description: String;
     status: Number;
     origen: String;
+    image: String;
 }

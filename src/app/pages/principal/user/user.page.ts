@@ -84,13 +84,13 @@ export class UserPage implements OnInit {
   }
 
   goInformacion(){
-    this.router.navigate(['/user/'+ this.username + '/informacion'], { state : {user: this.user }});
+    this.router.navigate(['/user/'+ this.username + '/informacion'], { state : { user: this.user }});
   }
 
   addFriend(){
     this.friendService.addFriend(this.username).subscribe(() => {
       this.component.presentAlert("Solicitud enviada correctamente!");
-      let notification = {"type": "Amigos", "description":"Alguien quiere ser tu amigo", "status": 0, "origen": this.userService.user.username, "destino": this.username};
+      let notification = {"type": "Amigos", "description": this.userService.user.username + " quiere ser tu amigo", "status": 0, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
       this.events.enviarNotificacion(notification);
       this.solicitud = true;
       this.user.friendStatus = 0;
