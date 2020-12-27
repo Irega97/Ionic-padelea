@@ -83,6 +83,10 @@ export class UserPage implements OnInit {
     this.router.navigateByUrl('/user/'+ this.username + '/torneos');
   }
 
+  goInformacion(){
+    this.router.navigate(['/user/'+ this.username + '/informacion'], { state : {user: this.user }});
+  }
+
   addFriend(){
     this.friendService.addFriend(this.username).subscribe(() => {
       this.component.presentAlert("Solicitud enviada correctamente!");

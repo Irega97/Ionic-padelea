@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{user.username}}</ion-title>
+    <ion-title mode="ios">{{user.username}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +17,7 @@
       <h1 style="margin-left: 15px; padding-top: 20px;">{{user.name}}</h1>
       <ion-row>
         <ion-col>
-          <h3 style="margin-left: 15px; padding-top: 20px;"><a><ion-icon name="information-circle-outline"></ion-icon></a></h3>
+          <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goInformacion()"><ion-icon size= "large" name="information-circle-outline"></ion-icon></a></h3>
         </ion-col>
         <ion-col>
           <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goAmigos()">AMIGOS: {{numAmigos}}</a></h3>
@@ -29,18 +29,13 @@
     </ion-label>
     </ion-row>
     <ion-row>
-      <h3 style="padding-left: 5px;">INFORMACIÓN</h3>
-    </ion-row>
-      <ion-row>
       <ion-col>
         <ion-list>
-          <ion-item>Correo: {{user.email}}</ion-item>
           <div style="text-align: center;" *ngIf="tuPerfil">
             <ion-button slot="end" color="secondary" (click) = "modificar()">
               MODIFICAR PERFIL
             </ion-button>
           </div>
-          <!-- <ion-item>Online: {{user.online}}</ion-item> -->
         </ion-list>
       </ion-col>
     </ion-row>
