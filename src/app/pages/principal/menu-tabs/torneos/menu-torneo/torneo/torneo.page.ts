@@ -51,12 +51,13 @@ export class TorneoPage implements OnInit {
   }
 
   joinTorneo(){
-    this.torneoService.joinTorneo(this.name).subscribe(() => {
+    this.torneoService.joinTorneo(this.name).subscribe((data) => {
+      console.log("data:", data);
       this.events.publish({"topic":"new-player"});
-      this.component.presentAlert("Te has unido a "+this.torneo.name);
+      this.component.presentAlert(data);
     }, (error)=>{
       console.log(error);
-      this.component.presentAlert("No has podido unirte");
+      this.component.presentAlert(error);
     })
   }
 
