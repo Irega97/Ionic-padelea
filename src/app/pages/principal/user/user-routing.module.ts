@@ -16,9 +16,13 @@ const routes: Routes = [
     loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   },
   {
-    path: 'updperfil',
+    path: 'modificar',
     loadChildren: () => import('src/app/pages/principal/user/updperfil/updperfil.module').then( m => m.UpdperfilPageModule)
+  },  {
+    path: 'informacion',
+    loadChildren: () => import('./informacion/informacion.module').then( m => m.InformacionPageModule)
   }
+
 ];
 
 @NgModule({

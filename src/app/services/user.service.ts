@@ -13,7 +13,9 @@ export class UserService {
 
   user: User;
   i: number = 0;
-  
+  numAmigos: number = 0;
+  numTorneos: number = 0;
+
   ruta = environment.apiURL + "/user/"
   constructor(private http: HttpClient, private events: EventsService) { }
 
@@ -34,10 +36,14 @@ export class UserService {
         this.events.publish({
           "topic": "updateUser",
           "user": this.user
-        })
+        });
         this.events.connectSocket(this.user);
       })
     }
+  }
+
+  getNum(): Observable<any> {
+    return this.http.get<any>(this.ruta + "me/num");
   }
 
   update(user): Observable<Token> {

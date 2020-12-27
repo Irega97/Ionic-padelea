@@ -12,11 +12,11 @@ export class TorneoService {
   constructor(private http: HttpClient) { }
 
   getTorneos(): Observable<any> {
-    return this.http.get<JSON>(this.ruta + '/all');
+    return this.http.get<JSON>(this.ruta + 'all');
   }
   
-  getMyTorneos(): Observable<any> {
-    return this.http.get<JSON>(this.ruta + '/all/me');
+  getTorneosUser(username: string): Observable<any> {
+    return this.http.get<JSON>(this.ruta + 'all/me/' + username);
   }
 
   getTorneo(idTorneo: string): Observable<any> {
@@ -24,8 +24,7 @@ export class TorneoService {
   }
   
   createTorneo(name: any): Observable<any> {
-    // name = {"name": "krjdsgnj"}
-    return this.http.post<JSON>(this.ruta + '/new', name);
+    return this.http.post<JSON>(this.ruta + 'new', name);
   }
   
   joinTorneo(idTorneo: string): Observable<any> {

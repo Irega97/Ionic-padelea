@@ -10,6 +10,9 @@
 <ion-content>
   <ion-list *ngIf= "notifications && notifications.length > 0; else noNotifications">
     <ion-item *ngFor= "let notification of notifications" (click) = "goNotification(notification)">
+      <ion-avatar slot = "start">
+        <ion-img [src]="notification.image"></ion-img>
+      </ion-avatar>
       <ion-label>{{notification.description}}</ion-label>
     </ion-item>
   </ion-list>

@@ -24,13 +24,10 @@ export class TorneoPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
       this.torneoService.getTorneo(this.name).subscribe(data =>{
-        console.log(data);
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;
         this.torneo = data.torneo;
         this.players = data.torneo.players;
-      }, error => {
-        console.log(error);
       });
     });
     this.events.getObservable().subscribe((data)=> {
@@ -38,12 +35,9 @@ export class TorneoPage implements OnInit {
         this.route.paramMap.subscribe(paramMap => {
           this.name = paramMap.get('name');
           this.torneoService.getTorneo(this.name).subscribe(data =>{
-            console.log(data);
             this.joined = data.joined;
             this.torneo = data.torneo;
             this.players = data.torneo.players;
-          }, error => {
-            console.log(error);
           });
         });
       }
