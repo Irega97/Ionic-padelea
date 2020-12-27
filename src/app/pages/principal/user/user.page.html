@@ -20,10 +20,10 @@
           <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goInformacion()"><ion-icon size= "large" name="information-circle-outline"></ion-icon></a></h3>
         </ion-col>
         <ion-col>
-          <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goAmigos()">AMIGOS: {{numAmigos}}</a></h3>
+          <h3 style="margin-left: 15px; padding-top: 20px; text-align: center;"><a (click)="goAmigos()">{{numAmigos}} AMIGOS</a></h3>
         </ion-col>
         <ion-col>
-          <h3 style="margin-left: 15px; padding-top: 20px;"><a (click)="goTorneos()">TORNEOS: {{numTorneos}}</a></h3>
+          <h3 style="margin-left: 15px; padding-top: 20px; text-align: center;"><a (click)="goTorneos()">{{numTorneos}} TORNEOS</a></h3>
         </ion-col>
       </ion-row>
     </ion-label>
@@ -45,17 +45,24 @@
       <ion-col>
         <div style="text-align: center;">
           <ion-button *ngIf="user.friendStatus == -1 || user.friendStatus == 0" (click)="addFriend()" [disabled] = "solicitud">
-            <ion-label *ngIf="user.friendStatus != 0"> ENVIAR SOLICITUD</ion-label>
+            <ion-label *ngIf="user.friendStatus != 0">
+              <ion-icon name="person-add-sharp"></ion-icon> AÑADIR</ion-label>
             <ion-label *ngIf="user.friendStatus == 0">SOLICITUD ENVIADA</ion-label>
           </ion-button>
+          <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend()">
+            <ion-label *ngIf="user.friendStatus == 2"><ion-icon name="person-remove-sharp"></ion-icon> ELIMINAR</ion-label>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div style="text-align: center;">
           <ion-button *ngIf= "user.friendStatus == 1" (click)="acceptFriend()" >
-            <ion-label *ngIf="user.friendStatus == 1">ACEPTAR SOLICITUD</ion-label>
+            <ion-label *ngIf="user.friendStatus == 1"><ion-icon name="checkmark-sharp"></ion-icon> ACEPTAR</ion-label>
           </ion-button>
           <ion-button *ngIf= "user.friendStatus == 1" (click)="rejectFriend()">
-            <ion-label *ngIf="user.friendStatus == 1">RECHAZAR SOLICITUD</ion-label>
-          </ion-button>
-          <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend()">
-            <ion-label *ngIf="user.friendStatus == 2">ELIMINAR AMIGO</ion-label>
+            <ion-label *ngIf="user.friendStatus == 1"><ion-icon name="close-sharp"></ion-icon> RECHAZAR</ion-label>
           </ion-button>
         </div>
       </ion-col>

@@ -20,6 +20,7 @@ export class TorneosPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.username = paramMap.get('username');
       this.torneoService.getTorneosUser(this.username).subscribe((data) => {
+        console.log(data);
         this.torneos = data.torneos;
         this.torneosSearch = this.torneos;      
       });

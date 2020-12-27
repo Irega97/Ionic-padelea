@@ -47,7 +47,6 @@ export class UserPage implements OnInit {
   compararId(){
     this.route.paramMap.subscribe(paramMap => {
       this.username = paramMap.get('username');
-      
       if (this.username == this.userService.user.username){
         this.tuPerfil = true;
         this.user = this.userService.user;
