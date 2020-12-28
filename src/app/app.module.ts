@@ -18,12 +18,14 @@ import {
 } from 'angularx-social-login';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocialLoginModule, SocketIoModule.forRoot(config)],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocialLoginModule, SocketIoModule.forRoot(config), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
