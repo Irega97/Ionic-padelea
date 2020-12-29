@@ -96,8 +96,6 @@ export class UserPage implements OnInit {
   addFriend(){
     this.friendService.addFriend(this.username).subscribe(() => {
       this.component.presentAlert("Solicitud enviada correctamente!");
-      let notification = {"type": "Amigos", "description": this.userService.user.username + " quiere ser tu amigo", "status": 0, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
-      this.events.enviarNotificacion(notification);
       this.solicitud = true;
       this.user.friendStatus = 0;
     });
@@ -114,8 +112,6 @@ export class UserPage implements OnInit {
         "topic": "deleteNotification",
         "notification": notification
       });
-      let notification1 = {"type": "Amigos", "description": this.userService.user.username + " te ha aceptado como amigo", "status": 1, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
-      this.events.enviarNotificacion(notification1);
     });
   }
 
@@ -124,7 +120,7 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.username, body).subscribe(() => {
       this.component.presentAlert("Solicitud rechazada");
       this.user.friendStatus = -1;
-      let notification = {"type":"Amigos", "origen": this.username};
+      let notification = {"type":"Amigos", "origen": this.username, "status": 0};
       this.events.publish({
         "topic": "deleteNotification",
         "notification": notification

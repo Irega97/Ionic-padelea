@@ -40,10 +40,6 @@ export class EventsService {
     })
   }
 
-  public enviarNotificacion(notification){
-    this.socket.emit('nuevaNotificacion', notification);
-  }
-
   public disconnectSocket(){
     this.socket.disconnect();
     this.conectado = false;
