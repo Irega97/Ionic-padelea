@@ -30,6 +30,7 @@ export class NewChatPage implements OnInit {
     }
     this.chatService.addChat(data).subscribe((data)=>{
       if(data != null) {
+        this.events.createChatRoom(this.chatForm.value.name);
         this.components.presentAlert("Chat creado con éxito");
         this.router.navigateByUrl('principal/chat');
         this.events.publish({"topic":"new-chat"});
