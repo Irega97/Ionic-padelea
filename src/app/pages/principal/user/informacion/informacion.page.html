@@ -7,8 +7,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="user">
-  <ion-grid class = "ion-no-padding">
+<ion-content>
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-grid class = "ion-no-padding" *ngIf="user">
     <ion-row>
     <ion-avatar style="width: 90px; height: 90px;">
       <ion-img id="img" [src]="user.image"></ion-img>

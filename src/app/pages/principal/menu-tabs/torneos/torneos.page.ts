@@ -11,19 +11,20 @@ export class TorneosPage implements OnInit {
 
   torneos;
   torneosSearch;
+  cargando: Boolean = true;
 
   constructor(private torneoService: TorneoService, private events: EventsService) { }
 
   ngOnInit() {
     this.torneoService.getTorneos().subscribe((data) => {
       this.torneos = data;
-      this.torneosSearch = this.torneos;      
+      this.torneosSearch = this.torneos;
+      this.cargando = false;      
     }); 
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-torneo") {
         this.torneoService.getTorneos().subscribe((data) => {
-          this.torneos = data;
-          this.torneosSearch = this.torneos;      
+          this.torneos = data;   
         });
       }
     });

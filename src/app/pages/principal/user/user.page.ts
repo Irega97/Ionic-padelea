@@ -5,7 +5,6 @@ import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
-import { NotificacionesPage } from '../menu-tabs/home/notificaciones/notificaciones.page';
 
 @Component({
   selector: 'app-user',

@@ -37,7 +37,13 @@ export class EventsService {
         "topic": "nuevaNotificacion",
         "notification": notification
       })
-    })
+    });
+    this.socket.on('nuevoUsuario', usuario => {
+      this.publish({
+        "topic": "nuevoUsuario",
+        "user": usuario
+      })
+    });
   }
 
   public disconnectSocket(){
