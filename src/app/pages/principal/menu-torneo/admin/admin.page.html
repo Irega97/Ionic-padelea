@@ -16,8 +16,8 @@
             <ion-img [src]="player.image"></ion-img>
           </ion-avatar>
           <ion-label>{{player.name}}</ion-label>
-          <ion-button (click)="acceptPlayer(player.name)" slot="end" fill="clear"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
-          <ion-button (click)="rejectPlayer(player.name)" slot="end" fill="clear"><ion-icon name="close-outline"></ion-icon></ion-button>
+          <ion-button (click)="acceptPlayer(player.username)" slot="end" fill="clear"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
+          <ion-button (click)="rejectPlayer(player.username)" slot="end" fill="clear"><ion-icon name="close-outline"></ion-icon></ion-button>
         </ion-item>
       </ion-list>
       <ng-template #noPlayersCola>y

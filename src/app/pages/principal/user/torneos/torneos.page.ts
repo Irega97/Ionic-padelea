@@ -28,14 +28,14 @@ export class TorneosPage implements OnInit {
       });
     });
     
-    /*this.events.getObservable().subscribe((data)=> {
+    this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-torneo") {
-        this.torneoService.getTorneosUser("cristian").subscribe((data) => {
+        this.torneoService.getTorneosUser(this.username).subscribe((data) => {
           this.torneos = data.torneos;
           this.torneosSearch = this.torneos;      
         });
       }
-    });*/
+    });
   }
 
   handleInput(event) {
