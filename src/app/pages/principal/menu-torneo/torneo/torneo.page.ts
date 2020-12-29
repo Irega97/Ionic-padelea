@@ -50,10 +50,10 @@ export class TorneoPage implements OnInit {
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
       console.log("data:", data);
       this.events.publish({"topic":"new-player"});
-      this.component.presentAlert(data);
-    }, (error)=>{
-      console.log(error);
-      this.component.presentAlert(error);
+      this.component.presentAlert(data.message);
+    }, (response)=>{
+      console.log("error: ", response);
+      this.component.presentAlert(response.error.message);
     })
   }
 
