@@ -1,4 +1,4 @@
-import { EventsService } from 'src/app/services/events.service';
+ import { EventsService } from 'src/app/services/events.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
@@ -23,22 +23,24 @@ export class BuscadorPage implements OnInit {
       this.usersSearch = this.users;   
       this.cargando = false;   
     });
+
     this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "loginUser") {
+      /*if (data.topic == "loginUser") {
         this.cargando = true;
         this.userService.getUsers().subscribe((data) => {
           this.users = data;
           this.usersSearch = this.users;   
           this.cargando = false;   
         });
+      }*/
+
+      if (data.topic == "nuevoUsuario") {
+        if (data.user.username != this.userService.user.username){
+          this.users.push(data.user);
+        }
       }
     });
   }
-
-  /* const searchbar = document.querySelector('ion-searchbar');
-  const items = this.users;
-
-  searchbar.addEventListener('ionInput', handleInput); */
 
   handleInput(event) {
     const query = event.target.value.toLowerCase();

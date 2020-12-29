@@ -13,6 +13,7 @@ export class FriendsPage implements OnInit {
   friends;
   friendsSearch;
   username: string;
+  cargando: Boolean = true;
 
   constructor(private friendService: FriendsService, private events: EventsService, private route: ActivatedRoute) { }
 
@@ -21,7 +22,8 @@ export class FriendsPage implements OnInit {
       this.username = paramMap.get('username');
       this.friendService.getFriends(this.username).subscribe((data) => {
         this.friends = data.friends;
-        this.friendsSearch = this.friends;      
+        this.friendsSearch = this.friends; 
+        this.cargando = false;     
       });
     });
 

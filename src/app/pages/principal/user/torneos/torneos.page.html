@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-title mode=ios>TORNEOS</ion-title>
+    <ion-title mode=ios>Torneos de {{username}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/home"></ion-back-button>
     </ion-buttons>
@@ -8,7 +8,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
+  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar> 
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
   <ion-list *ngIf = "torneos && torneosSearch.length > 0; else noTorneos">
     <ion-item *ngFor="let t of torneosSearch" [routerLink] = "['/torneo', t.torneo.name]">
       <!-- <ion-avatar slot="start">
@@ -20,7 +23,7 @@
     </ion-item>
   </ion-list>
   <ng-template #noTorneos>
-    <ion-text>
+    <ion-text *ngIf="!cargando">
       <p class ="ion-text-center">No estás inscrito en ningún torneo</p>
     </ion-text>
   </ng-template>

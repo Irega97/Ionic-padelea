@@ -38,13 +38,15 @@ export class NotificacionesPage implements OnInit {
 
   goNotification(notification) {
     if (notification.status == 1){
-      this.events.publish({
-        "topic":"deleteNotification",
-        "data": notification
+      this.notificationService.delNotifications(notification).subscribe(data => {
+        this.events.publish({
+          "topic":"deleteNotification",
+          "notification": notification
+        })
+        if (notification.type == "Amigos"){
+          this.router.navigate(['/user/' + notification.origen]);
+        }
       })
-    }
-    if (notification.type == "Amigos"){
-      this.router.navigate(['/user/' + notification.origen]);
     }
   }
 }

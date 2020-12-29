@@ -5,7 +5,6 @@ import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
-import { NotificacionesPage } from '../menu-tabs/home/notificaciones/notificaciones.page';
 
 @Component({
   selector: 'app-user',
@@ -37,8 +36,14 @@ export class UserPage implements OnInit {
       }
       else if (data.topic == "nuevaNotificacion"){
         let notification = data.notification;
-        if (notification.type == "Amigos" && notification.status == 0 && notification.origen == this.username){
-          this.user.friendStatus = 1;
+        if (notification.type == "Amigos" && notification.origen == this.username){
+          if (notification.status == 0){
+            this.user.friendStatus = 1;
+          }
+          else if (notification.status == 1){
+            this.numAmigos++;
+            this.user.friendStatus = 2;
+          }
         }
       }
     })
@@ -47,7 +52,6 @@ export class UserPage implements OnInit {
   compararId(){
     this.route.paramMap.subscribe(paramMap => {
       this.username = paramMap.get('username');
-      
       if (this.username == this.userService.user.username){
         this.tuPerfil = true;
         this.user = this.userService.user;
@@ -97,8 +101,6 @@ export class UserPage implements OnInit {
   addFriend(){
     this.friendService.addFriend(this.username).subscribe(() => {
       this.component.presentAlert("Solicitud enviada correctamente!");
-      let notification = {"type": "Amigos", "description": this.userService.user.username + " quiere ser tu amigo", "status": 0, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
-      this.events.enviarNotificacion(notification);
       this.solicitud = true;
       this.user.friendStatus = 0;
     });
@@ -115,8 +117,6 @@ export class UserPage implements OnInit {
         "topic": "deleteNotification",
         "notification": notification
       });
-      let notification1 = {"type": "Amigos", "description": this.userService.user.username + " te ha aceptado como amigo", "status": 1, "origen": this.userService.user.username, "image": this.userService.user.image, "destino": this.user._id};
-      this.events.enviarNotificacion(notification1);
     });
   }
 
@@ -125,7 +125,7 @@ export class UserPage implements OnInit {
     this.friendService.changeStatus(this.username, body).subscribe(() => {
       this.component.presentAlert("Solicitud rechazada");
       this.user.friendStatus = -1;
-      let notification = {"type":"Amigos", "origen": this.username};
+      let notification = {"type":"Amigos", "origen": this.username, "status": 0};
       this.events.publish({
         "topic": "deleteNotification",
         "notification": notification
@@ -137,6 +137,7 @@ export class UserPage implements OnInit {
     this.friendService.delFriend(this.username).subscribe(() => {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
+      this.numAmigos--;
     })
   }
 }

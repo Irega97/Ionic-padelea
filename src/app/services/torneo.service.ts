@@ -16,7 +16,7 @@ export class TorneoService {
   }
   
   getTorneosUser(username: string): Observable<any> {
-    return this.http.get<JSON>(this.ruta + 'all/me/' + username);
+    return this.http.get<JSON>(this.ruta + 'all/' + username);
   }
 
   getTorneo(idTorneo: string): Observable<any> {

@@ -11,14 +11,17 @@ export class ChatPage implements OnInit {
 
   chats;
   chatsSearch;
+  cargando: Boolean = true;
 
   constructor( private events: EventsService, private chatService : ChatService ) { }
 
   ngOnInit() {
     this.chatService.getMyChats().subscribe((data) => {
       this.chats = data;
-      this.chatsSearch = this.chats;      
+      this.chatsSearch = this.chats; 
+      this.cargando = false;     
     }); 
+    
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-chat") {
         this.chatService.getMyChats().subscribe((data) => {

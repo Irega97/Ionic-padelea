@@ -13,6 +13,7 @@ export class TorneosPage implements OnInit {
   torneos;
   torneosSearch;
   username: string;
+  cargando: Boolean = true;
 
   constructor(private torneoService: TorneoService, private events: EventsService, private route: ActivatedRoute) { }
 
@@ -20,19 +21,21 @@ export class TorneosPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.username = paramMap.get('username');
       this.torneoService.getTorneosUser(this.username).subscribe((data) => {
+        console.log(data);
         this.torneos = data.torneos;
-        this.torneosSearch = this.torneos;      
+        this.torneosSearch = this.torneos;  
+        this.cargando = false;    
       });
     });
     
-    /*this.events.getObservable().subscribe((data)=> {
+    this.events.getObservable().subscribe((data)=> {
       if (data.topic == "new-torneo") {
-        this.torneoService.getTorneosUser("cristian").subscribe((data) => {
+        this.torneoService.getTorneosUser(this.username).subscribe((data) => {
           this.torneos = data.torneos;
           this.torneosSearch = this.torneos;      
         });
       }
-    });*/
+    });
   }
 
   handleInput(event) {

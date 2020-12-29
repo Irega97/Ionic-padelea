@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-title mode=ios>AMIGOS</ion-title>
+    <ion-title mode=ios>Amigos de {{username}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
@@ -9,6 +9,9 @@
 
 <ion-content>
   <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
   <ion-list *ngIf = "friends && friendsSearch.length > 0; else noFriends">
     <ion-item *ngFor="let friend of friendsSearch" [routerLink] = "['/user', friend.user.username]">
       <ion-avatar slot="start">
@@ -20,7 +23,7 @@
     </ion-item>
   </ion-list>
   <ng-template #noFriends>
-    <ion-text>
+    <ion-text *ngIf="!cargando">
       <p class ="ion-text-center">No tienes amigos</p>
     </ion-text>
   </ng-template>

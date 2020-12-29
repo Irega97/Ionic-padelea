@@ -14,4 +14,8 @@ export class NotificationsService {
   getMyNotifications(getlength: Boolean): Observable<any>{
     return this.http.post<any>(this.ruta + "me", { "getlength": getlength });
   }
+
+  delNotifications(notification: Notification): Observable<any>{
+    return this.http.post<any>(this.ruta + "del", { notification: notification });
+  }
 }

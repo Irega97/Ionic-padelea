@@ -19,8 +19,8 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ng-template *ngIf="!cargando" #noUsers>
-    <ion-text>
+  <ng-template #noUsers>
+    <ion-text *ngIf="!cargando">
       <p class ="ion-text-center">No hay usuarios</p>
     </ion-text>
   </ng-template>
