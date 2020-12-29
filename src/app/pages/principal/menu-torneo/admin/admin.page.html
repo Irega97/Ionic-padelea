@@ -8,5 +8,25 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-row>
+    <ion-col>
+      <ion-list *ngIf="cola && cola.length > 0; else noPlayersCola">
+        <ion-item *ngFor="let player of cola">
+          <ion-avatar slot="start">
+            <ion-img [src]="player.image"></ion-img>
+          </ion-avatar>
+          <ion-label>{{player.name}}</ion-label>
+          <ion-button (click)="acceptPlayer(player.name)" slot="end" fill="clear"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
+          <ion-button (click)="rejectPlayer(player.name)" slot="end" fill="clear"><ion-icon name="close-outline"></ion-icon></ion-button>
+        </ion-item>
+      </ion-list>
+      <ng-template #noPlayersCola>y
+        <ion-text>
+          <p class ="ion-text-center">No hay jugadores en cola</p>
+        </ion-text>
+      </ng-template>
+    </ion-col>
+  </ion-row>
 </ion-content>
+    
+  

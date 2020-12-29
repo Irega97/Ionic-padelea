@@ -3,6 +3,7 @@ import { ComponentsService } from '../../../../services/components.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-torneo',
@@ -18,11 +19,12 @@ export class TorneoPage implements OnInit {
   joined: boolean;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private router: Router) { }
+              private events: EventsService, private router: Router, private adminService: AdminService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
+      this.adminService.setName(this.name)
       this.torneoService.getTorneo(this.name).subscribe(data =>{
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;
