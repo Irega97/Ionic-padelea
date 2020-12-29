@@ -6,6 +6,7 @@ import { AlertController, LoadingController, SelectValueAccessor, ToastControlle
 })
 export class ComponentsService {
 
+  private load: Boolean = false;
   constructor(private loadingController: LoadingController, private alertController: AlertController, private toastController: ToastController) { }
 
   async presentAlert(mensaje: string){
@@ -34,18 +35,14 @@ export class ComponentsService {
     const loading = await this.loadingController.create({
       message: mensaje
     });
+    this.load = true;
     return loading.present();
   }
 
-  /*async presentLoadingHTML() {
-    const loading = await this.loadingController.create({
-      spinner: 'circles',
-      message: 'prueba'
-    })
-    loading.present();
-  }*/
-
   dismissLoading(){
-    this.loadingController.dismiss();
+    if (this.load){
+      this.load = false;
+      this.loadingController.dismiss();
+    }
   }
 }

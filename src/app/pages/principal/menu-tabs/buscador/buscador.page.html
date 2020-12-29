@@ -9,7 +9,7 @@
   <div style="text-align: center;" *ngIf="cargando">
     <ion-spinner></ion-spinner>
   </div>
-  <ion-list *ngIf = "users && usersSearch.length > 0; else users">
+  <ion-list *ngIf = "users && usersSearch.length > 0; else noUsers">
     <ion-item *ngFor="let user of usersSearch" [routerLink] = "['/user', user.username]">
       <ion-avatar slot="start">
         <ion-img [src]="user.image"></ion-img>

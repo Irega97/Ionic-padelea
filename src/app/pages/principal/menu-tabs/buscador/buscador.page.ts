@@ -35,11 +35,6 @@ export class BuscadorPage implements OnInit {
     });
   }
 
-  /* const searchbar = document.querySelector('ion-searchbar');
-  const items = this.users;
-
-  searchbar.addEventListener('ionInput', handleInput); */
-
   handleInput(event) {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {

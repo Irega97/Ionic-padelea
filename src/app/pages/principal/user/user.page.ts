@@ -37,8 +37,14 @@ export class UserPage implements OnInit {
       }
       else if (data.topic == "nuevaNotificacion"){
         let notification = data.notification;
-        if (notification.type == "Amigos" && notification.status == 0 && notification.origen == this.username){
-          this.user.friendStatus = 1;
+        if (notification.type == "Amigos" && notification.origen == this.username){
+          if (notification.status == 0){
+            this.user.friendStatus = 1;
+          }
+          else if (notification.status == 1){
+            this.numAmigos++;
+            this.user.friendStatus = 2;
+          }
         }
       }
     })
@@ -132,6 +138,7 @@ export class UserPage implements OnInit {
     this.friendService.delFriend(this.username).subscribe(() => {
       this.component.presentAlert("Amigo eliminado");
       this.user.friendStatus = -1;
+      this.numAmigos--;
     })
   }
 }
