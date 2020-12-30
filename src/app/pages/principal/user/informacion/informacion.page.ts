@@ -11,12 +11,14 @@ export class InformacionPage implements OnInit {
 
   user;
   username: string;
+  cargando: Boolean = true;
 
   constructor(private router: Router, private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state != undefined){
       this.user =  this.router.getCurrentNavigation().extras.state.user;
+      this.cargando = false;
     }
 
     else{
@@ -24,6 +26,7 @@ export class InformacionPage implements OnInit {
         this.username = paramMap.get('username');
         this.userService.getUser(this.username).subscribe(data =>{
           this.user = data;
+          this.cargando = false;
         });
       });
     }

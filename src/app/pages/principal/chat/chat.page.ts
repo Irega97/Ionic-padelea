@@ -17,6 +17,7 @@ export class ChatPage implements OnInit {
   image;
   linea: Boolean = false;
   participantes: string[];
+  message = "";
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService) { }
 
