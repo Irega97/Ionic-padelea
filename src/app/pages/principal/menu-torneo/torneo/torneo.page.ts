@@ -17,6 +17,8 @@ export class TorneoPage implements OnInit {
   isAdmin;
   players;
   joined: boolean;
+  fechaInicio;
+  finInscripcion;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
               private events: EventsService, private router: Router, private adminService: AdminService) { }
@@ -30,9 +32,13 @@ export class TorneoPage implements OnInit {
         this.joined = data.joined;
         this.torneo = data.torneo;
         this.players = data.torneo.players;
+        this.fechaInicio = new Date(this.torneo.fechaInicio);
+        this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+        this.finInscripcion = new Date(this.torneo.finInscripcion);
+        this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+        console.log(this.finInscripcion, this.torneo.finInscripcion);
       });
     });
-    //PREGUNTA TONI
     console.log("preguntar toni torneo page l.36");
     this.events.getObservable().subscribe((data)=> {
       console.log(data);
