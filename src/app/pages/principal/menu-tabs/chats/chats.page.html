@@ -10,7 +10,7 @@
     <ion-spinner></ion-spinner>
   </div>
   <ion-list *ngIf = "chats && chatsSearch.length > 0; else noChats">
-    <ion-item *ngFor="let chat of chatsSearch" [routerLink] = "['/principal/chat/chat', chat._id]">
+    <ion-item *ngFor="let chat of chatsSearch" (click) = "goChat(chat)">
       <!-- <ion-avatar slot="start">
         <ion-img [src]="user.image"></ion-img>
       </ion-avatar> -->
@@ -24,7 +24,7 @@
 
   <div>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button [routerLink] = "['/principal/chat/new']">
+      <ion-fab-button [routerLink] = "['/principal/chats/new']">
         <ion-icon name="add-circle-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>

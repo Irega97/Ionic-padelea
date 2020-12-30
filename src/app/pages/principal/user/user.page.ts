@@ -140,4 +140,8 @@ export class UserPage implements OnInit {
       this.numAmigos--;
     })
   }
+
+  enviarmensaje(){
+    this.router.navigateByUrl('/chat/user/' + this.username);
+  }
 }

@@ -29,6 +29,20 @@ const routes: Routes = [
     ]
   },
   {
+    path:'chat',
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: 'user/:username',
+        loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
+      },
+      {
+        path: 'grupo/:name',
+        loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
+      }
+    ]
+  },
+  {
     path: 'user',
     canActivateChild: [AuthGuard],
     children: [

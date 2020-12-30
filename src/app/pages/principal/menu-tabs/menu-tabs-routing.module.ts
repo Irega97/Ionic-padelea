@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'chats',
-        loadChildren: () => import('src/app/pages/principal/menu-tabs/chats/chat.module').then(m => m.ChatPageModule)
+        loadChildren: () => import('src/app/pages/principal/menu-tabs/chats/chats.module').then(m => m.ChatPageModule)
       },
       {
         path: 'torneos',

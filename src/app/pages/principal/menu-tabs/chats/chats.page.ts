@@ -3,9 +3,9 @@ import { EventsService } from 'src/app/services/events.service';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.page.html',
-  styleUrls: ['./chat.page.scss'],
+  selector: 'app-chats',
+  templateUrl: './chats.page.html',
+  styleUrls: ['./chats.page.scss'],
 })
 export class ChatPage implements OnInit {
 
@@ -44,4 +44,6 @@ export class ChatPage implements OnInit {
     });
   }
 
+  goChat(chat){
+  }
 }
