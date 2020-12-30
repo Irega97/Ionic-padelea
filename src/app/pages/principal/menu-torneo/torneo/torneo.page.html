@@ -21,11 +21,28 @@
         <h3> {{torneo.name}}</h3>
       </ion-col>
       <ion-col style="text-align: end;">
-        <ion-button (click)="newPost()">
+        <ion-button>
           <ion-label> NUEVA PUBLICACIÓN</ion-label>
         </ion-button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-img [src]="torneo.image"></ion-img>
+    </ion-row>
+    <ion-row>
+      <h4>INFORMACIÓN</h4>
+    </ion-row>
+    <ion-row>
+      <ion-col>Tipo: {{torneo.type}}</ion-col>
+      <ion-col>Nº jugadores máximo: {{torneo.maxPlayers}}</ion-col>
+      <ion-col>Nº vueltas: {{torneo.numRondas}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Fecha inicio: {{this.fechaInicio[0]}}</ion-col>
+      <ion-col>Fin inscripcion: {{this.finInscripcion[0]}}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="torneo.description!=null"><h5>DESCRIPTION:</h5> <br> {{torneo.description}}</ion-row>
+    <ion-row><h5>UBICACIÓN</h5></ion-row>
     <ion-row>
       <h4> JUGADORES</h4>
     </ion-row>
@@ -58,3 +75,5 @@
         </div>
       </ion-col>
     </ion-row>
+  </ion-grid>
+</ion-content>

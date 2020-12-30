@@ -53,7 +53,6 @@ export class NewTorneoPage implements OnInit {
     let finIns: Date = new Date(this.torneoForm.value.finInscripcion);
     let inicio: Date = new Date (this.torneoForm.value.fechaInicio);
     finIns = new Date(finIns.setHours(23, 59, 59, 999));
-    finIns.setHours(finIns.getHours() + 1);
     inicio = new Date(inicio.setHours(1, 0, 0, 0));
     let data = {
       "name": this.torneoForm.value.name,
