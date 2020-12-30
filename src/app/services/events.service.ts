@@ -62,6 +62,13 @@ export class EventsService {
         "jugador": jugador
       })
     })
+    this.socket.on('nuevoMensaje', mensaje => {
+      console.log("Mensaje", mensaje);
+      this.publish({
+        "topic": "nuevoMensaje",
+        "mensaje": mensaje
+      })
+    })
   }
 
   public disconnectSocket(){
