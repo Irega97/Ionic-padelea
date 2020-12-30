@@ -12,16 +12,20 @@ export class ChatService{
   ruta = environment.apiURL + "/chat/"
   constructor(private http: HttpClient) { }
 
-  getChat(type, idChat: string): Observable<any> {
-    return this.http.get<JSON>(this.ruta + idChat);
+  getChat(info): Observable<any> {
+    return this.http.post<JSON>(this.ruta + "get", info);
   }
 
   getMyChats(): Observable<any> {
     return this.http.get<JSON>(this.ruta + 'me/all');
   }
 
-  addChat(participantes): Observable<JSON>{
-    return this.http.post<JSON>(this.ruta + 'new', participantes);
+  sendMessage(mensaje): Observable<any> {
+    return this.http.post<any>(this.ruta, mensaje);
+  }
+
+  addChat(info): Observable<JSON>{
+    return this.http.post<JSON>(this.ruta + 'new', info);
   }
 
   addOtroParticipante(idChat: string, participantes): Observable<any>{

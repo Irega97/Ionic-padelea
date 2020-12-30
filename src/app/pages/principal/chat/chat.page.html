@@ -1,12 +1,37 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title  mode=ios>Chat con {{user.username}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal"></ion-back-button>
     </ion-buttons>
+    <ion-item color="primary">
+      <ion-avatar slot = "start">
+      <ion-img [src]="image"></ion-img>
+    </ion-avatar>
+    <ion-label>
+      <h2>{{name}}</h2>
+      <h3 *ngIf="linea">En línea</h3>
+    </ion-label>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row align-items-center>
+      <ion-col size="10">
+        <ion-textarea auto-grow class="message-input" rows="1" [(ngModel)]="message"></ion-textarea>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="block" fill="clear" color="primary" class="msg-btn"
+          (click)="sendMessage()">
+          <ion-icon name = "paper-plane"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+

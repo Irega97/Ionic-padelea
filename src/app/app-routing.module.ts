@@ -33,7 +33,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: 'user/:username',
+        path: 'user/:name',
         loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
       },
       {
