@@ -70,7 +70,6 @@ export class NewTorneoPage implements OnInit {
       if(data != null) {
         this.components.presentAlert("Torneo creado con éxito");
         this.router.navigateByUrl('principal/torneos');
-        this.events.publish({"topic":"new-torneo"});
       }
     }, error => {
       if (error.status == 409){

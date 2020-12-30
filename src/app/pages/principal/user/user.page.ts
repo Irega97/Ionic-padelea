@@ -46,6 +46,10 @@ export class UserPage implements OnInit {
           }
         }
       }
+      else if (data.topic == "nuevoJugador" && data.jugador.username == this.username)
+        this.numTorneos++;
+      else if (data.topic == "player-left" && data.jugador.username == this.username)
+        this.numTorneos--;
     })
   }
 

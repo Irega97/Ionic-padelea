@@ -49,10 +49,16 @@ export class EventsService {
         "topic": "nuevoJugador",
         "jugador": jugador
       });
+    });
+    this.socket.on('nuevoTorneo', torneo => {
+      this.publish({
+        "topic": "nuevoTorneo",
+        "torneo": torneo
+      })
     })
     this.socket.on('player-left', jugador => {
       this.publish({
-        "topic":"left-player",
+        "topic":"player-left",
         "jugador": jugador
       })
     })

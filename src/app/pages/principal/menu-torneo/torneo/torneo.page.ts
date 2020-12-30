@@ -36,23 +36,30 @@ export class TorneoPage implements OnInit {
         this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
         this.finInscripcion = new Date(this.torneo.finInscripcion);
         this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
-        console.log(this.finInscripcion, this.torneo.finInscripcion);
       });
     });
-    console.log("preguntar toni torneo page l.36");
+
     this.events.getObservable().subscribe((data)=> {
-      console.log(data);
-      if (data.topic == "nuevoJugador") {
-        if(this.name == data.jugador.torneo)
-          this.players.push(data.jugador);
+      if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
+        this.players.push(data.jugador);
+      } 
+      
+      else if (data.topic == "player-left" && data.jugador.torneo == this.name){
+        this.torneoService.getTorneo(this.name).subscribe(data => {
+          this.players = data.torneo.players;
+        })
+        /*this.players = this.players.filter(player =>{
+          if(player.username == data.jugador.username){
+            let i = this.players.indexOf(player);
+            this.players.splice(i, 1);
+          }
+        })*/
       }
     });
   }
 
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
-      console.log("data:", data);
-      this.events.publish({"topic":"nuevoJugador"});
       this.component.presentAlert(data.message);
       this.joined = true;
     }, (response)=>{

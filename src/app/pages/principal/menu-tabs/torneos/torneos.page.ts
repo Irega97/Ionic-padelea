@@ -22,10 +22,8 @@ export class TorneosPage implements OnInit {
       this.cargando = false;      
     }); 
     this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "new-torneo") {
-        this.torneoService.getTorneos().subscribe((data) => {
-          this.torneos = data;   
-        });
+      if (data.topic == "nuevoTorneo") {
+        this.torneos.push(data.torneo);
       }
     });
   }
