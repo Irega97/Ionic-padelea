@@ -52,6 +52,9 @@
           <ion-button *ngIf="joined==false" (click)="joinTorneo()">
             <ion-label>UNIRTE</ion-label>
           </ion-button>
+          <ion-button *ngIf="joined==true" (click)="leaveTorneo()">
+            <ion-label>ABANDONAR TORNEO</ion-label>
+          </ion-button>
         </div>
       </ion-col>
     </ion-row>

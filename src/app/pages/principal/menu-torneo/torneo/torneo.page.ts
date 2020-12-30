@@ -32,16 +32,13 @@ export class TorneoPage implements OnInit {
         this.players = data.torneo.players;
       });
     });
+    //PREGUNTA TONI
+    console.log("preguntar toni torneo page l.36");
     this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "new-player") {
-        this.route.paramMap.subscribe(paramMap => {
-          this.name = paramMap.get('name');
-          this.torneoService.getTorneo(this.name).subscribe(data =>{
-            this.joined = data.joined;
-            this.torneo = data.torneo;
-            this.players = data.torneo.players;
-          });
-        });
+      console.log(data);
+      if (data.topic == "nuevoJugador") {
+        if(this.name == data.jugador.torneo)
+          this.players.push(data.jugador);
       }
     });
   }
@@ -49,15 +46,19 @@ export class TorneoPage implements OnInit {
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
       console.log("data:", data);
-      this.events.publish({"topic":"new-player"});
+      this.events.publish({"topic":"nuevoJugador"});
       this.component.presentAlert(data.message);
+      this.joined = true;
     }, (response)=>{
       console.log("error: ", response);
       this.component.presentAlert(response.error.message);
     })
   }
 
-  newPost(){
-
+  leaveTorneo(){
+    this.torneoService.leaveTorneo(this.name).subscribe((data) => {
+      this.component.presentAlert(data.message);
+      this.joined = false;
+    })
   }
 }

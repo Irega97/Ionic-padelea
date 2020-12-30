@@ -43,10 +43,14 @@ export class NotificacionesPage implements OnInit {
           "topic":"deleteNotification",
           "notification": notification
         })
-        if (notification.type == "Amigos"){
-          this.router.navigate(['/user/' + notification.origen]);
-        }
       })
+    }
+    
+    if (notification.type == "Amigos"){
+      this.router.navigate(['/user/' + notification.origen]);
+    }
+    else if (notification.type == "Torneo"){
+      this.router.navigate(['/torneo/' + notification.origen]);
     }
   }
 }
