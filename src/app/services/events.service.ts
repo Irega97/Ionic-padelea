@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
 import { User } from '../models/user';
+import { AuthService } from './auth.service';
 import { ComponentsService } from './components.service';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -11,7 +13,7 @@ import { ComponentsService } from './components.service';
 export class EventsService {
 
   private conectado: Boolean = true;
-  constructor(private socket: Socket, private components: ComponentsService) { }
+  constructor(private socket: Socket, private components: ComponentsService, private userService: UserService, private authService: AuthService) { }
 
   private dataSubject = new Subject<any>();
 
@@ -63,7 +65,6 @@ export class EventsService {
       })
     })
     this.socket.on('nuevoMensaje', mensaje => {
-      console.log("Mensaje", mensaje);
       this.publish({
         "topic": "nuevoMensaje",
         "mensaje": mensaje
@@ -72,8 +73,12 @@ export class EventsService {
   }
 
   public disconnectSocket(){
-    this.socket.disconnect();
+    this.userService.user = undefined;
+    this.userService.i = 0;
+    localStorage.removeItem("ACCESS_TOKEN");
+    this.authService.reload = true;
     this.conectado = false;
+    this.socket.disconnect();
   }
 
   public createChatRoom(chatId : String){

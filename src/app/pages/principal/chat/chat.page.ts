@@ -13,21 +13,28 @@ import { UserService } from 'src/app/services/user.service';
 export class ChatPage implements OnInit {
 
   name: string;
-  idparticipante: string;
   type: string;
   cargando: Boolean = true;
   nuevo: Boolean = true;
   image;
   linea: Boolean = false;
   participantes: string[] = [];
-  messages: [] = [];
+  messages: any[] = [];
   message = "";
-  usernameactual;
+  usernameactual: string;
+  idChat: string;
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService) { }
 
   ngOnInit() {
-    this.usernameactual == this.userService.user.username;
+    if (this.userService.user != undefined)
+      this.usernameactual = this.userService.user.username;
+
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "updateUser")
+        this.usernameactual = this.userService.user.username;
+    })
+
     this.type = this.router.url.split('/')[2];
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
@@ -40,15 +47,17 @@ export class ChatPage implements OnInit {
         if (!data.existe){
           this.image = data.user.image;
           this.linea = data.user.online;
-          this.idparticipante = data.user._id;
+          this.participantes.push(this.userService.user._id);
+         this.participantes.push(data.user._id);
         }
         else{
           this.nuevo = false;
+          this.messages = data.chat.mensajes;
+          this.idChat = data.chat._id;
           data.chat.users.forEach(user =>{
             if (user.username == this.name){
               this.image = user.image;
               this.linea = user.online;
-              this.idparticipante = user._id;
             }
           })
         }
@@ -60,8 +69,9 @@ export class ChatPage implements OnInit {
     });
 
     this.events.getObservable().subscribe(data => {
-      if (data.topic == "nuevoMensaje"){
-        
+      console.log("Mensaje", data.mensaje);
+      if (data.topic == "nuevoMensaje" && data.mensaje.sender != this.usernameactual){
+        this.messages.push(data.mensaje);
       }
     })
   }
@@ -76,18 +86,23 @@ export class ChatPage implements OnInit {
       leidos: vectorleido
     }
 
+    this.messages.push(messageToSend);
+    this.message = "";
     if (this.nuevo){
-      this.participantes.push(this.userService.user._id);
-      this.participantes.push(this.idparticipante);
       let info = {
         users: this.participantes,
         mensaje: messageToSend,
       };
       this.chatService.addChat(info).subscribe(data =>{
+        console.log(data);
+        this.idChat = data._id;
         this.nuevo = false;
-        this.message = "";
       })
     }
-    //this.socket.emit('send-message', { text: this.message });
+    else{
+      this.chatService.sendMessage(this.idChat, messageToSend).subscribe(data => {
+
+      })
+    }
   }
 }
