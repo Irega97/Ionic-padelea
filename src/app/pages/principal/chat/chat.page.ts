@@ -35,6 +35,11 @@ export class ChatPage implements OnInit {
         this.usernameactual = this.userService.user.username;
     })
 
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
+        this.linea = data.user.estado;
+    })
+
     this.type = this.router.url.split('/')[2];
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
@@ -69,8 +74,7 @@ export class ChatPage implements OnInit {
     });
 
     this.events.getObservable().subscribe(data => {
-      console.log("Mensaje", data.mensaje);
-      if (data.topic == "nuevoMensaje" && data.mensaje.sender != this.usernameactual){
+      if (data.topic == "nuevoMensaje"){
         this.messages.push(data.mensaje);
       }
     })
@@ -94,7 +98,6 @@ export class ChatPage implements OnInit {
         mensaje: messageToSend,
       };
       this.chatService.addChat(info).subscribe(data =>{
-        console.log(data);
         this.idChat = data._id;
         this.nuevo = false;
       })

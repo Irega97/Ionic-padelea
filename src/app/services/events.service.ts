@@ -13,7 +13,8 @@ import { UserService } from './user.service';
 export class EventsService {
 
   private conectado: Boolean = true;
-  constructor(private socket: Socket, private components: ComponentsService, private userService: UserService, private authService: AuthService) { }
+  private username: string;
+  constructor(private socket: Socket, private components: ComponentsService, private authService: AuthService) { }
 
   private dataSubject = new Subject<any>();
 
@@ -32,6 +33,7 @@ export class EventsService {
     }
 
     let data = {"id": user._id, "username": user.username};
+    this.username = user.username;
     this.socket.emit('nuevoConectado', data);
     this.socket.on('nuevaNotificacion', notification => {
       this.components.presentToast(notification);
@@ -40,52 +42,60 @@ export class EventsService {
         "notification": notification
       });
     });
+
     this.socket.on('nuevoUsuario', usuario => {
       this.publish({
         "topic": "nuevoUsuario",
         "user": usuario
       });
     });
+
     this.socket.on('nuevoJugador', jugador => {
       this.publish({
         "topic": "nuevoJugador",
         "jugador": jugador
       });
     });
+
     this.socket.on('nuevoTorneo', torneo => {
       this.publish({
         "topic": "nuevoTorneo",
         "torneo": torneo
       })
     })
+
     this.socket.on('player-left', jugador => {
       this.publish({
         "topic":"player-left",
         "jugador": jugador
       })
     })
+
     this.socket.on('nuevoMensaje', mensaje => {
+      if (this.username != mensaje.sender){
+        let notification = {
+          description: mensaje.sender + " te ha enviado un mensaje"
+        }
+        this.components.presentToast(notification);
+        this.publish({
+          "topic": "nuevoMensaje",
+          "mensaje": mensaje
+        })
+      }
+    })
+
+    this.socket.on('actConectado', user => {
       this.publish({
-        "topic": "nuevoMensaje",
-        "mensaje": mensaje
+        "topic": "actConectado",
+        "user": user
       })
     })
   }
 
   public disconnectSocket(){
-    this.userService.user = undefined;
-    this.userService.i = 0;
     localStorage.removeItem("ACCESS_TOKEN");
     this.authService.reload = true;
     this.conectado = false;
     this.socket.disconnect();
-  }
-
-  public createChatRoom(chatId : String){
-    this.socket.emit('nuevaSala', chatId)
-  }
-
-  public sendMessage() {
-    this.socket.emit('send-message', { text: "prueba" });
   }
 }
