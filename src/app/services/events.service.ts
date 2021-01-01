@@ -71,6 +71,14 @@ export class EventsService {
       })
     })
 
+    this.socket.on('nuevoChat', chat => {
+      //NOTIFICACIONES MENSAJE
+      this.publish({
+        "topic": "nuevoChat",
+        "chat": chat
+      })
+    })
+
     this.socket.on('nuevoMensaje', mensaje => {
       if (this.username != mensaje.mensaje.sender){
         let notification = {

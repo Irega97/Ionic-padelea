@@ -31,20 +31,19 @@ export class ChatPage implements OnInit {
               chat.chat.name = chat.chat.users[1].username;
             }
           }
-
+          
           if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == this.userService.user.username)
             chat.chat.ultimomensaje =  "Yo: " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+
           else
             chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].sender + ": " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
 
-          if (chat.ultimoleido < chat.chat.mensajes.length){
+          if (chat.ultimoleido < chat.chat.mensajes.length)
             chat.chat.leido = false;
-          }
-            
-          else{
+          
+          else
             chat.chat.leido = true;
-          }
-
+          
           this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
@@ -74,7 +73,7 @@ export class ChatPage implements OnInit {
   
             if (chat.ultimoleido < chat.chat.mensajes.length)
               chat.chat.leido = false;
-              
+
             else
               chat.chat.leido = true;
   
@@ -85,15 +84,34 @@ export class ChatPage implements OnInit {
         }); 
       }
 
-      else if (data.topic == "nuevoMensaje"){
-        console.log("Data", data.mensaje);
+      else if (data.topic == 'nuevoChat'){
+        let chat = data.chat;
+        console.log("Chat", chat);
+        if (chat.name == undefined){
+          if (chat.users[0].username != this.userService.user.username){
+            chat.image = chat.users[0].image;
+            chat.name = chat.users[0].username;
+          }
+          else{
+            chat.image = chat.users[1].image;
+            chat.name = chat.users[1].username;
+          }
+        }
+        if (chat.mensajes[0].sender == this.userService.user.username){
+          chat.ultimomensaje = "Yo: " + chat.mensajes[0].body;
+          chat.leido = true;
+        }
+
+        else{
+          chat.ultimomensaje = chat.mensajes[0].sender + ": " + chat.mensajes[0].body;
+          chat.leido = false;
+        }
+        this.chats.push(chat);
+        this.chatsSearch = this.chats;
       }
 
-      else if (data.topic == "new-chat") {
-        this.chatService.getMyChats().subscribe((data) => {
-          this.chats = data;
-          this.chatsSearch = this.chats;      
-        });
+      else if (data.topic == "nuevoMensaje"){
+        console.log("Data", data.mensaje);
       }
     });
   }

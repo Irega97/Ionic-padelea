@@ -98,7 +98,6 @@ export class ChatPage implements OnInit {
     }
     else{
       this.chatService.sendMessage(this.idChat, messageToSend).subscribe(data => {
-
       })
     }
   }

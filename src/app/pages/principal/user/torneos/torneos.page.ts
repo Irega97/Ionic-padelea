@@ -35,8 +35,7 @@ export class TorneosPage implements OnInit {
           }
         }
         this.torneos.push(torneos);
-        if (this.torneos.length != this.torneosSearch.length)
-          this.torneosSearch.push(torneos);
+        this.torneosSearch = this.torneos;
       }
 
       else if (data.topic == "player-left" && data.jugador.username == this.username){
