@@ -72,9 +72,9 @@ export class EventsService {
     })
 
     this.socket.on('nuevoMensaje', mensaje => {
-      if (this.username != mensaje.sender){
+      if (this.username != mensaje.mensaje.sender){
         let notification = {
-          description: mensaje.sender + " te ha enviado un mensaje"
+          description: mensaje.mensaje.sender + " te ha enviado un mensaje"
         }
         this.components.presentToast(notification);
         this.publish({

@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class ChatPage implements OnInit {
 
-  chats;
-  chatsSearch;
+  chats = [];
+  chatsSearch = [];
   cargando: Boolean = true;
 
   constructor( private events: EventsService, private chatService : ChatService, private userService: UserService, private router: Router ) { }
@@ -20,19 +20,32 @@ export class ChatPage implements OnInit {
   ngOnInit() {
     if (this.userService.user != undefined){
       this.chatService.getMyChats().subscribe((data) => {
-        this.chats = data.chats;
-        this.chats.forEach(chat => {
-          if (chat.name == undefined){
-            if (chat.users[0].username != this.userService.user.username){
-              chat.image = chat.users[0].image;
-              chat.name = chat.users[0].username;
+        data.chats.forEach(chat => {
+          if (chat.chat.name == undefined){
+            if (chat.chat.users[0].username != this.userService.user.username){
+              chat.chat.image = chat.chat.users[0].image;
+              chat.chat.name = chat.chat.users[0].username;
             }
             else{
-              chat.image = chat.users[1].image;
-              chat.name = chat.users[1].username;
+              chat.chat.image = chat.chat.users[1].image;
+              chat.chat.name = chat.chat.users[1].username;
             }
           }
-          chat.ultimomensaje =  chat.mensajes[chat.mensajes.length -1].sender + ": " + chat.mensajes[chat.mensajes.length -1].body;
+
+          if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == this.userService.user.username)
+            chat.chat.ultimomensaje =  "Yo: " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+          else
+            chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].sender + ": " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+
+          if (chat.ultimoleido < chat.chat.mensajes.length){
+            chat.chat.leido = false;
+          }
+            
+          else{
+            chat.chat.leido = true;
+          }
+
+          this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
         this.cargando = false;     
@@ -42,26 +55,38 @@ export class ChatPage implements OnInit {
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser"){
         this.chatService.getMyChats().subscribe((data) => {
-          this.chats = data.chats;
-          this.chats.forEach(chat => {
-            if (chat.name == undefined){
-              if (chat.users[0].username != this.userService.user.username){
-                chat.image = chat.users[0].image;
-                chat.name = chat.users[0].username;
+          data.chats.forEach(chat => {
+            if (chat.chat.name == undefined){
+              if (chat.chat.users[0].username != this.userService.user.username){
+                chat.chat.image = chat.chat.users[0].image;
+                chat.chat.name = chat.chat.users[0].username;
               }
               else{
-                chat.image = chat.users[1].image;
-                chat.name = chat.users[1].username;
+                chat.chat.image = chat.chat.users[1].image;
+                chat.chat.name = chat.chat.users[1].username;
               }
             }
-            if (chat.mensajes[chat.mensajes.length -1].sender == this.userService.user.username)
-              chat.ultimomensaje =  "Yo: " + chat.mensajes[chat.mensajes.length -1].body;
+  
+            if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == this.userService.user.username)
+              chat.chat.ultimomensaje =  "Yo: " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
             else
-              chat.ultimomensaje =  chat.mensajes[chat.mensajes.length -1].sender + ": " + chat.mensajes[chat.mensajes.length -1].body;
+              chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].sender + ": " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+  
+            if (chat.ultimoleido < chat.chat.mensajes.length)
+              chat.chat.leido = false;
+              
+            else
+              chat.chat.leido = true;
+  
+            this.chats.push(chat.chat);
           })
           this.chatsSearch = this.chats; 
           this.cargando = false;     
         }); 
+      }
+
+      else if (data.topic == "nuevoMensaje"){
+        console.log("Data", data.mensaje);
       }
 
       else if (data.topic == "new-chat") {
@@ -86,6 +111,7 @@ export class ChatPage implements OnInit {
   }
 
   goChat(chat){
+    chat.leido = true;
     if (chat.admin.length == 0)
       this.router.navigateByUrl('/chat/user/' + chat.name);
     else

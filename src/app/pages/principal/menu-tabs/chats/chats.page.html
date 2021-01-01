@@ -9,19 +9,30 @@
   <div style="text-align: center;" *ngIf="cargando">
     <ion-spinner></ion-spinner>
   </div>
-  <ion-list *ngIf = "chats && chatsSearch.length > 0; else noChats">
+  <ion-list *ngIf = "chatsSearch && chatsSearch.length > 0; else noChats">
     <ion-item *ngFor="let chat of chatsSearch" (click) = "goChat(chat)">
       <ion-avatar slot="start">
         <ion-img [src]="chat.image"></ion-img>
       </ion-avatar>
-      <ion-label>
-        <h2>
+      <ion-label *ngIf= "!chat.leido; else leido" style="font-weight: bold;">
+        <p>
           {{chat.name}}
-        </h2>
-        <h3>
+        </p>
+        <p>
           {{chat.ultimomensaje}}
-        </h3>
+        </p>
       </ion-label>
+      <ng-template #leido>
+        <ion-label>
+          <h2>
+            {{chat.name}}
+          </h2>
+          <p>
+            {{chat.ultimomensaje}}
+          </p>
+        </ion-label>
+      </ng-template>
+      <ion-icon *ngIf="!chat.leido" name="ellipse" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
   <ng-template #noChats>

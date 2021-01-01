@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Mensaje } from 'src/app/models/mensaje';
 import { ChatService } from 'src/app/services/chat.service';
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
@@ -33,11 +32,12 @@ export class ChatPage implements OnInit {
     this.events.getObservable().subscribe(data => {
       if (data.topic == "updateUser")
         this.usernameactual = this.userService.user.username;
-    })
-
-    this.events.getObservable().subscribe(data => {
-      if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
-        this.linea = data.user.estado;
+      
+        else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
+          this.linea = data.user.estado;
+        
+        else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat)
+          this.messages.push(data.mensaje.mensaje);
     })
 
     this.type = this.router.url.split('/')[2];
@@ -57,9 +57,9 @@ export class ChatPage implements OnInit {
         }
         else{
           this.nuevo = false;
-          this.messages = data.chat.mensajes;
-          this.idChat = data.chat._id;
-          data.chat.users.forEach(user =>{
+          this.messages = data.chat.chat.mensajes;
+          this.idChat = data.chat.chat._id;
+          data.chat.chat.users.forEach(user =>{
             if (user.username == this.name){
               this.image = user.image;
               this.linea = user.online;
@@ -72,12 +72,6 @@ export class ChatPage implements OnInit {
           this.router.navigate(['/principal/home']);
       });
     });
-
-    this.events.getObservable().subscribe(data => {
-      if (data.topic == "nuevoMensaje"){
-        this.messages.push(data.mensaje);
-      }
-    })
   }
 
   sendMessage(){
