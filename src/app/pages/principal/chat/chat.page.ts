@@ -36,7 +36,7 @@ export class ChatPage implements OnInit {
         else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
           this.linea = data.user.estado;
         
-        else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat)
+        else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual)
           this.messages.push(data.mensaje.mensaje);
     })
 
@@ -75,30 +75,32 @@ export class ChatPage implements OnInit {
   }
 
   sendMessage(){
-    let vectorleido: string[] = [];
-    vectorleido.push(this.userService.user._id);
-    let messageToSend = {
-      body : this.message,
-      sender: this.userService.user.username,
-      date: new Date(Date.now()),
-      leidos: vectorleido
-    }
-
-    this.messages.push(messageToSend);
-    this.message = "";
-    if (this.nuevo){
-      let info = {
-        users: this.participantes,
-        mensaje: messageToSend,
-      };
-      this.chatService.addChat(info).subscribe(data =>{
-        this.idChat = data._id;
-        this.nuevo = false;
-      })
-    }
-    else{
-      this.chatService.sendMessage(this.idChat, messageToSend).subscribe(data => {
-      })
+    if (this.message != ""){
+      let vectorleido: string[] = [];
+      vectorleido.push(this.userService.user._id);
+      let messageToSend = {
+        body : this.message,
+        sender: this.userService.user.username,
+        date: new Date(Date.now()),
+        leidos: vectorleido
+      }
+  
+      this.messages.push(messageToSend);
+      this.message = "";
+      if (this.nuevo){
+        let info = {
+          users: this.participantes,
+          mensaje: messageToSend,
+        };
+        this.chatService.addChat(info).subscribe(data =>{
+          this.idChat = data._id;
+          this.nuevo = false;
+        })
+      }
+      else{
+        this.chatService.sendMessage(this.idChat, messageToSend).subscribe(data => {
+        })
+      }
     }
   }
 }

@@ -72,7 +72,13 @@ export class EventsService {
     })
 
     this.socket.on('nuevoChat', chat => {
-      //NOTIFICACIONES MENSAJE
+      if (chat.mensajes[0].sender != this.username){
+        let notification = {
+          description: chat.mensajes[0].sender + " te ha enviado un mensaje"
+        }
+        this.components.presentToast(notification);
+      }
+
       this.publish({
         "topic": "nuevoChat",
         "chat": chat
@@ -85,11 +91,11 @@ export class EventsService {
           description: mensaje.mensaje.sender + " te ha enviado un mensaje"
         }
         this.components.presentToast(notification);
-        this.publish({
-          "topic": "nuevoMensaje",
-          "mensaje": mensaje
-        })
       }
+      this.publish({
+        "topic": "nuevoMensaje",
+        "mensaje": mensaje
+      })
     })
 
     this.socket.on('actConectado', user => {

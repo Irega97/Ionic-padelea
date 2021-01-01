@@ -47,6 +47,7 @@ export class ChatPage implements OnInit {
           this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
+        this.chatsSearch.sort((a,b) => a.leido - b.leido);
         this.cargando = false;     
       }); 
     }
@@ -80,13 +81,13 @@ export class ChatPage implements OnInit {
             this.chats.push(chat.chat);
           })
           this.chatsSearch = this.chats; 
+          this.chatsSearch.sort((a,b) => a.leido - b.leido);
           this.cargando = false;     
         }); 
       }
 
       else if (data.topic == 'nuevoChat'){
         let chat = data.chat;
-        console.log("Chat", chat);
         if (chat.name == undefined){
           if (chat.users[0].username != this.userService.user.username){
             chat.image = chat.users[0].image;
@@ -108,10 +109,24 @@ export class ChatPage implements OnInit {
         }
         this.chats.push(chat);
         this.chatsSearch = this.chats;
+        this.chatsSearch.sort((a,b) => a.leido - b.leido);
       }
 
       else if (data.topic == "nuevoMensaje"){
-        console.log("Data", data.mensaje);
+        this.chats.forEach(chat => {
+          if (chat._id == data.mensaje.chat){
+            if (data.mensaje.mensaje.sender == this.userService.user.username){
+              chat.leido = true;
+              chat.ultimomensaje = "Yo: " + data.mensaje.mensaje.body;
+            }
+            else{
+              chat.leido = false;
+              chat.ultimomensaje = data.mensaje.mensaje.sender + ": " + data.mensaje.mensaje.body;
+            }
+          }
+        })
+        this.chatsSearch = this.chats;
+        this.chatsSearch.sort((a,b) => a.leido - b.leido);
       }
     });
   }
