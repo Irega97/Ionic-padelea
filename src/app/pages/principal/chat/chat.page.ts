@@ -33,11 +33,11 @@ export class ChatPage implements OnInit {
       if (data.topic == "updateUser")
         this.usernameactual = this.userService.user.username;
       
-        else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
-          this.linea = data.user.estado;
-        
-        else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual)
-          this.messages.push(data.mensaje.mensaje);
+      else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
+        this.linea = data.user.estado;
+      
+      else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual)
+        this.messages.push(data.mensaje.mensaje);
     })
 
     this.type = this.router.url.split('/')[2];
@@ -64,6 +64,13 @@ export class ChatPage implements OnInit {
               this.image = user.image;
               this.linea = user.online;
             }
+          })
+        }
+
+        if (data.ultimoleido < data.chat.chat.mensajes.length){
+          this.events.publish({
+            "topic": "chatLeido",
+            "chatid": data.chat.chat._id 
           })
         }
         this.cargando = false;

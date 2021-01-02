@@ -39,7 +39,7 @@ export class TorneosPage implements OnInit {
       }
 
       else if (data.topic == "player-left" && data.jugador.username == this.username){
-        this.torneos = this.torneos.filter(torneo =>{
+        this.torneos.forEach(torneo =>{
           if(torneo.torneo.name == data.jugador.torneo){
             let i = this.torneos.indexOf(torneo);
             this.torneos.splice(i, 1);

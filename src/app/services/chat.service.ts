@@ -20,6 +20,10 @@ export class ChatService{
     return this.http.get<JSON>(this.ruta + 'me/all');
   }
 
+  getChatsSinLeer(): Observable<any> {
+    return this.http.get<any>(this.ruta + "me");
+  }
+
   sendMessage(idChat: string, mensaje): Observable<any> {
     return this.http.post<any>(this.ruta + "message/" + idChat, mensaje);
   }

@@ -3,6 +3,7 @@ import { EventsService } from 'src/app/services/events.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { HmacSHA1 } from 'crypto-js';
 
 @Component({
   selector: 'app-chats',
@@ -127,6 +128,14 @@ export class ChatPage implements OnInit {
         })
         this.chatsSearch = this.chats;
         this.chatsSearch.sort((a,b) => a.leido - b.leido);
+      }
+
+      else if (data.topic == "chatLeido"){
+        this.chats.forEach(chat => {
+          if (chat._id == data.chatId){
+            chat.leido = true;
+          }
+        })
       }
     });
   }
