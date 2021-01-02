@@ -132,7 +132,7 @@ export class ChatPage implements OnInit {
 
       else if (data.topic == "chatLeido"){
         this.chats.forEach(chat => {
-          if (chat._id == data.chatId){
+          if (chat._id == data.chatid){
             chat.leido = true;
           }
         })

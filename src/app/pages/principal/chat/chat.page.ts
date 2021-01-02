@@ -22,6 +22,7 @@ export class ChatPage implements OnInit {
   message = "";
   usernameactual: string;
   idChat: string;
+  noleidos: Boolean = false;
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService) { }
 
@@ -36,8 +37,9 @@ export class ChatPage implements OnInit {
       else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
         this.linea = data.user.estado;
       
-      else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual)
+      else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual){
         this.messages.push(data.mensaje.mensaje);
+      }
     })
 
     this.type = this.router.url.split('/')[2];
@@ -53,11 +55,21 @@ export class ChatPage implements OnInit {
           this.image = data.user.image;
           this.linea = data.user.online;
           this.participantes.push(this.userService.user._id);
-         this.participantes.push(data.user._id);
+          this.participantes.push(data.user._id);
         }
         else{
           this.nuevo = false;
+          this.participantes = data.chat.chat.users;
           this.messages = data.chat.chat.mensajes;
+          this.messages.forEach(mensaje => {
+            if (mensaje.sender == this.userService.user.username){
+              if (mensaje.leidos.length == this.participantes.length)
+                mensaje.icon = "checkmark-done-outline";
+              
+                else
+                  mensaje.icon = "checkmark-outline";
+            }
+          })
           this.idChat = data.chat.chat._id;
           data.chat.chat.users.forEach(user =>{
             if (user.username == this.name){
@@ -65,14 +77,20 @@ export class ChatPage implements OnInit {
               this.linea = user.online;
             }
           })
+          if (data.ultimoleido < data.chat.chat.mensajes.length){
+            let messageconf = {
+              "sender": "conf",
+              "body": "Nuevos Mensajes"
+            }
+            this.messages.splice(data.ultimoleido, 0, messageconf);
+            this.noleidos = true;
+              this.events.publish({
+                "topic": "chatLeido",
+                "chatid": data.chat.chat._id 
+              })
+          }
         }
 
-        if (data.ultimoleido < data.chat.chat.mensajes.length){
-          this.events.publish({
-            "topic": "chatLeido",
-            "chatid": data.chat.chat._id 
-          })
-        }
         this.cargando = false;
       }, error =>{
         if (error.status == 409)
@@ -89,10 +107,17 @@ export class ChatPage implements OnInit {
         body : this.message,
         sender: this.userService.user.username,
         date: new Date(Date.now()),
-        leidos: vectorleido
+        leidos: vectorleido,
       }
   
-      this.messages.push(messageToSend);
+      let messageToSave = {
+        body : this.message,
+        sender: this.userService.user.username,
+        date: new Date(Date.now()),
+        leidos: vectorleido,
+        icon: "time-outline"
+      }
+      this.messages.push(messageToSave);
       this.message = "";
       if (this.nuevo){
         let info = {
@@ -105,7 +130,18 @@ export class ChatPage implements OnInit {
         })
       }
       else{
-        this.chatService.sendMessage(this.idChat, messageToSend).subscribe(data => {
+        if (this.noleidos){
+          this.messages.forEach(mensaje => {
+            if (mensaje.sender == "conf" && mensaje.body == "Nuevos Mensajes"){
+              let i = this.messages.indexOf(mensaje);
+              this.messages.splice(i, 1);
+            }
+          })
+        }
+
+        this.chatService.sendMessage(this.idChat, messageToSend).subscribe(() => {
+          let i = this.messages.indexOf(messageToSave);
+          this.messages[i].icon = "checkmark-outline"
         })
       }
     }
