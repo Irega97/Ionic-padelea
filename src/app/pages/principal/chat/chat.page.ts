@@ -71,15 +71,22 @@ export class ChatPage implements OnInit {
             }
           })
           this.idChat = data.chat.chat._id;
-          data.chat.chat.users.forEach(user =>{
-            if (user.username == this.name){
-              this.image = user.image;
-              this.linea = user.online;
-            }
-          })
+          if (this.type == "user"){
+            data.chat.chat.users.forEach(user =>{
+              if (user.username == this.name){
+                this.image = user.image;
+                this.linea = user.online;
+              }
+            })
+          }
+
+          else{
+            this.image = data.chat.chat.image;
+            this.linea = false;
+          }
+          
           if (data.ultimoleido < data.chat.chat.mensajes.length){
             let messageconf = {
-              "sender": "conf",
               "body": "Nuevos Mensajes"
             }
             this.messages.splice(data.ultimoleido, 0, messageconf);
@@ -97,6 +104,10 @@ export class ChatPage implements OnInit {
           this.router.navigate(['/principal/home']);
       });
     });
+  }
+
+  goConf(){
+    console.log("Tipo", this.type);
   }
 
   sendMessage(){
@@ -127,12 +138,13 @@ export class ChatPage implements OnInit {
         this.chatService.addChat(info).subscribe(data =>{
           this.idChat = data._id;
           this.nuevo = false;
+          this.messages[0].icon = "checkmark-outline"
         })
       }
       else{
         if (this.noleidos){
           this.messages.forEach(mensaje => {
-            if (mensaje.sender == "conf" && mensaje.body == "Nuevos Mensajes"){
+            if (mensaje.sender == undefined && mensaje.body == "Nuevos Mensajes"){
               let i = this.messages.indexOf(mensaje);
               this.messages.splice(i, 1);
             }

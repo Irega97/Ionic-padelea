@@ -13,14 +13,13 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NewChatPage implements OnInit {
 
-  chatForm;
   friends;
   friendsSearch;
   cargando: Boolean = true;
   numParticipantes: number = 0;
   participantes = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private events: EventsService, private userService: UserService, 
+  constructor(private router: Router, private events: EventsService, private userService: UserService, 
     private friendService: FriendsService, private components: ComponentsService)  { }
 
   ngOnInit() {
@@ -47,9 +46,6 @@ export class NewChatPage implements OnInit {
         })
       }
     })
-    this.chatForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-    }); 
   }
 
   ionViewWillEnter(){
@@ -80,7 +76,7 @@ export class NewChatPage implements OnInit {
     this.participantes.push(this.userService.user);
     this.friends.forEach(friend => {
       if (friend.selected)  
-        this.participantes.push(friend);
+        this.participantes.push(friend.user);
     })
 
     if (this.participantes.length > 2){
@@ -97,15 +93,4 @@ export class NewChatPage implements OnInit {
       this.components.presentAlert("Necesitas un mínimo de 2 participantes");
     }
   }
-
-  /*submitChat(){
-    let data = {
-      "name": this.chatForm.value.name
-    }
-    this.chatService.addChat(data).subscribe((data)=>{
-      if(data != null) {
-        this.router.navigateByUrl('principal/chat');
-      }
-    });
-  }*/
 }

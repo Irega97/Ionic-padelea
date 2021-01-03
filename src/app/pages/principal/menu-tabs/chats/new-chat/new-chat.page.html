@@ -16,7 +16,7 @@
   <div style="text-align: center;" *ngIf="cargando">
     <ion-spinner></ion-spinner>
   </div>
-  <ion-list *ngIf = "friends && friendsSearch.length > 0; else noFriends">
+  <ion-list *ngIf = "friendsSearch && friendsSearch.length > 0; else noFriends">
     <ion-item *ngFor="let friend of friendsSearch">
       <ion-checkbox slot="start" [(ngModel)]="friend.selected" (ionChange)="changeSelected(friend)"></ion-checkbox>
       <ion-avatar slot="start">
