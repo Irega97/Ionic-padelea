@@ -38,7 +38,16 @@ const routes: Routes = [
       },
       {
         path: 'grupo/:name',
-        loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
+          },
+          {
+            path: 'informacion',
+            loadChildren: () =>  import('src/app/pages/principal/chat/informacion/informacion.module').then(m => m.InformacionPageModule)
+          }
+        ]
       }
     ]
   },

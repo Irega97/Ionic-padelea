@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
@@ -23,6 +23,7 @@ export class ChatPage implements OnInit {
   usernameactual: string;
   idChat: string;
   noleidos: Boolean = false;
+  chat;
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService) { }
 
@@ -59,6 +60,7 @@ export class ChatPage implements OnInit {
         }
         else{
           this.nuevo = false;
+          this.chat = data.chat.chat;
           this.participantes = data.chat.chat.users;
           this.messages = data.chat.chat.mensajes;
           this.messages.forEach(mensaje => {
@@ -107,7 +109,13 @@ export class ChatPage implements OnInit {
   }
 
   goConf(){
-    console.log("Tipo", this.type);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        chat: this.chat
+      }
+    };
+    this.router.navigate(['auth/registro/setusername'], navigationExtras);
+    this.router.navigate(['chat/grupo/' + this.name + '/informacion']);
   }
 
   sendMessage(){
