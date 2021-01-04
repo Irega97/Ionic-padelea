@@ -52,6 +52,7 @@ export class ChatPage implements OnInit {
       }
 
       this.chatService.getChat(info).subscribe(data => {
+        console.log("Data", data);
         if (!data.existe){
           this.image = data.user.image;
           this.linea = data.user.online;
