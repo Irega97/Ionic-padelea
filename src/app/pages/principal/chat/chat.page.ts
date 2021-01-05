@@ -50,13 +50,13 @@ export class ChatPage implements OnInit {
           this.chat = data.chat;
           this.ultimoleido = 1;
 
-          /*let info = {
+          let info = {
             chat: this.idChat,
             user: this.userService.user._id,
-            ultimoleido: this.chat.ultimoleido
+            ultimoleido: 0
           }
 
-          this.socket.emit('mensajeLeido', info);*/
+          this.socket.emit('mensajeLeido', info);
           this.events.publish({
             "topic": "chatLeido",
             "chatid": this.idChat
@@ -67,13 +67,13 @@ export class ChatPage implements OnInit {
       else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual){
         this.messages.push(data.mensaje.mensaje);
         if (this.leer){
-          /*let info = {
+          let info = {
             chat: this.idChat,
             user: this.userService.user._id,
-            ultimoleido: this.chat.ultimoleido
+            ultimoleido: this.ultimoleido
           }
 
-          this.socket.emit('mensajeLeido', info);*/
+          this.socket.emit('mensajeLeido', info);
           this.ultimoleido++;
           this.events.publish({
             "topic": "chatLeido",
@@ -83,21 +83,19 @@ export class ChatPage implements OnInit {
       }
     })
 
-    /*this.socket.on('mensajeLeido', info => {
+    this.socket.on('mensajeLeido', info => {
       if (info.chat == this.idChat && info.user != this.userService.user._id){
-        let i: number = info.ultimoleido;
         console.log("Info", info.ultimoleido);
         console.log("Longitud", this.messages.length);
-        while (i < this.messages.length){
-          this.messages[i].leidos.push(info.user);
-          if (this.messages[i].leidos.length == this.participantes.length){
-            this.messages[i].icon = "checkmark-done-outline";
-            console.log("Entra");
+        while (info.ultimoleido < this.messages.length){
+          this.messages[info.ultimoleido].leidos.push(info.user);
+          if (this.messages[info.ultimoleido].leidos.length == this.participantes.length){
+            this.messages[info.ultimoleido].icon = "checkmark-done-outline";
           }
-          i++;
+          info.ultimoleido++;
         }
       }
-    })*/
+    })
 
     this.type = this.router.url.split('/')[2];
     this.route.paramMap.subscribe(paramMap => {
@@ -118,6 +116,7 @@ export class ChatPage implements OnInit {
         else{
           this.nuevo = false;
           this.chat = data.chat.chat;
+          this.ultimoleido = data.chat.ultimoleido;
           this.participantes = data.chat.chat.users;
           this.messages = data.chat.chat.mensajes;
           this.messages.forEach(mensaje => {
