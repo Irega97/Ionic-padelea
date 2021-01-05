@@ -20,7 +20,8 @@ export class MenuTabsPage implements OnInit {
 
     this.events.getObservable().subscribe(data=>{
       if (data.topic == "nuevoChat"){
-        this.chatsSinLeer.push(data.chat._id);
+        if ((data.chat.name == undefined && data.chat.mensajes[0].sender != this.userService.user.username) || (data.chat.name != undefined && data.chat.admin[0] != this.userService.user._id))
+          this.chatsSinLeer.push(data.chat._id);
       }
 
       else if (data.topic == "nuevoMensaje" && data.mensaje.mensaje.sender != this.userService.user.username){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
 import { ChatService } from 'src/app/services/chat.service';
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
@@ -23,9 +24,12 @@ export class ChatPage implements OnInit {
   usernameactual: string;
   idChat: string;
   noleidos: Boolean = false;
+  ultimoleido: number;
   chat;
+  leer: Boolean = true;
 
-  constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService) { }
+  constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
+    private socket: Socket) { }
 
   ngOnInit() {
     if (this.userService.user != undefined)
@@ -38,10 +42,62 @@ export class ChatPage implements OnInit {
       else if (data.topic == "actConectado" && this.type == "user" && this.name == data.user.user)
         this.linea = data.user.estado;
       
+      else if (data.topic == 'nuevoChat' && data.chat.admin.length == 0 && data.chat.mensajes[0].sender != this.usernameactual){
+        if (data.chat.users[0].username == this.name || data.chat.users[1].username == this.name){
+          this.messages = data.chat.mensajes;
+          this.nuevo = false;
+          this.idChat = data.chat._id;
+          this.chat = data.chat;
+          this.ultimoleido = 1;
+
+          /*let info = {
+            chat: this.idChat,
+            user: this.userService.user._id,
+            ultimoleido: this.chat.ultimoleido
+          }
+
+          this.socket.emit('mensajeLeido', info);*/
+          this.events.publish({
+            "topic": "chatLeido",
+            "chatid": this.idChat
+          })
+        }
+      }
+
       else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual){
         this.messages.push(data.mensaje.mensaje);
+        if (this.leer){
+          /*let info = {
+            chat: this.idChat,
+            user: this.userService.user._id,
+            ultimoleido: this.chat.ultimoleido
+          }
+
+          this.socket.emit('mensajeLeido', info);*/
+          this.ultimoleido++;
+          this.events.publish({
+            "topic": "chatLeido",
+            "chatid": this.idChat
+          })
+        }
       }
     })
+
+    /*this.socket.on('mensajeLeido', info => {
+      if (info.chat == this.idChat && info.user != this.userService.user._id){
+        let i: number = info.ultimoleido;
+        console.log("Info", info.ultimoleido);
+        console.log("Longitud", this.messages.length);
+        while (i < this.messages.length){
+          this.messages[i].leidos.push(info.user);
+          if (this.messages[i].leidos.length == this.participantes.length){
+            this.messages[i].icon = "checkmark-done-outline";
+            console.log("Entra");
+          }
+          i++;
+        }
+      }
+    })*/
 
     this.type = this.router.url.split('/')[2];
     this.route.paramMap.subscribe(paramMap => {
@@ -52,13 +108,13 @@ export class ChatPage implements OnInit {
       }
 
       this.chatService.getChat(info).subscribe(data => {
-        console.log("Data", data);
         if (!data.existe){
           this.image = data.user.image;
           this.linea = data.user.online;
           this.participantes.push(this.userService.user._id);
           this.participantes.push(data.user._id);
         }
+        
         else{
           this.nuevo = false;
           this.chat = data.chat.chat;
@@ -109,14 +165,21 @@ export class ChatPage implements OnInit {
     });
   }
 
+  ionViewWillEnter(){
+    this.leer = true;
+  }
+
+  ionViewDidLeave(){
+    this.leer = false;
+  }
+
   goConf(){
     let navigationExtras: NavigationExtras = {
       state: {
         chat: this.chat
       }
     };
-    this.router.navigate(['auth/registro/setusername'], navigationExtras);
-    this.router.navigate(['chat/grupo/' + this.name + '/informacion']);
+    this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
   }
 
   sendMessage(){
@@ -145,8 +208,10 @@ export class ChatPage implements OnInit {
           mensaje: messageToSend,
         };
         this.chatService.addChat(info).subscribe(data =>{
-          this.idChat = data._id;
           this.nuevo = false;
+          this.chat = data.chat;
+          this.ultimoleido = 1;
+          this.idChat = data._id;
           this.messages[0].icon = "checkmark-outline"
         })
       }

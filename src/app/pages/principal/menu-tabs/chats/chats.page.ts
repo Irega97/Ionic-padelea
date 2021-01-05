@@ -3,7 +3,6 @@ import { EventsService } from 'src/app/services/events.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
-import { HmacSHA1 } from 'crypto-js';
 
 @Component({
   selector: 'app-chats',
@@ -16,7 +15,7 @@ export class ChatPage implements OnInit {
   chatsSearch = [];
   cargando: Boolean = true;
 
-  constructor( private events: EventsService, private chatService : ChatService, private userService: UserService, private router: Router ) { }
+  constructor(private events: EventsService, private chatService : ChatService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -36,6 +35,9 @@ export class ChatPage implements OnInit {
           if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == this.userService.user.username)
             chat.chat.ultimomensaje =  "Yo: " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
 
+          else if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == undefined)
+            chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+
           else
             chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].sender + ": " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
 
@@ -48,7 +50,10 @@ export class ChatPage implements OnInit {
           this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
-        this.chatsSearch.sort((a,b) => a.leido - b.leido);
+        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.forEach(chat => {
+          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
+        });*/
         this.cargando = false;     
       }); 
     }
@@ -70,6 +75,10 @@ export class ChatPage implements OnInit {
   
             if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == this.userService.user.username)
               chat.chat.ultimomensaje =  "Yo: " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+
+            else if (chat.chat.mensajes[chat.chat.mensajes.length -1].sender == undefined)
+              chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].body;
+
             else
               chat.chat.ultimomensaje =  chat.chat.mensajes[chat.chat.mensajes.length -1].sender + ": " + chat.chat.mensajes[chat.chat.mensajes.length -1].body;
   
@@ -82,7 +91,10 @@ export class ChatPage implements OnInit {
             this.chats.push(chat.chat);
           })
           this.chatsSearch = this.chats; 
-          this.chatsSearch.sort((a,b) => a.leido - b.leido);
+          /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+          this.chatsSearch.forEach(chat => {
+            console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
+          });*/
           this.cargando = false;     
         }); 
       }
@@ -99,9 +111,19 @@ export class ChatPage implements OnInit {
             chat.name = chat.users[1].username;
           }
         }
+
         if (chat.mensajes[0].sender == this.userService.user.username){
           chat.ultimomensaje = "Yo: " + chat.mensajes[0].body;
           chat.leido = true;
+        }
+
+        else if (chat.mensajes[0].sender == undefined){
+          chat.ultimomensaje = chat.mensajes[0].body;
+          if (chat.admin[0] == this.userService.user._id)
+            chat.leido = true;
+
+          else
+            chat.leido = false;
         }
 
         else{
@@ -110,7 +132,10 @@ export class ChatPage implements OnInit {
         }
         this.chats.push(chat);
         this.chatsSearch = this.chats;
-        this.chatsSearch.sort((a,b) => a.leido - b.leido);
+        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.forEach(chat => {
+          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
+        });*/
       }
 
       else if (data.topic == "nuevoMensaje"){
@@ -127,7 +152,10 @@ export class ChatPage implements OnInit {
           }
         })
         this.chatsSearch = this.chats;
-        this.chatsSearch.sort((a,b) => a.leido - b.leido);
+        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.forEach(chat => {
+          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
+        });*/
       }
 
       else if (data.topic == "chatLeido"){
