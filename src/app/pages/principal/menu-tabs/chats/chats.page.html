@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title mode=ios>CHATS</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar animated placeholder="Buscar" showCancelButton="focus" (ionChange)="handleInput($event)"></ion-searchbar>  
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-list *ngIf = "chatsSearch && chatsSearch.length > 0; else noChats">
+    <ion-item *ngFor="let chat of chatsSearch" (click) = "goChat(chat)">
+      <ion-avatar slot="start">
+        <ion-img [src]="chat.image"></ion-img>
+      </ion-avatar>
+      <ion-label *ngIf= "!chat.leido; else leido" style="font-weight: bold;">
+        <p>
+          {{chat.name}}
+        </p>
+        <p>
+          {{chat.ultimomensaje}}
+        </p>
+      </ion-label>
+      <ng-template #leido>
+        <ion-label>
+          <h2>
+            {{chat.name}}
+          </h2>
+          <p>
+            {{chat.ultimomensaje}}
+          </p>
+        </ion-label>
+      </ng-template>
+      <ion-icon *ngIf="!chat.leido" name="ellipse" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+  <ng-template #noChats>
+    <ion-text *ngIf="!cargando">
+      <p class ="ion-text-center">No tienes ningún chat</p>
+    </ion-text>
+  </ng-template>
+
+  <div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button [routerLink] = "['/principal/chats/new']">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  
+</ion-content>
+
+

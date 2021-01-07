@@ -49,6 +49,9 @@
               <ion-icon name="person-add-sharp"></ion-icon> AÑADIR</ion-label>
             <ion-label *ngIf="user.friendStatus == 0">SOLICITUD ENVIADA</ion-label>
           </ion-button>
+          <ion-button *ngIf= "user.friendStatus == 2" (click)="enviarmensaje()">
+            <ion-label *ngIf="user.friendStatus == 2">ENVIAR MENSAJE</ion-label>
+          </ion-button>
           <ion-button *ngIf= "user.friendStatus == 2" (click)="deleteFriend()">
             <ion-label *ngIf="user.friendStatus == 2"><ion-icon name="person-remove-sharp"></ion-icon> ELIMINAR</ion-label>
           </ion-button>

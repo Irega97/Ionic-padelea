@@ -13,24 +13,30 @@ export class AdminPage implements OnInit {
 
   cola: [];
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private component: ComponentsService, private event: EventsService) { }
+  constructor(private adminService: AdminService, private route: ActivatedRoute, private component: ComponentsService, private events: EventsService) { }
 
   ngOnInit() {
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
     });
+    this.events.getObservable().subscribe((data) => {
+      if(data.topic == "nuevoJugador"){
+        this.adminService.getCola().subscribe((data) => {
+          this.cola = data.cola;
+        })
+      }
+    })
   }
 
   acceptPlayer(username: string){
     this.adminService.acceptPlayers({user: username, accept: true}).subscribe((data) => {
       this.component.presentAlert(data.message);
-      /* this.event.publish({"topic":"new-player"}) */
     })
   }
 
   rejectPlayer(username: string){
     this.adminService.acceptPlayers({user: username, accept: false}).subscribe((data) => {
-      console.log(data.message);
+      this.component.presentAlert(data.message);
     })
   }
 }

@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal"></ion-back-button>
+    </ion-buttons>
+    <ion-item color="primary">
+      <ion-avatar slot = "start">
+      <ion-img [src]="image"></ion-img>
+    </ion-avatar>
+    <ion-label>
+      <h2>{{name}}</h2>
+      <h3 *ngIf="linea">En línea</h3>
+    </ion-label>
+    </ion-item>
+    <ion-buttons *ngIf= "type == 'grupo'" slot = "end" (click) = "goConf()">
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngFor="let message of messages">
+      <ion-col size="9" *ngIf="message.sender && message.sender != usernameactual" class="message other-message">
+        <b>{{ message.sender }}</b><br>
+        <span>{{ message.body }}</span>
+        <div class="time" text-right><br>{{ message.date | date:'short' }}</div>
+      </ion-col>
+
+      <ion-col *ngIf="!message.sender" class="message conf">
+        <span>{{ message.body }}</span>
+      </ion-col>
+  
+      <ion-col offset="3" size="9" *ngIf="message.sender && message.sender == usernameactual" class="message my-message">
+        <b>Yo</b><br>
+        <span>{{ message.body }}</span>
+        <div class="time" text-right><br>{{ message.date | date:'short' }} <ion-icon [name]="message.icon"></ion-icon></div> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row align-items-center>
+      <ion-col size="10">
+        <ion-textarea auto-grow class="message-input" rows="1" [(ngModel)]="message"></ion-textarea>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="block" fill="clear" color="primary" class="msg-btn"
+          (click)="sendMessage()">
+          <ion-icon name = "paper-plane"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+

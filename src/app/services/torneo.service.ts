@@ -30,4 +30,8 @@ export class TorneoService {
   joinTorneo(idTorneo: string): Observable<any> {
     return this.http.post<any>(this.ruta + 'join/' + idTorneo, null);
   }
+
+  leaveTorneo(name: string): Observable<any> {
+    return this.http.put<any>(this.ruta + 'leave/' + name, null);
+  }
 }

@@ -46,6 +46,10 @@ export class UserPage implements OnInit {
           }
         }
       }
+      else if (data.topic == "nuevoJugador" && data.jugador.username == this.username)
+        this.numTorneos++;
+      else if (data.topic == "player-left" && data.jugador.username == this.username)
+        this.numTorneos--;
     })
   }
 
@@ -139,5 +143,9 @@ export class UserPage implements OnInit {
       this.user.friendStatus = -1;
       this.numAmigos--;
     })
+  }
+
+  enviarmensaje(){
+    this.router.navigateByUrl('/chat/user/' + this.username);
   }
 }

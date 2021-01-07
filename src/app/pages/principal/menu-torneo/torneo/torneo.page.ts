@@ -17,6 +17,8 @@ export class TorneoPage implements OnInit {
   isAdmin;
   players;
   joined: boolean;
+  fechaInicio;
+  finInscripcion;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
               private events: EventsService, private router: Router, private adminService: AdminService) { }
@@ -30,34 +32,46 @@ export class TorneoPage implements OnInit {
         this.joined = data.joined;
         this.torneo = data.torneo;
         this.players = data.torneo.players;
+        this.fechaInicio = new Date(this.torneo.fechaInicio);
+        this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+        this.finInscripcion = new Date(this.torneo.finInscripcion);
+        this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
       });
     });
+
     this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "new-player") {
-        this.route.paramMap.subscribe(paramMap => {
-          this.name = paramMap.get('name');
-          this.torneoService.getTorneo(this.name).subscribe(data =>{
-            this.joined = data.joined;
-            this.torneo = data.torneo;
-            this.players = data.torneo.players;
-          });
-        });
+      if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
+        this.players.push(data.jugador);
+      } 
+      
+      else if (data.topic == "player-left" && data.jugador.torneo == this.name){
+        this.torneoService.getTorneo(this.name).subscribe(data => {
+          this.players = data.torneo.players;
+        })
+        /*this.players = this.players.filter(player =>{
+          if(player.username == data.jugador.username){
+            let i = this.players.indexOf(player);
+            this.players.splice(i, 1);
+          }
+        })*/
       }
     });
   }
 
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
-      console.log("data:", data);
-      this.events.publish({"topic":"new-player"});
       this.component.presentAlert(data.message);
+      this.joined = true;
     }, (response)=>{
       console.log("error: ", response);
       this.component.presentAlert(response.error.message);
     })
   }
 
-  newPost(){
-
+  leaveTorneo(){
+    this.torneoService.leaveTorneo(this.name).subscribe((data) => {
+      this.component.presentAlert(data.message);
+      this.joined = false;
+    })
   }
 }

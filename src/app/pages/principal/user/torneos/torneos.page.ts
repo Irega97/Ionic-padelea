@@ -21,7 +21,6 @@ export class TorneosPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.username = paramMap.get('username');
       this.torneoService.getTorneosUser(this.username).subscribe((data) => {
-        console.log(data);
         this.torneos = data.torneos;
         this.torneosSearch = this.torneos;  
         this.cargando = false;    
@@ -29,11 +28,27 @@ export class TorneosPage implements OnInit {
     });
     
     this.events.getObservable().subscribe((data)=> {
-      if (data.topic == "new-torneo") {
-        this.torneoService.getTorneosUser(this.username).subscribe((data) => {
-          this.torneos = data.torneos;
-          this.torneosSearch = this.torneos;      
-        });
+      if (data.topic == "nuevoJugador" && data.jugador.username == this.username){
+        let torneos = {
+          torneo: {
+            name: data.jugador.torneo
+          }
+        }
+        this.torneos.push(torneos);
+        this.torneosSearch = this.torneos;
+      }
+
+      else if (data.topic == "player-left" && data.jugador.username == this.username){
+        this.torneos.forEach(torneo =>{
+          if(torneo.torneo.name == data.jugador.torneo){
+            let i = this.torneos.indexOf(torneo);
+            this.torneos.splice(i, 1);
+            if (this.torneos.length != this.torneosSearch.length){
+              let i = this.torneosSearch.indexOf(torneo);
+              this.torneosSearch.splice(i, 1);
+            }
+          }
+        })
       }
     });
   }

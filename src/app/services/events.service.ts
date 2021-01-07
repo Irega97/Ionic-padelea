@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import {Subject} from "rxjs";
 import { User } from '../models/user';
+import { AuthService } from './auth.service';
 import { ComponentsService } from './components.service';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -11,7 +13,8 @@ import { ComponentsService } from './components.service';
 export class EventsService {
 
   private conectado: Boolean = true;
-  constructor(private socket: Socket, private components: ComponentsService) { }
+  private username: string;
+  constructor(private socket: Socket, private components: ComponentsService, private authService: AuthService) { }
 
   private dataSubject = new Subject<any>();
 
@@ -30,32 +33,83 @@ export class EventsService {
     }
 
     let data = {"id": user._id, "username": user.username};
+    this.username = user.username;
     this.socket.emit('nuevoConectado', data);
     this.socket.on('nuevaNotificacion', notification => {
       this.components.presentToast(notification);
       this.publish({
         "topic": "nuevaNotificacion",
         "notification": notification
-      })
+      });
     });
+
     this.socket.on('nuevoUsuario', usuario => {
       this.publish({
         "topic": "nuevoUsuario",
         "user": usuario
-      })
+      });
     });
+
+    this.socket.on('nuevoJugador', jugador => {
+      this.publish({
+        "topic": "nuevoJugador",
+        "jugador": jugador
+      });
+    });
+
+    this.socket.on('nuevoTorneo', torneo => {
+      this.publish({
+        "topic": "nuevoTorneo",
+        "torneo": torneo
+      })
+    })
+
+    this.socket.on('player-left', jugador => {
+      this.publish({
+        "topic":"player-left",
+        "jugador": jugador
+      })
+    })
+
+    this.socket.on('nuevoChat', chat => {
+      if (chat.mensajes[0].sender != this.username){
+        let notification = {
+          description: chat.mensajes[0].sender + " te ha enviado un mensaje"
+        }
+        this.components.presentToast(notification);
+      }
+
+      this.publish({
+        "topic": "nuevoChat",
+        "chat": chat
+      })
+    })
+
+    this.socket.on('nuevoMensaje', mensaje => {
+      if (this.username != mensaje.mensaje.sender){
+        let notification = {
+          description: mensaje.mensaje.sender + " te ha enviado un mensaje"
+        }
+        this.components.presentToast(notification);
+      }
+      this.publish({
+        "topic": "nuevoMensaje",
+        "mensaje": mensaje
+      })
+    })
+
+    this.socket.on('actConectado', user => {
+      this.publish({
+        "topic": "actConectado",
+        "user": user
+      })
+    })
   }
 
   public disconnectSocket(){
-    this.socket.disconnect();
+    localStorage.removeItem("ACCESS_TOKEN");
+    this.authService.reload = true;
     this.conectado = false;
-  }
-
-  public createChatRoom(chatId : String){
-    this.socket.emit('nuevaSala', chatId)
-  }
-
-  public sendMessage() {
-    this.socket.emit('send-message', { text: "prueba" });
+    this.socket.disconnect();
   }
 }

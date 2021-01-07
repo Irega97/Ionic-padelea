@@ -53,7 +53,6 @@ export class NewTorneoPage implements OnInit {
     let finIns: Date = new Date(this.torneoForm.value.finInscripcion);
     let inicio: Date = new Date (this.torneoForm.value.fechaInicio);
     finIns = new Date(finIns.setHours(23, 59, 59, 999));
-    finIns.setHours(finIns.getHours() + 1);
     inicio = new Date(inicio.setHours(1, 0, 0, 0));
     let data = {
       "name": this.torneoForm.value.name,
@@ -71,7 +70,6 @@ export class NewTorneoPage implements OnInit {
       if(data != null) {
         this.components.presentAlert("Torneo creado con éxito");
         this.router.navigateByUrl('principal/torneos');
-        this.events.publish({"topic":"new-torneo"});
       }
     }, error => {
       if (error.status == 409){
