@@ -4,7 +4,6 @@ import {Subject} from "rxjs";
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { ComponentsService } from './components.service';
-import { UserService } from './user.service';
 
 
 @Injectable({
@@ -14,6 +13,7 @@ export class EventsService {
 
   private conectado: Boolean = true;
   private username: string;
+  private id: string;
   constructor(private socket: Socket, private components: ComponentsService, private authService: AuthService) { }
 
   private dataSubject = new Subject<any>();
@@ -34,6 +34,7 @@ export class EventsService {
 
     let data = {"id": user._id, "username": user.username};
     this.username = user.username;
+    this.id = user._id;
     this.socket.emit('nuevoConectado', data);
     this.socket.on('nuevaNotificacion', notification => {
       this.components.presentToast(notification);
@@ -73,10 +74,20 @@ export class EventsService {
 
     this.socket.on('nuevoChat', chat => {
       if (chat.mensajes[0].sender != this.username){
-        let notification = {
-          description: chat.mensajes[0].sender + " te ha enviado un mensaje"
+        let notification;
+        if (chat.mensajes[0].sender == undefined && chat.admin[0] != this.id){
+          notification = {
+            description: "Te han añadido al grupo '" + chat.name + "'"
+          }
+          this.components.presentToast(notification);
         }
-        this.components.presentToast(notification);
+
+        else if(chat.mensajes[0].sender != undefined){
+          notification = {
+            description: chat.mensajes[0].sender + " te ha enviado un mensaje"
+          }
+          this.components.presentToast(notification);
+        }
       }
 
       this.publish({
@@ -86,7 +97,7 @@ export class EventsService {
     })
 
     this.socket.on('nuevoMensaje', mensaje => {
-      if (this.username != mensaje.mensaje.sender){
+      if (this.username != mensaje.mensaje.sender && mensaje.mensaje.sender != undefined){
         let notification = {
           description: mensaje.mensaje.sender + " te ha enviado un mensaje"
         }
