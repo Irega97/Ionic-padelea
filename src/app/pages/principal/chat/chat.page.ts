@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInfiniteScroll } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { ChatService } from 'src/app/services/chat.service';
@@ -22,11 +23,13 @@ export class ChatPage implements OnInit {
   messages: any[] = [];
   message = "";
   usernameactual: string;
-  idChat: string;
   noleidos: Boolean = false;
   ultimoleido: number;
   chat;
   leer: Boolean = true;
+
+  @ViewChild(IonInfiniteScroll) 
+  infiniteScroll: IonInfiniteScroll;
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
@@ -46,12 +49,11 @@ export class ChatPage implements OnInit {
         if (data.chat.users[0].username == this.name || data.chat.users[1].username == this.name){
           this.messages = data.chat.mensajes;
           this.nuevo = false;
-          this.idChat = data.chat._id;
           this.chat = data.chat;
           this.ultimoleido = 1;
 
           let info = {
-            chat: this.idChat,
+            chat: this.chat._id,
             user: this.userService.user._id,
             ultimoleido: 0
           }
@@ -59,16 +61,18 @@ export class ChatPage implements OnInit {
           this.socket.emit('mensajeLeido', info);
           this.events.publish({
             "topic": "chatLeido",
-            "chatid": this.idChat
+            "chatid": this.chat._id
           })
         }
       }
 
-      else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.idChat && data.mensaje.mensaje.sender != this.usernameactual){
+      else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.chat._id && data.mensaje.mensaje.sender != this.usernameactual){
         this.messages.push(data.mensaje.mensaje);
+        if (this.messages.length != this.chat.mensajes.length)
+          this.chat.mensajes.push(data.mensaje.mensaje);
         if (this.leer){
           let info = {
-            chat: this.idChat,
+            chat: this.chat._id,
             user: this.userService.user._id,
             ultimoleido: this.ultimoleido
           }
@@ -77,22 +81,26 @@ export class ChatPage implements OnInit {
           this.ultimoleido++;
           this.events.publish({
             "topic": "chatLeido",
-            "chatid": this.idChat
+            "chatid": this.chat._id
           })
         }
       }
     })
 
     this.socket.on('mensajeLeido', info => {
-      if (info.chat == this.idChat && info.user != this.userService.user._id){
-        console.log("Info", info.ultimoleido);
-        console.log("Longitud", this.messages.length);
-        while (info.ultimoleido < this.messages.length){
-          this.messages[info.ultimoleido].leidos.push(info.user);
-          if (this.messages[info.ultimoleido].leidos.length == this.participantes.length){
-            this.messages[info.ultimoleido].icon = "checkmark-done-outline";
+      if (this.chat != undefined){
+        if (info.chat == this.chat._id && info.user != this.userService.user._id){
+          let i: number = info.ultimoleido;
+          while (i < this.chat.mensajes.length){
+            //this.chat.mensajes[i].leidos.push(info.user);
+            this.messages[i].leidos.push(info.user);
+            console.log("Chat", this.messages[i]);
+            console.log("Users", this.chat.users);
+            if (this.messages[i].leidos.length == this.chat.users.length){
+              this.messages[i].icon = "checkmark-done-outline";
+            }
+            i++;
           }
-          info.ultimoleido++;
         }
       }
     })
@@ -117,18 +125,62 @@ export class ChatPage implements OnInit {
           this.nuevo = false;
           this.chat = data.chat.chat;
           this.ultimoleido = data.chat.ultimoleido;
-          this.participantes = data.chat.chat.users;
           this.messages = data.chat.chat.mensajes;
+
+          if (this.ultimoleido < this.messages.length){
+            let messageconf = {
+              "body": "Nuevos Mensajes"
+            }
+            this.messages.splice(this.ultimoleido, 0, messageconf);
+            this.noleidos = true;
+            this.ultimoleido = this.messages.length;
+            this.events.publish({
+              "topic": "chatLeido",
+              "chatid": data.chat.chat._id 
+            })
+          }
+          /*if (data.chat.chat.mensajes.length < 10){
+            this.messages = data.chat.chat.mensajes;
+            this.infiniteScroll.disabled = true;
+          }
+
+          else{
+            if (this.ultimoleido == this.chat.mensajes.length){
+              let i: number = 10;
+              while (i > 0){
+                this.messages.push(data.chat.chat.mensajes[data.chat.chat.mensajes.length - i]);
+                i--;
+              }
+            }
+            
+            else{
+              let messageconf = {
+                "body": "Nuevos Mensajes"
+              }
+
+              this.messages.push(messageconf);
+              while (this.ultimoleido < data.chat.mensajes.length){
+                this.messages.push(this.chat.mensajes[this.ultimoleido]);
+                this.ultimoleido++;
+              }
+
+              this.noleidos = true;
+              this.events.publish({
+                "topic": "chatLeido",
+                "chatid": data.chat.chat._id 
+              })
+            }
+          }*/
+
           this.messages.forEach(mensaje => {
             if (mensaje.sender == this.userService.user.username){
-              if (mensaje.leidos.length == this.participantes.length)
+              if (mensaje.leidos.length == this.chat.users.length)
                 mensaje.icon = "checkmark-done-outline";
               
                 else
                   mensaje.icon = "checkmark-outline";
             }
           })
-          this.idChat = data.chat.chat._id;
           if (this.type == "user"){
             data.chat.chat.users.forEach(user =>{
               if (user.username == this.name){
@@ -141,18 +193,6 @@ export class ChatPage implements OnInit {
           else{
             this.image = data.chat.chat.image;
             this.linea = false;
-          }
-          
-          if (data.ultimoleido < data.chat.chat.mensajes.length){
-            let messageconf = {
-              "body": "Nuevos Mensajes"
-            }
-            this.messages.splice(data.ultimoleido, 0, messageconf);
-            this.noleidos = true;
-              this.events.publish({
-                "topic": "chatLeido",
-                "chatid": data.chat.chat._id 
-              })
           }
         }
 
@@ -171,6 +211,18 @@ export class ChatPage implements OnInit {
   ionViewDidLeave(){
     this.leer = false;
   }
+
+  /*loadData(event){
+    if (this.messages.length < this.chat.mensajes.length){
+      setTimeout(() => {
+        for (let i = 0; i < 30; i++) {
+          console.log("Funciona");
+        }
+  
+        event.target.complete();
+      }, 500);
+    }
+  }*/
 
   goConf(){
     let navigationExtras: NavigationExtras = {
@@ -208,9 +260,8 @@ export class ChatPage implements OnInit {
         };
         this.chatService.addChat(info).subscribe(data =>{
           this.nuevo = false;
-          this.chat = data.chat;
+          this.chat = data;
           this.ultimoleido = 1;
-          this.idChat = data._id;
           this.messages[0].icon = "checkmark-outline"
         })
       }
@@ -224,9 +275,12 @@ export class ChatPage implements OnInit {
           })
         }
 
-        this.chatService.sendMessage(this.idChat, messageToSend).subscribe(() => {
+        this.chatService.sendMessage(this.chat._id, messageToSend).subscribe(() => {
           let i = this.messages.indexOf(messageToSave);
-          this.messages[i].icon = "checkmark-outline"
+          this.messages[i].icon = "checkmark-outline";
+          //this.chat.mensajes.push(messageToSend);
+          /*if (this.messages.length != this.chat.mensajes.length)
+            this.chat.mensajes.push(messageToSend);*/
         })
       }
     }

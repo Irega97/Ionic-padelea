@@ -50,10 +50,10 @@ export class ChatPage implements OnInit {
           this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
-        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
+        });
         this.cargando = false;     
       }); 
     }
@@ -91,10 +91,10 @@ export class ChatPage implements OnInit {
             this.chats.push(chat.chat);
           })
           this.chatsSearch = this.chats; 
-          /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+          this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
           this.chatsSearch.forEach(chat => {
             console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-          });*/
+          });
           this.cargando = false;     
         }); 
       }
@@ -130,12 +130,13 @@ export class ChatPage implements OnInit {
           chat.ultimomensaje = chat.mensajes[0].sender + ": " + chat.mensajes[0].body;
           chat.leido = false;
         }
+        
         this.chats.push(chat);
         this.chatsSearch = this.chats;
-        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
+        });
       }
 
       else if (data.topic == "nuevoMensaje"){
@@ -152,10 +153,10 @@ export class ChatPage implements OnInit {
           }
         })
         this.chatsSearch = this.chats;
-        /*this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
+        });
       }
 
       else if (data.topic == "chatLeido"){
