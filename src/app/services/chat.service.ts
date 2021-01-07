@@ -13,19 +13,23 @@ export class ChatService{
   constructor(private http: HttpClient) { }
 
   getChat(info): Observable<any> {
-    return this.http.post<JSON>(this.ruta + "get", info);
+    return this.http.post<any>(this.ruta + "get", info);
   }
 
   getMyChats(): Observable<any> {
     return this.http.get<JSON>(this.ruta + 'me/all');
   }
 
-  sendMessage(mensaje): Observable<any> {
-    return this.http.post<any>(this.ruta, mensaje);
+  getChatsSinLeer(): Observable<any> {
+    return this.http.get<any>(this.ruta + "me");
   }
 
-  addChat(info): Observable<JSON>{
-    return this.http.post<JSON>(this.ruta + 'new', info);
+  sendMessage(idChat: string, mensaje): Observable<any> {
+    return this.http.post<any>(this.ruta + "message/" + idChat, mensaje);
+  }
+
+  addChat(info): Observable<any>{
+    return this.http.post<any>(this.ruta + 'new', info);
   }
 
   addOtroParticipante(idChat: string, participantes): Observable<any>{

@@ -12,12 +12,41 @@
       <h3 *ngIf="linea">En línea</h3>
     </ion-label>
     </ion-item>
+    <ion-buttons *ngIf= "type == 'grupo'" slot = "end" (click) = "goConf()">
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!--<ion-infinite-scroll position= "top" threshold="10px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>-->
+  <ion-grid>
+    <ion-row *ngFor="let message of messages">
+      <ion-col size="9" *ngIf="message.sender && message.sender != usernameactual" class="message other-message">
+        <b>{{ message.sender }}</b><br>
+        <span>{{ message.body }}</span>
+        <div class="time" text-right><br>{{ message.date | date:'short' }}</div>
+      </ion-col>
 
+      <ion-col *ngIf="!message.sender" class="message conf">
+        <span>{{ message.body }}</span>
+        <div *ngIf="message.date" class="time" text-right><br>{{ message.date | date:'short' }}</div>
+      </ion-col>
+  
+      <ion-col offset="3" size="9" *ngIf="message.sender && message.sender == usernameactual" class="message my-message">
+        <b>Yo</b><br>
+        <span>{{ message.body }}</span>
+        <div class="time" text-right><br>{{ message.date | date:'short' }} <ion-icon [name]="message.icon"></ion-icon></div> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar color="light">
     <ion-row align-items-center>

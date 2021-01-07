@@ -5,12 +5,13 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { EventsService } from '../services/events.service';
 
 // Para inyectar en constructores
 @Injectable()
 
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router, private components: ComponentsService, private userService: UserService) {}
+    constructor(private router: Router, private components: ComponentsService, private userService: UserService, private events: EventsService) {}
 
     // Modifica la petición HTTP añadiendole la cabecera con el jwt
     intercept(req: HttpRequest<any>, next: HttpHandler){
@@ -26,16 +27,18 @@ export class AuthInterceptor implements HttpInterceptor {
                 catchError((err: HttpErrorResponse) => {
                     if(err.status === 401) {
                         this.components.dismissLoading();
-                        this.components.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
+                        this.userService.user = undefined;
                         this.userService.i = 0;
-                        localStorage.removeItem("ACCESS_TOKEN");
+                        this.components.presentAlert("Sesión caducada :( Por favor, inicia sesión de nuevo");
+                        this.events.disconnectSocket();
                         this.router.navigateByUrl("auth/login");
                     }
                     else if(err.status === 500 || err.status == 0) {
                         this.components.dismissLoading();
-                        this.components.presentAlert("No se ha podido conectar con el servidor. Serás redirigido a la página de login");
+                        this.userService.user = undefined;
                         this.userService.i = 0;
-                        localStorage.removeItem("ACCESS_TOKEN");
+                        this.components.presentAlert("No se ha podido conectar con el servidor. Serás redirigido a la página de login");
+                        this.events.disconnectSocket();
                         this.router.navigateByUrl("auth/login");
                     }
                     return throwError(err);

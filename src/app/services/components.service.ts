@@ -20,7 +20,7 @@ export class ComponentsService {
   async presentToast(notification){
     const toast = await this.toastController.create({
       message: notification.description,
-      duration: 4000,
+      duration: 2000,
       buttons: [
         {
           text: 'CERRAR',

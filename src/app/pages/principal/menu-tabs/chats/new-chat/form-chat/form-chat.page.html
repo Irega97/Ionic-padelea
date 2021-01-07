@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title mode="ios">Nuevo Chat</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal/chats"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-card id="card">
+    <ion-card-content>
+      <div *ngIf="participantes; else noParticipantes">
+        <form [formGroup]="chatForm">
+          <ion-item>
+            <ion-label position="floating" color= "primary">Introduce el Nombre del Chat:</ion-label>
+            <ion-input type="string" formControlName="username"></ion-input>
+          </ion-item>
+          <p *ngIf="chatForm.controls['username'].hasError('required') && (chatForm.controls['username'].dirty || chatForm.controls['username'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+          <p *ngIf="!chatForm.controls['username'].hasError('required') && chatForm.controls['username'].hasError('validUsername') && (chatForm.controls['username'].dirty || chatForm.controls['username'].touched || pulsado)"><ion-label color="danger">Este nombre no está disponible</ion-label></p>
+        </form>
+
+        <div style="text-align: center;">
+          <ion-button color="secondary" (click) = "submitChat()">
+            CREAR CHAT
+          </ion-button>
+        </div>
+
+        <ion-list *ngIf="participantes">
+          <ion-list-header>PARTICIPANTES DEL CHAT</ion-list-header>
+          <ion-item *ngFor="let participante of participantes">
+            <ion-avatar slot="start">
+              <ion-img [src]="participante.image"></ion-img>
+            </ion-avatar>
+            <ion-label>
+              {{participante.username}}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <ng-template #noParticipantes>
+        <div style="text-align: center;">
+          <ion-label color="danger">Parece que has entrado a esta página de forma incorrecta. Esta página solo es accesible si ya has seleccionado a los participantes para crear un</ion-label>
+          <p>
+            <ion-label color="danger">Si ya has seleccionado a los participantes y te sigue apareciendo este mensaje, ves a la página principal (principal/home) y vuelve a empezar</ion-label>
+          </p>
+          <p>
+            <ion-button color="secondary">
+              <ion-back-button defaultHref="/principal/chats/new"></ion-back-button>
+            </ion-button>
+          </p>
+        </div>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -36,6 +36,7 @@ export class NewTorneoPage implements OnInit {
       participa: [true]
     }, { validator : Validator.checkFecha });
   }
+  //Hacer validador para que max players sea múltiplo de 4
 
   ionViewWillEnter(){
     this.pulsado = false;

@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: NewChatPage
+  },
+  {
+    path: 'form',
+    loadChildren: () => import('./form-chat/form-chat.module').then( m => m.FormChatPageModule)
   }
+
 ];
 
 @NgModule({

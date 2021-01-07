@@ -52,12 +52,10 @@ export class PrincipalPage implements OnInit {
 
   logout(){
     this.authService.signout().subscribe(data =>{
-      localStorage.clear();
       this.userService.user = undefined;
       this.userService.i = 0;
       this.events.disconnectSocket();
       this.menu.close('first');
-      this.authService.reload = true;
       this.router.navigate(['/auth/login']);
     })
   }

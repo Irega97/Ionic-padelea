@@ -1,4 +1,3 @@
-import { User } from 'src/app/models/user';
 import { Token } from 'src/app/models/token';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
