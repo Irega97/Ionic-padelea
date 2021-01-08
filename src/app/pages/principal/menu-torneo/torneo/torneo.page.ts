@@ -72,6 +72,9 @@ export class TorneoPage implements OnInit {
     this.torneoService.leaveTorneo(this.name).subscribe((data) => {
       this.component.presentAlert(data.message);
       this.joined = false;
+    }, (error) => {
+      console.log(error);
+      this.component.presentAlert(error.error.message);
     })
   }
 }
