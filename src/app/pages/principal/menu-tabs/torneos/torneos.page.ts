@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { TorneoService } from './../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
@@ -13,7 +14,7 @@ export class TorneosPage implements OnInit {
   torneosSearch;
   cargando: Boolean = true;
 
-  constructor(private torneoService: TorneoService, private events: EventsService) { }
+  constructor(private torneoService: TorneoService, private events: EventsService, private router: Router) { }
 
   ngOnInit() {
     this.torneoService.getTorneos().subscribe((data) => {
@@ -38,5 +39,16 @@ export class TorneosPage implements OnInit {
         else return torneo;
       });
     });
+  }
+
+  goTorneo(name: string){
+    let max, length;
+    this.torneos.forEach((torneo) => {
+      if(torneo.name == name){
+        max = torneo.maxPlayers;
+        length = torneo.players.length;
+      }
+    })
+    this.router.navigate(['/torneo/'+ name], { state : { maxPlayers: max, playersLength: length }});
   }
 }
