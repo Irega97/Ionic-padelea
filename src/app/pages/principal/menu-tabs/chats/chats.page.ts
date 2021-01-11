@@ -50,7 +50,16 @@ export class ChatPage implements OnInit {
           this.chats.push(chat.chat);
         })
         this.chatsSearch = this.chats; 
-        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.sort((a,b) => {
+          if (a.mensajes[a.mensajes.length -1].date < b.mensajes[b.mensajes.length -1].date)
+            return 1;
+          
+          else if (a.mensajes[a.mensajes.length -1].date > b.mensajes[b.mensajes.length -1].date)
+            return -1;
+
+          else
+            return 0;
+        });
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
         });
@@ -91,7 +100,16 @@ export class ChatPage implements OnInit {
             this.chats.push(chat.chat);
           })
           this.chatsSearch = this.chats; 
-          this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+          this.chatsSearch.sort((a,b) => {
+            if (a.mensajes[a.mensajes.length -1].date < b.mensajes[b.mensajes.length -1].date)
+              return 1;
+            
+            else if (a.mensajes[a.mensajes.length -1].date > b.mensajes[b.mensajes.length -1].date)
+              return -1;
+  
+            else
+              return 0;
+          });
           this.chatsSearch.forEach(chat => {
             console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
           });
@@ -131,15 +149,15 @@ export class ChatPage implements OnInit {
           chat.leido = false;
         }
         
-        this.chats.push(chat);
+        this.chats.splice(0, 0, chat);
         this.chatsSearch = this.chats;
-        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
         });
       }
 
       else if (data.topic == "nuevoMensaje"){
+        let i: number = 0;
         this.chats.forEach(chat => {
           if (chat._id == data.mensaje.chat){
             if (data.mensaje.mensaje.sender == this.userService.user.username){
@@ -150,10 +168,20 @@ export class ChatPage implements OnInit {
               chat.leido = false;
               chat.ultimomensaje = data.mensaje.mensaje.sender + ": " + data.mensaje.mensaje.body;
             }
+            chat.mensajes.push(data.mensaje.mensaje);
           }
         })
         this.chatsSearch = this.chats;
-        this.chatsSearch.sort((a,b) => a.mensajes[a.mensajes.length -1].date - b.mensajes[b.mensajes.length -1].date);
+        this.chatsSearch.sort((a,b) => {
+          if (a.mensajes[a.mensajes.length -1].date < b.mensajes[b.mensajes.length -1].date)
+            return 1;
+          
+          else if (a.mensajes[a.mensajes.length -1].date > b.mensajes[b.mensajes.length -1].date)
+            return -1;
+
+          else
+            return 0;
+        });
         this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
         });

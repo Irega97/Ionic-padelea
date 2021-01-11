@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #content [scrollEvents]="true">
   <!--<ion-infinite-scroll position= "top" threshold="10px" (ionInfinite)="loadData($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"

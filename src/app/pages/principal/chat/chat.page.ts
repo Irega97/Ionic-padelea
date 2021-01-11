@@ -31,6 +31,9 @@ export class ChatPage implements OnInit {
   @ViewChild(IonInfiniteScroll) 
   infiniteScroll: IonInfiniteScroll;
 
+  @ViewChild('content') 
+  private content;
+
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
 
@@ -208,6 +211,10 @@ export class ChatPage implements OnInit {
     this.leer = true;
   }
 
+  ionViewDidEnter(){
+    this.content.scrollToBottom(100);//300ms animation speed
+  }
+
   ionViewDidLeave(){
     this.leer = false;
   }
@@ -251,7 +258,9 @@ export class ChatPage implements OnInit {
         leidos: vectorleido,
         icon: "time-outline"
       }
+
       this.messages.push(messageToSave);
+      this.content.scrollToBottom(100);
       this.message = "";
       if (this.nuevo){
         let info = {
@@ -265,6 +274,7 @@ export class ChatPage implements OnInit {
           this.messages[0].icon = "checkmark-outline"
         })
       }
+      
       else{
         if (this.noleidos){
           this.messages.forEach(mensaje => {
