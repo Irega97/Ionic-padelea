@@ -31,6 +31,7 @@
     "cloudinary-core": "^2.11.3",
     "cordova-browser": "6.0.0",
     "crypto-js": "^4.0.0",
+    "moment": "^2.29.1",
     "ngx-socket-io": "^3.2.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

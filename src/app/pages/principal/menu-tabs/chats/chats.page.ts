@@ -3,6 +3,7 @@ import { EventsService } from 'src/app/services/events.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chats',
@@ -18,6 +19,7 @@ export class ChatPage implements OnInit {
   constructor(private events: EventsService, private chatService : ChatService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    moment.locale('es');
     if (this.userService.user != undefined){
       this.chatService.getMyChats().subscribe((data) => {
         data.chats.forEach(chat => {
@@ -60,9 +62,9 @@ export class ChatPage implements OnInit {
           else
             return 0;
         });
-        this.chatsSearch.forEach(chat => {
+        /*this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });
+        });*/
         this.cargando = false;     
       }); 
     }
@@ -110,9 +112,9 @@ export class ChatPage implements OnInit {
             else
               return 0;
           });
-          this.chatsSearch.forEach(chat => {
+          /*this.chatsSearch.forEach(chat => {
             console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-          });
+          });*/
           this.cargando = false;     
         }); 
       }
@@ -151,9 +153,9 @@ export class ChatPage implements OnInit {
         
         this.chats.splice(0, 0, chat);
         this.chatsSearch = this.chats;
-        this.chatsSearch.forEach(chat => {
+        /*this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });
+        });*/
       }
 
       else if (data.topic == "nuevoMensaje"){
@@ -182,9 +184,9 @@ export class ChatPage implements OnInit {
           else
             return 0;
         });
-        this.chatsSearch.forEach(chat => {
+        /*this.chatsSearch.forEach(chat => {
           console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });
+        });*/
       }
 
       else if (data.topic == "chatLeido"){
@@ -207,6 +209,11 @@ export class ChatPage implements OnInit {
         else return chat;
       });
     });
+  }
+
+  getMoment(chat){
+    let day: Date = new Date(chat.mensajes[chat.mensajes.length -1].date);
+    return moment(day, "YYYYMMDD, h:mm").startOf('minute').fromNow();;
   }
 
   goChat(chat){
