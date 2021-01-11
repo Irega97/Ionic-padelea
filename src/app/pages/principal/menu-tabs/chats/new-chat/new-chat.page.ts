@@ -60,6 +60,19 @@ export class NewChatPage implements OnInit {
       this.numParticipantes--;
   }
 
+<<<<<<< HEAD
+  submitChat(){
+    let data = {
+      "name": this.chatForm.value.name
+    }
+    this.chatService.addChat(data).subscribe((data)=>{
+      if(data != null) {
+        this.events.createChatRoom(this.chatForm.value.name);
+        this.components.presentAlert("Chat creado con éxito");
+        this.router.navigateByUrl('principal/chat');
+        this.events.publish({"topic":"new-chat"});
+      }
+=======
   handleInput(event) {
     const query = event.target.value.toLowerCase();
     requestAnimationFrame(() => {
@@ -69,6 +82,7 @@ export class NewChatPage implements OnInit {
         }
         else return friend.user;
       });
+>>>>>>> 90f8fea8b696710a2d0efa4dd67f1fe9d1f978d0
     });
   }
 

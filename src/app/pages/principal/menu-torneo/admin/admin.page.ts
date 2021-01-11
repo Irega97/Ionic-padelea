@@ -12,10 +12,16 @@ import { ComponentsService } from 'src/app/services/components.service';
 export class AdminPage implements OnInit {
 
   cola: [];
+  max;
+  length;
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private component: ComponentsService, private events: EventsService) { }
+  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router, private component: ComponentsService, private events: EventsService) { }
 
   ngOnInit() {
+    if (this.router.getCurrentNavigation().extras.state != undefined){
+      this.max =  this.router.getCurrentNavigation().extras.state.maxPlayers;
+      this.length = this.router.getCurrentNavigation().extras.state.playersLength;
+    }
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
     });
@@ -29,6 +35,13 @@ export class AdminPage implements OnInit {
   }
 
   acceptPlayer(username: string){
+    /* if(this.length < this.max){
+      this.adminService.acceptPlayers({user: username, accept: true}).subscribe((data) => {
+        this.component.presentAlert(data.message);
+      })
+    } else {
+      this.component.presentAlert("El torneo ya está lleno");
+    } */
     this.adminService.acceptPlayers({user: username, accept: true}).subscribe((data) => {
       this.component.presentAlert(data.message);
     })

@@ -11,6 +11,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './shared/authconfig.interceptor';
 
+//import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular';
+import { Cloudinary } from 'cloudinary-core';
+
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import {
   GoogleLoginProvider,
@@ -25,7 +28,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SocialLoginModule, SocketIoModule.forRoot(config), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
+  imports: [BrowserModule, IonicModule.forRoot(), /*CloudinaryModule.forRoot({Cloudinary}, { cloud_name: 'dyjz5e9a6' } as CloudinaryConfiguration),*/ AppRoutingModule, HttpClientModule, SocialLoginModule, SocketIoModule.forRoot(config), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
