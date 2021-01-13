@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
+import { ComponentsService } from 'src/app/services/components.service';
+import { EventsService } from 'src/app/services/events.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-informacion',
@@ -12,12 +15,41 @@ export class InformacionPage implements OnInit {
   name: string;
   type: string;
   chat;
+  cargando: Boolean = true;
+  admin: Boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private chatService: ChatService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private chatService: ChatService, private userService: UserService, 
+    private components: ComponentsService, private events: EventsService) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.name =  this.router.getCurrentNavigation().extras.state.chat.name;
+      this.chat =  this.router.getCurrentNavigation().extras.state.chat;
+      this.name = this.chat.name;
+      this.cargando = false;
+      this.chat.users.sort((a,b) => {
+        if (a.username > b.username)
+          return -1
+          
+        else if (a.username < b.username)
+          return 1
+
+        else
+          return 0;
+      });
+
+      this.chat.users.forEach(user => {
+        let i: number = 0;
+        let enc: Boolean = false;
+        while (i < this.chat.admin.length && !enc){
+          if (user._id == this.chat.admin[i])
+            enc = true;
+
+          if (this.userService.user._id == this.chat.admin[i])
+            this.admin = true;
+          i++;
+        }
+        user.isAdmin = enc;
+      })
     }
 
     else{
@@ -31,9 +63,67 @@ export class InformacionPage implements OnInit {
 
         this.chatService.getChat(info).subscribe(data => {
           this.chat = data.chat.chat;
+          this.chat.users.sort((a,b) => {
+            if (a.username > b.username)
+            return -1
+            
+          else if (a.username < b.username)
+            return 1
+  
+          else
+            return 0;
+          });
+          this.chat.users.forEach(user => {
+            let i: number = 0;
+            let enc: Boolean = false;
+            while (i < this.chat.admin.length && !enc){
+              if (user._id == this.chat.admin[i])
+                enc = true;
+
+              if (this.userService.user._id == this.chat.admin[i])
+                this.admin = true;
+              i++;
+            }
+            user.isAdmin = enc;
+          })
           this.name = this.chat.name;
+          this.cargando = false;
         })
       }); 
+    }
+
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "nuevoAdmin" && data.info.chat == this.chat._id){
+        this.chat.users.forEach(user => {
+          if (user._id == data.info.admin)
+            user.isAdmin = true;
+        })
+        if (this.userService.user._id == data.info.admin)
+        this.admin = true;
+      }
+    })
+  }
+
+  hacerAdmin(user){
+    let info = {
+      user: user,
+      admin: this.userService.user.username
+    }
+    this.chatService.addAdmin(this.chat._id, info).subscribe(() => {
+      user.isAdmin = true;
+    })
+  }
+
+  addParticipante(){
+    console.log("Adelante");
+  }
+
+  abandonarGrupo(){
+    if (this.admin && this.chat.admin.length == 1)
+      this.components.presentAlert("Eres el único administrador del grupo. Antes de abandonar el grupo debes elegir a otro admin");
+
+    else{
+      console.log("Abandonado");
     }
   }
 }

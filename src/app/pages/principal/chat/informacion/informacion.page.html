@@ -8,5 +8,36 @@
 </ion-header>
 
 <ion-content>
+  <div style="text-align: center;" *ngIf="cargando">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-list *ngIf = "chat && chat.users.length > 0; else noParticipantes">
+    <ion-list-header>
+      PARTICIPANTES DEL CHAT
+    </ion-list-header>
+    <ion-item *ngFor="let user of chat.users">
+      <ion-avatar slot="start">
+        <ion-img [src]="user.image"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{user.username}}</h2>
+        <h3 *ngIf="user.isAdmin">Administrador</h3>
+      </ion-label>
+      <ion-button *ngIf="!user.isAdmin && admin" slot="end" (click)="hacerAdmin(user)">HACER ADMIN</ion-button>
+    </ion-item>
+  </ion-list>
+  <ng-template #noParticipantes>
+    <ion-text *ngIf="!cargando">
+      <p class ="ion-text-center">No hay ningún participante</p>
+    </ion-text>
+  </ng-template>
 
+  <div style="text-align: center;">
+    <ion-button *ngIf="admin" color="primary" (click)="addParticipante()">
+      AÑADIR PART.
+    </ion-button>
+    <ion-button color="primary" (click)="abandonarGrupo()">
+      ABANDONAR GRUPO
+    </ion-button>
+  </div>
 </ion-content>

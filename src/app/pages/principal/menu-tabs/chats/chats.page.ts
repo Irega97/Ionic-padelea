@@ -159,17 +159,22 @@ export class ChatPage implements OnInit {
       }
 
       else if (data.topic == "nuevoMensaje"){
-        let i: number = 0;
         this.chats.forEach(chat => {
           if (chat._id == data.mensaje.chat){
-            if (data.mensaje.mensaje.sender == this.userService.user.username){
-              chat.leido = true;
-              chat.ultimomensaje = "Yo: " + data.mensaje.mensaje.body;
+            if (data.mensaje.mensaje.sender != undefined){
+              if (data.mensaje.mensaje.sender == this.userService.user.username){
+                chat.leido = true;
+                chat.ultimomensaje = "Yo: " + data.mensaje.mensaje.body;
+              }
+              else if (data.mensaje.mensaje.sender != undefined){
+                chat.leido = false;
+                chat.ultimomensaje = data.mensaje.mensaje.sender + ": " + data.mensaje.mensaje.body;
+              }
             }
             else{
-              chat.leido = false;
-              chat.ultimomensaje = data.mensaje.mensaje.sender + ": " + data.mensaje.mensaje.body;
+              chat.ultimomensaje = data.mensaje.mensaje.body;
             }
+
             chat.mensajes.push(data.mensaje.mensaje);
           }
         })

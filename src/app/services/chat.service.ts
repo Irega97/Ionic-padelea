@@ -32,8 +32,12 @@ export class ChatService{
     return this.http.post<any>(this.ruta + 'new', info);
   }
 
-  addOtroParticipante(idChat: string, participantes): Observable<any>{
-      return this.http.post<JSON>(this.ruta + 'add/' + idChat, participantes);
+  addParticipante(idChat: string, participantes): Observable<any>{
+      return this.http.post<JSON>(this.ruta + 'addParticipante/' + idChat, participantes);
+  }
+
+  addAdmin(idChat: string, participante): Observable<any> {
+    return this.http.post<any>(this.ruta + 'addAdmin/' + idChat, participante);
   }
 
   delChat(idChat: string){

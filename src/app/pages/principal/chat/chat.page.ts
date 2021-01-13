@@ -97,8 +97,8 @@ export class ChatPage implements OnInit {
           while (i < this.chat.mensajes.length){
             //this.chat.mensajes[i].leidos.push(info.user);
             this.messages[i].leidos.push(info.user);
-            console.log("Chat", this.messages[i]);
-            console.log("Users", this.chat.users);
+            /*console.log("Chat", this.messages[i]);
+            console.log("Users", this.chat.users);*/
             if (this.messages[i].leidos.length == this.chat.users.length){
               this.messages[i].icon = "checkmark-done-outline";
             }
@@ -208,11 +208,26 @@ export class ChatPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    if (!this.leer){
+      if (this.ultimoleido < this.messages.length){
+        let messageconf = {
+          "body": "Nuevos Mensajes"
+        }
+        this.messages.splice(this.ultimoleido, 0, messageconf);
+        this.noleidos = true;
+        this.ultimoleido = this.messages.length;
+        this.events.publish({
+          "topic": "chatLeido",
+          "chatid": this.chat._id
+        })
+      }
+    }
     this.leer = true;
   }
 
   ionViewDidEnter(){
-    this.content.scrollToBottom(100);//300ms animation speed
+    if (!this.noleidos)
+      this.content.scrollToBottom(100);//300ms animation speed
   }
 
   ionViewDidLeave(){
