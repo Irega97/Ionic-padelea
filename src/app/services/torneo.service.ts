@@ -19,8 +19,8 @@ export class TorneoService {
     return this.http.get<JSON>(this.ruta + 'all/' + username);
   }
 
-  getTorneo(idTorneo: string): Observable<any> {
-    return this.http.get<JSON>(this.ruta + idTorneo);
+  getTorneo(name: string): Observable<any> {
+    return this.http.get<JSON>(this.ruta + name);
   }
   
   createTorneo(name: any): Observable<any> {
@@ -33,5 +33,9 @@ export class TorneoService {
 
   leaveTorneo(name: string): Observable<any> {
     return this.http.put<any>(this.ruta + 'leave/' + name, null);
+  }
+
+  getVueltas(name: string): Observable<any>{
+    return this.http.get<any>(this.ruta + name + "/vueltas");
   }
 }
