@@ -25,8 +25,13 @@ const routes: Routes = [
       {
         path: 'notificaciones',
         loadChildren: () => import('./pages/principal/menu-tabs/home/notificaciones/notificaciones.module').then(m => m.NotificacionesPageModule)
+      },
+      {
+        path: 'pickup-location',
+        loadChildren: () => import('./pages/principal/menu-tabs/torneos/new-torneo/pickup-location/pickup-location.module').then( m => m.PickupLocationPageModule)
+
       }
-    ]
+        ]
   },
   {
     path:'chat',
@@ -42,10 +47,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
-          },
-          {
-            path: 'informacion',
-            loadChildren: () =>  import('src/app/pages/principal/chat/informacion/informacion.module').then(m => m.InformacionPageModule)
           }
         ]
       }
@@ -108,7 +109,9 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+
+
 ];
 
 @NgModule({

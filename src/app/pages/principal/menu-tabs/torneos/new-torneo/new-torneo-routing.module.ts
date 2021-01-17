@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: NewTorneoPage
+  },  {
+    path: 'pickup-location',
+    loadChildren: () => import('./pickup-location/pickup-location.module').then( m => m.PickupLocationPageModule)
   }
+
 ];
 
 @NgModule({

@@ -16,6 +16,7 @@ export class NewTorneoPage implements OnInit {
   torneoForm;
   pulsado = false;
   minDate;
+  pickupLocation: string;
 
   constructor(private formBuilder: FormBuilder, private torneoService: TorneoService, private router: Router,
     private components: ComponentsService, private events: EventsService) {
@@ -79,5 +80,9 @@ export class NewTorneoPage implements OnInit {
         this.torneoForm.controls.name.setErrors({checkTorneoName: true});
       }
     });
+  }
+
+  onpickupClick(){
+    this.router.navigate(['./new-torneo/pickup-location']);
   }
 }
