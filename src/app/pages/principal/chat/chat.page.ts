@@ -275,7 +275,8 @@ export class ChatPage implements OnInit {
         chat: this.chat
       }
     };
-    this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
+    if(this.type=="grupo") 
+      this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
   }
 
   sendMessage(){
