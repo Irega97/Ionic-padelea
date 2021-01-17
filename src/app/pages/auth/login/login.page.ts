@@ -137,7 +137,6 @@ export class LoginPage implements OnInit {
     let user;
     await this.socialAuth.signIn(FacebookLoginProvider.PROVIDER_ID);
     await this.socialAuth.authState.subscribe((facebookUser) => {
-      console.log(facebookUser);
       user = facebookUser;
     });
 
