@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
+import {Map,tileLayer,marker } from 'leaflet';
 
 @Component({
   selector: 'app-torneo',
@@ -19,6 +20,7 @@ export class TorneoPage implements OnInit {
   joined: boolean;
   fechaInicio;
   finInscripcion;
+  map:Map;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
               private events: EventsService, private router: Router, private adminService: AdminService) { }
@@ -56,6 +58,17 @@ export class TorneoPage implements OnInit {
         })*/
       }
     });
+  }
+
+  ionViewDidEnter(){
+    this.loadMap();
+  }
+
+  loadMap(){
+    this.map = new Map("mapId").setView([17.3850,78.4867], 13);
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
   }
 
   joinTorneo(){
