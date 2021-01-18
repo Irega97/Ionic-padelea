@@ -7,6 +7,7 @@ import { AlertController, LoadingController, SelectValueAccessor, ToastControlle
 export class ComponentsService {
 
   private load: Boolean = false;
+  private toastload: Boolean = false;
   constructor(private loadingController: LoadingController, private alertController: AlertController, private toastController: ToastController) { }
 
   async presentAlert(mensaje: string){
@@ -18,17 +19,23 @@ export class ComponentsService {
   }
 
   async presentToast(notification){
-    const toast = await this.toastController.create({
-      message: notification.description,
-      duration: 2000,
-      buttons: [
-        {
-          text: 'CERRAR',
-          role: 'cancel',
-        }
-      ]
-    })
-    toast.present();
+    if (!this.toastload){
+      this.toastload = true;
+      const toast = await this.toastController.create({
+        message: notification.description,
+        duration: 2000,
+        buttons: [
+          {
+            text: 'CERRAR',
+            role: 'cancel',
+          }
+        ]
+      })
+      toast.present();
+      
+      toast.onDidDismiss().then(() => (
+        this.toastload = false));
+    }
   }
 
   async presentLoading(mensaje: string) {

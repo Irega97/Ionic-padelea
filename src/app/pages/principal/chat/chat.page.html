@@ -33,7 +33,7 @@
         <div class="time" text-right><br>{{ message.date | date:'short' }}</div>
       </ion-col>
 
-      <ion-col *ngIf="!message.sender" class="message conf">
+      <ion-col [id]="message.id"*ngIf="!message.sender" class="message conf">
         <span>{{ message.body }}</span>
         <div *ngIf="message.date" class="time" text-right><br>{{ message.date | date:'short' }}</div>
       </ion-col>
@@ -44,6 +44,12 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color ="danger" (click) = "scrollToBottom()">
+      <ion-icon name="arrow-down-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer>
