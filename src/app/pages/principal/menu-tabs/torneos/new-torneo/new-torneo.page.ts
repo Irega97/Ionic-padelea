@@ -32,11 +32,11 @@ export class NewTorneoPage implements OnInit {
       ubicacion: ['', [Validators.required]],
       reglamento: ['', [Validators.required]],
       numRondas: ['', [Validators.required]],
-      maxPlayers: ['', [Validators.required]],
+      maxPlayers: ['', [Validators.required, Validator.checkPlayers]],
+      duracionRondas: ['', [Validators.required]],
       participa: [true]
-    }, { validator : Validator.checkFecha });
+    }, { validator : Validator.checkFecha});
   }
-  //Hacer validador para que max players sea múltiplo de 4
 
   ionViewWillEnter(){
     this.pulsado = false;
@@ -65,6 +65,7 @@ export class NewTorneoPage implements OnInit {
       "reglamento": this.torneoForm.value.reglamento,
       "numRondas": this.torneoForm.value.numRondas,
       "maxPlayers": this.torneoForm.value.maxPlayers,
+      "duracionRondas": this.torneoForm.value.duracionRondas,
       "participa": this.torneoForm.value.participa
     }
     this.torneoService.createTorneo(data).subscribe((data)=>{

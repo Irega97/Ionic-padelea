@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EventsService } from 'src/app/services/events.service';
 import { TorneoService } from 'src/app/services/torneo.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-menu-torneo',
@@ -9,17 +11,28 @@ import { TorneoService } from 'src/app/services/torneo.service';
 })
 export class MenuTorneoPage implements OnInit {
 
-  isAdmin;
+  isAdmin: Boolean = false;
+  joined: Boolean = false;
+  name: string;
 
-  constructor(private route: ActivatedRoute, private torneoService: TorneoService) { }
+  constructor(private route: ActivatedRoute, private torneoService: TorneoService, private events: EventsService, private userService: UserService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      let name = paramMap.get('name');
-      this.torneoService.getTorneo(name).subscribe(data =>{
+      this.name = paramMap.get('name');
+      this.torneoService.getTorneo(this.name).subscribe(data =>{
         this.isAdmin = data.isAdmin;
+        this.joined = data.joined;
       });
     });
+
+    this.events.getObservable().subscribe(data=> {
+      if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name && data.jugador.username == this.userService.user.username)
+        this.joined = true;
+
+      else if (data.topic == "player-left" && data.jugador.torneo == this.name && data.jugador.username == this.userService.user.username)
+        this.joined = false;
+    })
   }
 
 }

@@ -27,6 +27,7 @@ export class ChatPage implements OnInit {
   ultimoleido: number;
   chat;
   leer: Boolean = true;
+  idnuevomensaje: string;
 
   @ViewChild(IonInfiniteScroll) 
   infiniteScroll: IonInfiniteScroll;
@@ -107,7 +108,7 @@ export class ChatPage implements OnInit {
             
             i++;
             if (this.messages.length - i < 0)
-              i = this.chat.mensajes.length;
+              i = this.chat.mensajes.length + 1;
           }
         }
       }
@@ -127,20 +128,37 @@ export class ChatPage implements OnInit {
           this.linea = data.user.online;
           this.participantes.push(this.userService.user._id);
           this.participantes.push(data.user._id);
+          this.infiniteScroll.disabled = true;
         }
         
         else{
           this.nuevo = false;
           this.chat = data.chat.chat;
           this.ultimoleido = data.chat.ultimoleido;
-          if (data.chat.chat.mensajes.length < 10){
+          if (data.chat.chat.mensajes.length < 20){
             this.messages = data.chat.chat.mensajes;
             this.infiniteScroll.disabled = true;
+
+            if (this.ultimoleido < this.chat.mensajes.length){
+              let messageconf = {
+                "body": "Nuevos Mensajes",
+                "id": "nuevomensaje"
+              }
+
+              this.idnuevomensaje = "nuevomensaje";
+              this.messages.splice(this.ultimoleido, 0, messageconf);
+              this.ultimoleido = this.chat.mensajes.length;
+              this.noleidos = true;
+                this.events.publish({
+                  "topic": "chatLeido",
+                  "chatid": data.chat.chat._id 
+                })
+            }
           }
 
           else{
             if (this.ultimoleido == this.chat.mensajes.length){
-              let i: number = 10;
+              let i: number = 20;
               while (i > 0){
                 this.messages.push(data.chat.chat.mensajes[data.chat.chat.mensajes.length - i]);
                 i--;
@@ -149,15 +167,40 @@ export class ChatPage implements OnInit {
             
             else{
               let messageconf = {
-                "body": "Nuevos Mensajes"
+                "body": "Nuevos Mensajes",
+                "id": "nuevomensaje"
               }
 
-              this.messages.push(messageconf);
-              while (this.ultimoleido < data.chat.chat.mensajes.length){
-                this.messages.push(this.chat.mensajes[this.ultimoleido]);
-                this.ultimoleido++;
+              this.idnuevomensaje = "nuevomensaje";
+              if (this.ultimoleido == 0){
+                this.messages = data.chat.chat.mensajes;
+                this.messages.splice(0, 0, messageconf);
               }
+              
+              else{
+                let i: number = 0;
+                while (i < 5 && this.ultimoleido - i > 0){
+                  this.messages.push(data.chat.chat.mensajes[this.ultimoleido - i]);
+                  i++;
+                }
 
+                this.messages.push(messageconf);
+                while (this.ultimoleido < data.chat.chat.mensajes.length){
+                  this.messages.push(this.chat.mensajes[this.ultimoleido]);
+                  this.ultimoleido++;
+                }
+
+                if (this.messages.length < 20){
+                  i = 20 - this.messages.length;
+                  while (i < 20){
+                    this.messages.splice(0, 0, data.chat.chat.mensajes[data.chat.chat.mensajes.length - i]);
+                    i++;
+                  }
+                }
+                else if (this.messages.length > this.chat.mensajes.length)
+                  this.infiniteScroll.disabled = true;
+              }
+              
               this.noleidos = true;
               this.events.publish({
                 "topic": "chatLeido",
@@ -202,9 +245,11 @@ export class ChatPage implements OnInit {
     if (!this.leer){
       if (this.ultimoleido < this.messages.length){
         let messageconf = {
-          "body": "Nuevos Mensajes"
+          "body": "Nuevos Mensajes",
+          "id": "nuevomensaje"
         }
 
+        this.idnuevomensaje = "nuevomensaje";
         this.messages.splice(this.ultimoleido, 0, messageconf);
         this.noleidos = true;
         let info = {
@@ -226,11 +271,21 @@ export class ChatPage implements OnInit {
 
   ionViewDidEnter(){
     if (!this.noleidos)
-      this.content.scrollToBottom(100);//300ms animation speed
+      this.content.scrollToBottom(100);
+
+    else{
+        let y = document.getElementById(this.idnuevomensaje).offsetTop;
+        this.content.scrollByPoint(0, y, 100);
+    }
   }
 
   ionViewDidLeave(){
     this.leer = false;
+  }
+
+  scrollToBottom(){
+    let y = 
+    this.content.scrollToBottom(100);
   }
 
   loadData(event){
@@ -238,7 +293,7 @@ export class ChatPage implements OnInit {
       setTimeout(() => {
         let i: number = 0;
         let pos: number = this.chat.mensajes.length - this.messages.length - i;
-        if (this.messages.length + 10 >= this.chat.mensajes.length){
+        if (this.messages.length + 15 >= this.chat.mensajes.length){
           while (pos >= 0){
             this.messages.splice(0, 0, this.chat.mensajes[pos]);
             if (this.messages[0].sender == this.userService.user.username && this.messages[0].leidos.length == this.chat.users.length)
@@ -253,7 +308,7 @@ export class ChatPage implements OnInit {
         }
 
         else{
-          while (i < 10){
+          while (i < 15){
             this.messages.splice(0, 0, this.chat.mensajes[pos]);
             if (this.messages[0].sender == this.userService.user.username && this.messages[0].leidos.length == this.chat.users.length)
               this.messages[0].icon = "checkmark-done-outline"
@@ -275,7 +330,8 @@ export class ChatPage implements OnInit {
         chat: this.chat
       }
     };
-    this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
+    if(this.type=="grupo") 
+      this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
   }
 
   sendMessage(){
@@ -313,6 +369,7 @@ export class ChatPage implements OnInit {
             if (mensaje.sender == undefined && mensaje.body == "Nuevos Mensajes"){
               let i = this.messages.indexOf(mensaje);
               this.messages.splice(i, 1);
+              this.idnuevomensaje = undefined;
             }
           })
         }

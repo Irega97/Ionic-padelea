@@ -1,4 +1,4 @@
-import{ FormGroup } from '@angular/forms'
+import{ FormGroup, FormControl } from '@angular/forms'
 
 export class Validator {
 
@@ -53,5 +53,13 @@ export class Validator {
     else{
       return null;
     }
+  }
+
+  static checkPlayers(group: FormControl){
+    if (group.value % 4 != 0)
+      return ({checkPlayers:true});
+
+    else
+      return null;
   }
 }

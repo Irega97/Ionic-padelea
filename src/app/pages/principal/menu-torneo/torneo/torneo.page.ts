@@ -1,6 +1,6 @@
 import { EventsService } from '../../../../services/events.service';
 import { ComponentsService } from '../../../../services/components.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
@@ -21,7 +21,7 @@ export class TorneoPage implements OnInit {
   finInscripcion;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private router: Router, private adminService: AdminService) { }
+              private events: EventsService, private adminService: AdminService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -45,15 +45,12 @@ export class TorneoPage implements OnInit {
       } 
       
       else if (data.topic == "player-left" && data.jugador.torneo == this.name){
-        this.torneoService.getTorneo(this.name).subscribe(data => {
-          this.players = data.torneo.players;
-        })
-        /*this.players = this.players.filter(player =>{
+        this.players.forEach(player =>{
           if(player.username == data.jugador.username){
             let i = this.players.indexOf(player);
             this.players.splice(i, 1);
           }
-        })*/
+        })
       }
     });
   }

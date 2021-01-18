@@ -43,7 +43,7 @@
         <ion-item>
           <ion-label position="floating" color = "primary">Fecha límite inscripción*:</ion-label>
           <ion-datetime formControlName="finInscripcion" display-format="DD/MM/YYYY" placeholder="Selecciona una fecha"
-          [min]="minDate" max="2040"></ion-datetime>
+           max="2040"></ion-datetime>
         </ion-item>
         <p *ngIf="torneoForm.controls['finInscripcion'].hasError('required') && (torneoForm.controls['finInscripcion'].dirty || torneoForm.controls['finInscripcion'].touched || pulsado)"><ion-label color="danger">Debes seleccionar un valor</ion-label></p>
         <p *ngIf="!torneoForm.controls['finInscripcion'].hasError('required') && torneoForm.hasError('checkFecha') && (torneoForm.controls['finInscripcion'].dirty || torneoForm.controls['finInscripcion'].touched || pulsado)"><ion-label color="danger">La Fecha Inscripción debe acabar antes que empiece el Torneo</ion-label></p>
@@ -51,7 +51,7 @@
         <ion-item>
           <ion-label position="floating" color = "primary">Fecha inicio*:</ion-label>
           <ion-datetime formControlName="fechaInicio" display-format="DD/MM/YYYY" placeholder="Selecciona una fecha"
-          [min]="minDate" max="2040"></ion-datetime>
+           max="2040"></ion-datetime>
         </ion-item>
         <p *ngIf="torneoForm.controls['fechaInicio'].hasError('required') && (torneoForm.controls['fechaInicio'].dirty || torneoForm.controls['fechaInicio'].touched || pulsado)"><ion-label color="danger">Debes seleccionar un valor</ion-label></p>
         <p *ngIf="!torneoForm.controls['fechaInicio'].hasError('required') && torneoForm.hasError('checkFecha') && (torneoForm.controls['fechaInicio'].dirty || torneoForm.controls['fechaInicio'].touched || pulsado)"><ion-label color="danger">El Torneo debe empezar una vez acaben las Inscripciones</ion-label></p>
@@ -69,10 +69,23 @@
         <p *ngIf="torneoForm.controls['numRondas'].hasError('required') && (torneoForm.controls['numRondas'].dirty || torneoForm.controls['numRondas'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
 
         <ion-item>
-          <ion-label position="floating" color="primary">Nº jugadores:*</ion-label>
+          <ion-label position="floating" color="primary">Duración de cada vuelta:*</ion-label>
+          <ion-select formControlName="duracionRondas" placeholder="Selecciona una duracion">
+            <ion-select-option value="1">1 día</ion-select-option>
+            <ion-select-option value="7">1 semana</ion-select-option>
+            <ion-select-option value="15">2 semanas</ion-select-option>
+            <ion-select-option value="21">3 semanas</ion-select-option>
+            <ion-select-option value="30">1 mes</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <p *ngIf="torneoForm.controls['duracionRondas'].hasError('required') && (torneoForm.controls['duracionRondas'].dirty || torneoForm.controls['duracionRondas'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+
+        <ion-item>
+          <ion-label position="floating" color="primary">Nº jugadores (múltiplo de 4):*</ion-label>
           <ion-input type="number" formControlName="maxPlayers"></ion-input>
         </ion-item>
         <p *ngIf="torneoForm.controls['maxPlayers'].hasError('required') && (torneoForm.controls['maxPlayers'].dirty || torneoForm.controls['maxPlayers'].touched|| pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
+        <p *ngIf="!torneoForm.controls['maxPlayers'].hasError('required') && torneoForm.controls['maxPlayers'].hasError('checkPlayers') && (torneoForm.controls['maxPlayers'].dirty || torneoForm.controls['maxPlayers'].touched || pulsado)"><ion-label color="danger">Debe ser múltiplo de 4</ion-label></p>
 
         <ion-item >
           <ion-checkbox formControlName="participa" slot="start"></ion-checkbox>

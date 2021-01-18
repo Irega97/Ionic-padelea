@@ -159,6 +159,7 @@ export class LoginPage implements OnInit {
           });
         }
         else {
+          user.photoUrl = user.response.picture.data.url;
           let navigationExtras: NavigationExtras = {
             state: {
               user: user
