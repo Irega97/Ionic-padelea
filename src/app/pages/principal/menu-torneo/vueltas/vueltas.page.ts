@@ -12,6 +12,7 @@ export class VueltasPage implements OnInit {
   name: string;
   vueltaActual: number;
   vueltas = [];
+  torneoempezado: Boolean = false;
 
   constructor(private route: Router, private torneoService: TorneoService) {}
 
@@ -23,7 +24,8 @@ export class VueltasPage implements OnInit {
 
     this.torneoService.getVueltas(this.name).subscribe((data) => {
       this.vueltaActual = data.vueltaActual;
-      if(this.vueltaActual != 0){
+      if(this.vueltaActual > -1){
+        this.torneoempezado = true;
         for(let i = 0; i<this.vueltaActual; i++){
           this.vueltas.push(i+1);
         }

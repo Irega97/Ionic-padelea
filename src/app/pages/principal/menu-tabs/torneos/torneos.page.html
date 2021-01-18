@@ -11,9 +11,9 @@
   </div> 
   <ion-list *ngIf = "torneos && torneosSearch.length > 0; else noTorneos">
     <ion-item *ngFor="let torneo of torneosSearch" (click)="goTorneo(torneo.name)"><!-- [routerLink] = "['/torneo', torneo.name]"> -->
-      <!-- <ion-avatar slot="start">
-        <ion-img [src]="user.image"></ion-img>
-      </ion-avatar> -->
+      <ion-avatar slot="start">
+        <ion-img [src]="torneo.image"></ion-img>
+      </ion-avatar>
       <ion-label>
         {{torneo.name}}
       </ion-label>

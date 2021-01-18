@@ -3,17 +3,20 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">VUELTAS</ion-title>
+    <ion-title mode="ios">Vueltas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <ion-item>
+  <ion-item *ngIf="torneoempezado; else noEmpezado">
     <ion-select (ionChange)="checkValue($event)" placeholder="Selecciona una vuelta">
       <ion-select-option [value]="0">Previa</ion-select-option>
       <ion-select-option *ngFor="let vuelta of vueltas" [value]="vuelta">Vuelta {{vuelta}}</ion-select-option>
     </ion-select>
   </ion-item>
-
+  <ng-template #noEmpezado>
+    <ion-text>
+      <p class ="ion-text-center">El Torneo aún no ha empezado</p>
+    </ion-text>
+  </ng-template>
 </ion-content>
