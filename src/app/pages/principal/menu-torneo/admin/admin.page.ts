@@ -54,14 +54,14 @@ export class AdminPage implements OnInit {
   }
 
   empezarPrevia(){
-    if (this.length % 4 == 0){
+    if (this.length > 3){
       this.adminService.empezarPrevia().subscribe(data => {
         this.component.presentAlert(data.message);
       })
     }
 
     else
-      this.component.presentAlert("Hay que ser un múltiplo de 4 para poder empezar la previa");
+      this.component.presentAlert("Hay que ser como mínimo 4 para empezar el torneo");
   }
 
   finalizarRonda(){

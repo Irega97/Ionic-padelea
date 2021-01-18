@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: VueltasPage
+  },
+  {
+    path: ':vuelta/:grupo',
+    loadChildren: () => import('./partidos/partidos.module').then( m => m.PartidosPageModule)
   }
+
 ];
 
 @NgModule({
