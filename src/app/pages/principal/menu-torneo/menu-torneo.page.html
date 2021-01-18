@@ -4,11 +4,6 @@
       <ion-icon name="trophy-outline"></ion-icon>
       <ion-label>Torneo</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="reglamento">
-      <ion-icon name="document-text-outline"></ion-icon>
-      <ion-label>Reglamento</ion-label>
-    </ion-tab-button>
   
     <ion-tab-button tab="ranking">
       <ion-icon name="bar-chart-outline"></ion-icon>
@@ -18,6 +13,11 @@
     <ion-tab-button tab="vueltas">
       <ion-icon name="tennisball-outline"></ion-icon>
       <ion-label>Vueltas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="me" *ngIf="joined">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Mi Espacio</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="admin" *ngIf="isAdmin">
