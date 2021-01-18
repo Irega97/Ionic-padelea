@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PartidosService } from 'src/app/services/partidos.service';
 
 @Component({
   selector: 'app-partidos',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartidosPage implements OnInit {
 
-  constructor() { }
+  name: string;
+  vuelta: string;
+  grupo: string;
+
+  constructor(private router: Router, private partidosService: PartidosService) { }
 
   ngOnInit() {
+    this.name = this.router.url.split('/')[2];
+    this.vuelta = this.router.url.split('/')[4];
+    this.grupo = this.router.url.split('/')[5];
+
+    this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
+      console.log("Data", data);
+    });
   }
 
 }

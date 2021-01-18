@@ -12,7 +12,7 @@ export class FriendsService {
   constructor(private http: HttpClient) { }
 
   getFriends(usernameFriend: string): Observable<any> {
-    return this.http.get<JSON>(this.ruta + usernameFriend);
+    return this.http.get<any>(this.ruta + usernameFriend);
   }
 
   addFriend(usernameFriend: string): Observable<JSON>{

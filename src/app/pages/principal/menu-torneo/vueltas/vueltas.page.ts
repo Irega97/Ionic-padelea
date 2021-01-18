@@ -38,7 +38,6 @@ export class VueltasPage implements OnInit {
         for (let i = 0; i < this.vueltas[this.vueltas.length - 1].grupos.length; i++){
           this.grupos.push(this.vueltas[this.vueltas.length - 1].grupos[i]);
         }
-        console.log("Grupos", this.grupos);
       }
     })
   }
@@ -53,6 +52,10 @@ export class VueltasPage implements OnInit {
   }
 
   goInformacion(groupName: string){
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
+    
     this.router.navigate(['torneo/' + this.name + "/vueltas/" + this.vueltas[this.vueltaActual].name + "/" + groupName]);
   }
 }
