@@ -45,15 +45,12 @@ export class TorneoPage implements OnInit {
       } 
       
       else if (data.topic == "player-left" && data.jugador.torneo == this.name){
-        this.torneoService.getTorneo(this.name).subscribe(data => {
-          this.players = data.torneo.players;
-        })
-        /*this.players = this.players.filter(player =>{
+        this.players.forEach(player =>{
           if(player.username == data.jugador.username){
             let i = this.players.indexOf(player);
             this.players.splice(i, 1);
           }
-        })*/
+        })
       }
     });
   }

@@ -26,7 +26,7 @@ export class NotificacionesPage implements OnInit {
       }
 
       else if (data.topic == "deleteNotification"){
-        this.notifications = this.notifications.filter(notification =>{
+        this.notifications.forEach(notification =>{
           if(notification.type == data.notification.type && notification.origen == data.notification.origen){
             let i = this.notifications.indexOf(notification);
             this.notifications.splice(i, 1);
@@ -38,7 +38,7 @@ export class NotificacionesPage implements OnInit {
 
   goNotification(notification) {
     if (notification.status == 1){
-      this.notificationService.delNotifications(notification).subscribe(data => {
+      this.notificationService.delNotifications(notification).subscribe(() => {
         this.events.publish({
           "topic":"deleteNotification",
           "notification": notification
