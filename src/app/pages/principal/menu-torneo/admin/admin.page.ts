@@ -12,7 +12,7 @@ import { TorneoService } from 'src/app/services/torneo.service';
 })
 export class AdminPage implements OnInit {
 
-  cola: [];
+  cola = [];
   //max;
   length;
   name: string;
@@ -44,10 +44,22 @@ export class AdminPage implements OnInit {
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
     });
+
     this.events.getObservable().subscribe((data) => {
-      if(data.topic == "nuevoJugador"){
+      /*if(data.topic == "nuevoJugador"){
         this.adminService.getCola().subscribe((data) => {
           this.cola = data.cola;
+        })
+      }*/
+      if (data.topic == "nuevoJugadorCola" && data.torneo == this.name)
+        this.cola.push(data.jugador);
+
+      else if (data.topic == "respondidoJugadorCola" && data.torneo == this.name){
+        this.cola.forEach(jugador => {
+          if (jugador.username == data.jugador){
+            let i = this.cola.indexOf(jugador);
+            this.cola.splice(i, 1);
+          }
         })
       }
     })

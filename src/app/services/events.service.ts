@@ -42,7 +42,34 @@ export class EventsService {
         "topic": "nuevaNotificacion",
         "notification": notification
       });
+      if (notification.type == "Cola"){
+        this.publish({
+          "topic": "nuevoJugadorCola",
+          "torneo": notification.otros,
+          "jugador": {
+            "username": notification.origen,
+            "image": notification.image
+          }
+        })
+      }
     });
+
+    this.socket.on('respondidoUsuarioCola', info => {
+      this.publish({
+        "topic": "deleteNotification",
+        "notification": {
+          "type": "Cola",
+          "origen": info.user,
+          "otros": info.torneo
+        }
+      })
+
+      this.publish({
+        "topic": "respondidoJugadorCola",
+        "torneo": info.torneo,
+        "jugador": info.user
+      })
+    })
 
     this.socket.on('nuevoUsuario', usuario => {
       this.publish({

@@ -28,8 +28,17 @@ export class NotificacionesPage implements OnInit {
       else if (data.topic == "deleteNotification"){
         this.notifications.forEach(notification =>{
           if(notification.type == data.notification.type && notification.origen == data.notification.origen){
-            let i = this.notifications.indexOf(notification);
-            this.notifications.splice(i, 1);
+            let i;
+            if (notification.type == "Cola"){
+              if (notification.otros == data.notification.otros)
+              i = this.notifications.indexOf(notification);
+              this.notifications.splice(i, 1);
+            }
+
+            else{
+              i = this.notifications.indexOf(notification);
+              this.notifications.splice(i, 1);
+            }
           }
         })
       }
@@ -51,6 +60,9 @@ export class NotificacionesPage implements OnInit {
     }
     else if (notification.type == "Torneo"){
       this.router.navigate(['/torneo/' + notification.origen]);
+    }
+    else if (notification.type == "Cola"){
+      this.router.navigate(['/torneo/' + notification.otros + "/admin"]);
     }
   }
 }

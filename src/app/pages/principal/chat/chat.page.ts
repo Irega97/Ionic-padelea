@@ -334,6 +334,13 @@ export class ChatPage implements OnInit {
       this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
   }
 
+  enviarMensaje(event){
+    if (event.keyCode == 13 && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
   sendMessage(){
     if (this.message != ""){
       let vectorleido: string[] = [];
@@ -344,14 +351,14 @@ export class ChatPage implements OnInit {
         date: new Date(Date.now()),
         leidos: vectorleido,
       }
-
-      this.content.scrollToBottom(100);
+      
       this.message = "";
       if (this.nuevo){
         let info = {
           users: this.participantes,
           mensaje: messageToSend,
         };
+
         this.messages.push(messageToSend);
         this.messages[0].icon = "time-outline";
         this.chatService.addChat(info).subscribe(data =>{
@@ -377,11 +384,13 @@ export class ChatPage implements OnInit {
         this.chat.mensajes.push(messageToSend);
         if (this.messages[this.messages.length - 1] != messageToSend)
           this.messages.push(messageToSend);
+
         this.messages[this.messages.length - 1].icon = "time-outline";
         this.chatService.sendMessage(this.chat._id, messageToSend).subscribe(() => {
+          this.content.scrollToBottom(100);
           let enc: Boolean = false;
           let i: number = 1;
-          while (!enc){
+          while (i < this.messages.length && !enc){
             if (this.messages[this.messages.length - i]. sender == this.userService.user.username){
               if (this.messages[this.messages.length - i].icon == "time-outline")
                 this.messages[this.messages.length - i].icon = "checkmark-outline";
