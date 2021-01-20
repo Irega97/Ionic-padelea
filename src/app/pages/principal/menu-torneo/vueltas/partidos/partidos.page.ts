@@ -70,75 +70,80 @@ export class PartidosPage implements OnInit {
     });
   }
 
-  enviar(i: number){
+  cancelar(i: number){
     this.partidos[i].edit = false;
+  }
+
+  enviar(i: number){
     if (this.juego1 == undefined || this.juego2 == undefined || this.juego3 == undefined || this.juego4 == undefined){
       this.components.presentAlert("Introduce el resultado de todos los sets");
     } else if (this.juego1 > 7 || this.juego2 > 7 || this.juego3 > 7 || this.juego4 > 7){
       this.components.presentAlert("Resultado Incorrecto");
-    } else if ((this.juego1 == 6 && this.juego2 == 6) || (this.juego3 == 6 && this.juego4 == 6)){
+    } else if ((this.juego1 == this.juego2) || (this.juego3 == this.juego4)){
       this.components.presentAlert("Resultado Incorrecto");
     } else if (this.juego1 > this.juego2 && this.juego3 < this.juego4 && (this.juego5 == undefined || this.juego6 == undefined)){
       this.components.presentAlert("Set 3 necesario");
     } else if (this.juego5 > 10 || this.juego6 > 10){
       this.components.presentAlert("No puedes poner más de 10 sets");
-    } /*else if {
-
-    }*/
-
-    let body = {
-      idTorneo: this.idTorneo,
-      idPartido: this.partidos[i]._id,
-      set1: this.juego1 + '-' + this.juego2,
-      set2: this.juego3 + '-' + this.juego4,
-      set3: this.juego5 + '-' + this.juego6,
-      ganadores: []
+    } else if ((this.juego1 < 6 && this.juego2 < 6) || (this.juego3 < 6 && this.juego4 < 6)){
+      this.components.presentAlert("Resultado Incorrecto");
     }
-
-    if(this.juego1 > this.juego2 && this.juego3 > this.juego4){
-      body.ganadores.push(this.partidos[i].jugadores.pareja1[0]);
-      body.ganadores.push(this.partidos[i].jugadores.pareja1[1]);
-    } else if (this.juego1 < this.juego2 && this.juego3 < this.juego4){
-      body.ganadores.push(this.partidos[i].jugadores.pareja2[0]);
-      body.ganadores.push(this.partidos[i].jugadores.pareja2[1]);
-    } else {
-      if(this.juego5 > this.juego6){
+    else{
+      this.partidos[i].edit = false;
+      let body = {
+        idTorneo: this.idTorneo,
+        idPartido: this.partidos[i]._id,
+        set1: this.juego1 + '-' + this.juego2,
+        set2: this.juego3 + '-' + this.juego4,
+        set3: this.juego5 + '-' + this.juego6,
+        ganadores: []
+      }
+  
+      if(this.juego1 > this.juego2 && this.juego3 > this.juego4){
         body.ganadores.push(this.partidos[i].jugadores.pareja1[0]);
         body.ganadores.push(this.partidos[i].jugadores.pareja1[1]);
-      } else {
+      } else if (this.juego1 < this.juego2 && this.juego3 < this.juego4){
         body.ganadores.push(this.partidos[i].jugadores.pareja2[0]);
         body.ganadores.push(this.partidos[i].jugadores.pareja2[1]);
+      } else {
+        if(this.juego5 > this.juego6){
+          body.ganadores.push(this.partidos[i].jugadores.pareja1[0]);
+          body.ganadores.push(this.partidos[i].jugadores.pareja1[1]);
+        } else {
+          body.ganadores.push(this.partidos[i].jugadores.pareja2[0]);
+          body.ganadores.push(this.partidos[i].jugadores.pareja2[1]);
+        }
       }
-    }
-
-    if(this.juego5 == 0 && this.juego6 == 0)
-      body.set3 = '';
-    
-    this.partidosService.addResultadoPartido(body).subscribe(() => {
-      if (body.set3 != '')
-        this.partidos[i].resultado = body.set1 + " / " + body.set2 + " / " + body.set3;
-
-      else
-        this.partidos[i].resultado = body.set1 + " / " + body.set2;
-
-      this.partidos[i].ganadores = body.ganadores;
-      if (this.partidos[i].ganadores[0] == this.partidos[i].jugadores.pareja1[0]){
-        this.partidos[i].jugadores.pareja1.ganadores = true;
-        this.partidos[i].jugadores.pareja2.ganadores = false;
-      }
+  
+      if(this.juego5 == 0 && this.juego6 == 0)
+        body.set3 = '';
       
-      else{
-        this.partidos[i].jugadores.pareja2.ganadores = true;
-        this.partidos[i].jugadores.pareja1.ganadores = false;
-      }
-
-      this.components.presentAlert("Resultado cambiado correctamente");
-      this.juego1 = 0;
-      this.juego2 = 0;
-      this.juego3 = 0;
-      this.juego4 = 0;
-      this.juego5 = 0;
-      this.juego6 = 0;
-    });
+      this.partidosService.addResultadoPartido(body).subscribe(() => {
+        if (body.set3 != '')
+          this.partidos[i].resultado = body.set1 + " / " + body.set2 + " / " + body.set3;
+  
+        else
+          this.partidos[i].resultado = body.set1 + " / " + body.set2;
+  
+        this.partidos[i].ganadores = body.ganadores;
+        if (this.partidos[i].ganadores[0] == this.partidos[i].jugadores.pareja1[0]){
+          this.partidos[i].jugadores.pareja1.ganadores = true;
+          this.partidos[i].jugadores.pareja2.ganadores = false;
+        }
+        
+        else{
+          this.partidos[i].jugadores.pareja2.ganadores = true;
+          this.partidos[i].jugadores.pareja1.ganadores = false;
+        }
+  
+        this.components.presentAlert("Resultado cambiado correctamente");
+        this.juego1 = 0;
+        this.juego2 = 0;
+        this.juego3 = 0;
+        this.juego4 = 0;
+        this.juego5 = 0;
+        this.juego6 = 0;
+      });
+    }
   }
 }
