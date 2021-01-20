@@ -10,11 +10,10 @@
 <ion-content>
   <div *ngIf="vueltas && vueltas.length > 0; else noEmpezado">
     <ion-item>
-      <ion-select (ionChange)="checkValue($event)" placeholder="Selecciona una vuelta">
+      <ion-select interface="popover" (ionChange)="checkValue($event)" [value]="vueltas.length - 1">
         <ion-select-option *ngFor="let vuelta of vueltas; let i = index" [value]="i">{{vuelta.name}}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-title style = "text-align: center;">{{NombreVueltaActual}}</ion-title>
 
     <ion-list>
       <ion-item *ngFor="let grupo of grupos">

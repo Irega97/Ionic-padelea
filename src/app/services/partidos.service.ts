@@ -14,4 +14,8 @@ export class PartidosService {
   getPartidosGrupo(nameTorneo: string, vuelta: string, grupo: string): Observable<any> {
     return this.http.get<any>(this.ruta + nameTorneo + "/" + vuelta + "/" + grupo);
   }
+
+  addResultadoPartido(body: any): Observable<any> {
+    return this.http.post<any>(this.ruta + 'results', body);
+  }
 }
