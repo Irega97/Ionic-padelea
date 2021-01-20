@@ -12,6 +12,7 @@ export class PartidosPage implements OnInit {
   name: string;
   vuelta: string;
   grupo: string;
+  partidos: [];
 
   constructor(private router: Router, private partidosService: PartidosService) { }
 
@@ -21,7 +22,8 @@ export class PartidosPage implements OnInit {
     this.grupo = this.router.url.split('/')[5];
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
-      console.log("Data", data);
+      this.partidos = data.partidos;
+      console.log("Data", this.partidos);
     });
   }
 

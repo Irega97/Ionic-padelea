@@ -46,11 +46,6 @@ export class AdminPage implements OnInit {
     });
 
     this.events.getObservable().subscribe((data) => {
-      /*if(data.topic == "nuevoJugador"){
-        this.adminService.getCola().subscribe((data) => {
-          this.cola = data.cola;
-        })
-      }*/
       if (data.topic == "nuevoJugadorCola" && data.torneo == this.name)
         this.cola.push(data.jugador);
 
