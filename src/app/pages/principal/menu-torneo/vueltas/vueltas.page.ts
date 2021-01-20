@@ -13,7 +13,7 @@ export class VueltasPage implements OnInit {
   vueltaActual: number;
   vueltas = [];
   grupos = [];
-  NombreVueltaActual: string;
+  fechaFin;
 
   constructor(private router: Router, private torneoService: TorneoService) {}
 
@@ -23,17 +23,14 @@ export class VueltasPage implements OnInit {
     this.torneoService.getVueltas(this.name).subscribe((data) => {
       this.vueltaActual = data.vueltaActual;
       if(this.vueltaActual > -1){
-        if (this.vueltaActual == 0)
-          this.NombreVueltaActual = "PREVIA";
-
-        else
-          this.NombreVueltaActual = "VUELTA " + this.vueltaActual;
-        
         this.vueltas.push(data.vueltas.previa);
         this.vueltas[0].name = "Previa";
         for(let i = 0; i < data.vueltas.rondas.length; i++){
           this.vueltas.push(data.vueltas.rondas[i]);
         }
+        
+        this.fechaFin = new Date(this.vueltas[this.vueltas.length - 1].fechaFin);
+        this.fechaFin = this.fechaFin.toLocaleString().split(' ')[0];
 
         for (let i = 0; i < this.vueltas[this.vueltas.length - 1].grupos.length; i++){
           this.grupos.push(this.vueltas[this.vueltas.length - 1].grupos[i]);
@@ -45,7 +42,8 @@ export class VueltasPage implements OnInit {
   checkValue(event){ 
     this.grupos = [];
     this.vueltaActual = event.detail.value;
-    this.NombreVueltaActual = this.vueltas[event.detail.value].name.toUpperCase();
+    this.fechaFin = new Date(this.vueltas[event.detail.value].fechaFin);
+      this.fechaFin = this.fechaFin.toLocaleString().split(' ')[0];
     for (let i = 0; i < this.vueltas[event.detail.value].grupos.length; i++){
       this.grupos.push(this.vueltas[event.detail.value].grupos[i]);
     }

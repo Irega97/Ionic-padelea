@@ -70,6 +70,19 @@ export class PartidosPage implements OnInit {
     });
   }
 
+  modificar(i: number){
+    this.partidos[i].edit = true;
+    /*let split = this.partidos[i].resultado.split('/');
+    this.juego1 = split[0].split('-')[0];
+    console.log("Juego1", this.juego1);
+    this.juego2 = split[0].split('-')[1];
+    console.log("Juego2", this.juego2);
+    this.juego3 = split[1].split('-')[0];
+    console.log("Juego1", this.juego3);
+    this.juego4 = split[1].split('-')[1];
+    console.log("Juego1", this.juego4);*/
+  }
+
   cancelar(i: number){
     this.partidos[i].edit = false;
   }
@@ -145,5 +158,9 @@ export class PartidosPage implements OnInit {
         this.juego6 = 0;
       });
     }
+  }
+
+  irChat(){
+    console.log("Funciona");
   }
 }

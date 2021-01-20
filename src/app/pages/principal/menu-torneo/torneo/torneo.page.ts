@@ -26,7 +26,6 @@ export class TorneoPage implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
-      this.adminService.setName(this.name)
       this.torneoService.getTorneo(this.name).subscribe(data =>{
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;

@@ -14,7 +14,7 @@
         <ion-select-option *ngFor="let vuelta of vueltas; let i = index" [value]="i">{{vuelta.name}}</ion-select-option>
       </ion-select>
     </ion-item>
-
+    <ion-title>FECHA FIN: {{fechaFin}}</ion-title>
     <ion-list>
       <ion-item *ngFor="let grupo of grupos">
         <ion-label slot="start">GRUPO {{grupo.groupName}}</ion-label>

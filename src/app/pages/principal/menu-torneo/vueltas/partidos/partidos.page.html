@@ -25,15 +25,18 @@
       </ng-template>
       <ion-label style="font-weight: bold; color: rgb(0, 89, 255);" *ngIf="partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
       <ion-label *ngIf="!partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
-      <ion-button *ngIf="participa && !partido.edit" (click)="partido.edit=true" fill="clear">
+      <ion-button *ngIf="participa && !partido.edit" (click)="modificar(i)" fill="clear">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="participa && partido.edit" (click)="enviar(i)" fill="clear" small>
+      <ion-button *ngIf="participa && partido.edit" (click)="enviar(i)" fill="clear" size="small">
         <ion-icon name="checkmark-outline"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="participa && partido.edit" (click)="cancelar(i)" fill="clear" small>
+      <ion-button *ngIf="participa && partido.edit" (click)="cancelar(i)" fill="clear" size="small">
         <ion-icon name="close-outline"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>
+  <div style="text-align: center;">
+    <ion-button *ngIf="participa"(click)="irChat()">IR A CHAT DEL GRUPO</ion-button>
+  </div>
 </ion-content>

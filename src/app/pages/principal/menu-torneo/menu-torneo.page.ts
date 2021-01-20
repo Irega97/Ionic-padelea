@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AdminService } from 'src/app/services/admin.service';
 import { EventsService } from 'src/app/services/events.service';
 import { TorneoService } from 'src/app/services/torneo.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,11 +17,13 @@ export class MenuTorneoPage implements OnInit {
   cola: number = 0;
   name: string;
 
-  constructor(private route: ActivatedRoute, private torneoService: TorneoService, private events: EventsService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private torneoService: TorneoService, private events: EventsService, private userService: UserService,
+    private adminService: AdminService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.name = paramMap.get('name');
+      this.adminService.setName(this.name);
       this.torneoService.getTorneo(this.name).subscribe(data =>{
         this.isAdmin = data.isAdmin;
         this.joined = data.joined;
