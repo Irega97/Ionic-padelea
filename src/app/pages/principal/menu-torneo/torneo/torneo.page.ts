@@ -5,6 +5,8 @@ import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
+import { MAP_URL} from 'src/environments/config'
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-torneo',
@@ -20,10 +22,13 @@ export class TorneoPage implements OnInit {
   joined: boolean;
   fechaInicio;
   finInscripcion;
+
   map:Map;
+  lat: number;
+  long: number;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private router: Router, private adminService: AdminService) { }
+              private events: EventsService, private router: Router, private adminService: AdminService, private locationService: LocationService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -40,6 +45,8 @@ export class TorneoPage implements OnInit {
         this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
       });
     });
+
+    this.loadMap();
 
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
@@ -60,15 +67,15 @@ export class TorneoPage implements OnInit {
     });
   }
 
-  ionViewDidEnter(){
-    this.loadMap();
-  }
-
-  loadMap(){
-    this.map = new Map("mapId").setView([17.3850,78.4867], 13);
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
+  async loadMap(){
+    this.map = new Map("mapId");
+    const position = await this.locationService.getLocation();
+    this.lat = position.coords.latitude;
+    this.long = position.coords.longitude;
+    this.map.setView([this.lat, this.long], 11)
+    tileLayer(MAP_URL, {
+      attribution: 'edupala.com © ionic LeafLet',
+    }).addTo(this.map);
   }
 
   joinTorneo(){
