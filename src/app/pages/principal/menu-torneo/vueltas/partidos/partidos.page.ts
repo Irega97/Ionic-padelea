@@ -163,6 +163,6 @@ export class PartidosPage implements OnInit {
   }
 
   irChat(){
-    console.log("Funciona");
+    this.router.navigate(['/chat/grupo/'+ this.name + " " + this.vuelta + " " + this.grupo]);
   }
 }
