@@ -13,8 +13,8 @@ import { RankingPage } from './ranking.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RankingPageRoutingModule
+    RankingPageRoutingModule,
   ],
-  declarations: [RankingPage]
+  declarations: [RankingPage],
 })
 export class RankingPageModule {}
