@@ -88,6 +88,8 @@ export class PartidosPage implements OnInit {
   }
 
   enviar(i: number){
+    let sets1 = 0, sets2 = 0;
+
     if (this.juego1 == undefined || this.juego2 == undefined || this.juego3 == undefined || this.juego4 == undefined){
       this.components.presentAlert("Introduce el resultado de todos los sets");
     } else if (this.juego1 > 7 || this.juego2 > 7 || this.juego3 > 7 || this.juego4 > 7){
@@ -103,6 +105,13 @@ export class PartidosPage implements OnInit {
     }
     else{
       this.partidos[i].edit = false;
+      
+      if(this.juego1 > this.juego2) sets1++; else sets2++;
+      if(this.juego3 > this.juego4) sets1++; else sets2++;
+      if(sets1 == sets2){
+        if(this.juego5 > this.juego6) sets1++; else sets2++;
+      }
+
       let body = {
         idTorneo: this.idTorneo,
         idPartido: this.partidos[i]._id,
@@ -110,8 +119,10 @@ export class PartidosPage implements OnInit {
         set2: this.juego3 + '-' + this.juego4,
         set3: this.juego5 + '-' + this.juego6,
         ganadores: [],
-        sets1: this.juego1 + this.juego3 + this.juego5,
-        sets2: this.juego2 + this.juego4 + this.juego6
+        juegos1: this.juego1 + this.juego3 + this.juego5,
+        juegos2: this.juego2 + this.juego4 + this.juego6,
+        sets1: sets1,
+        sets2: sets2
       }
   
       if(this.juego1 > this.juego2 && this.juego3 > this.juego4){
