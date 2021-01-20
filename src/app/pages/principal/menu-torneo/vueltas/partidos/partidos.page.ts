@@ -109,7 +109,9 @@ export class PartidosPage implements OnInit {
         set1: this.juego1 + '-' + this.juego2,
         set2: this.juego3 + '-' + this.juego4,
         set3: this.juego5 + '-' + this.juego6,
-        ganadores: []
+        ganadores: [],
+        sets1: this.juego1 + this.juego3 + this.juego5,
+        sets2: this.juego2 + this.juego4 + this.juego6
       }
   
       if(this.juego1 > this.juego2 && this.juego3 > this.juego4){
