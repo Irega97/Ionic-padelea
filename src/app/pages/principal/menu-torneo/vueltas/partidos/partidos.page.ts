@@ -18,12 +18,12 @@ export class PartidosPage implements OnInit {
   partidos = [];
   clasification = [];
   participa: Boolean = false;
-  juego1: number = 0;
-  juego2: number = 0;
-  juego3: number = 0;
-  juego4: number = 0;
-  juego5: number = 0;
-  juego6: number = 0;
+  juego1: number;
+  juego2: number;
+  juego3: number;
+  juego4: number;
+  juego5: number;
+  juego6: number;
 
   constructor(private router: Router, private partidosService: PartidosService, private userService: UserService, private components: ComponentsService) { }
 
@@ -33,8 +33,9 @@ export class PartidosPage implements OnInit {
     this.grupo = this.router.url.split('/')[5];
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
+      console.log("Data", data);
       this.idTorneo = data.idTorneo;
-      this.clasification = data.classification;
+      this.clasification = data.grupos.classification;
       let i: number = 0;
       while (i < this.clasification.length && !this.participa){
         if (this.clasification[i].player._id == this.userService.user._id)
@@ -43,7 +44,7 @@ export class PartidosPage implements OnInit {
           i++;
       }
 
-      this.partidos = data.partidos;
+      this.partidos = data.grupos.partidos;
       this.partidos.forEach(partido => {
         partido.edit = false;
         if (partido.resultado == undefined)
@@ -72,15 +73,21 @@ export class PartidosPage implements OnInit {
 
   modificar(i: number){
     this.partidos[i].edit = true;
-    /*let split = this.partidos[i].resultado.split('/');
-    this.juego1 = split[0].split('-')[0];
-    console.log("Juego1", this.juego1);
-    this.juego2 = split[0].split('-')[1];
-    console.log("Juego2", this.juego2);
-    this.juego3 = split[1].split('-')[0];
-    console.log("Juego1", this.juego3);
-    this.juego4 = split[1].split('-')[1];
-    console.log("Juego1", this.juego4);*/
+    let split = this.partidos[i].resultado.split('/');
+    this.juego1 = parseInt(split[0].split('-')[0]);
+    this.juego2 = parseInt(split[0].split('-')[1]);
+    this.juego3 = parseInt(split[1].split('-')[0]);
+    this.juego4 = parseInt(split[1].split('-')[1]);
+
+    if (split.length == 3){
+      this.juego5 = parseInt(split[2].split('-')[0]);
+      this.juego6 = parseInt(split[2].split('-')[1]);
+    }
+
+    else{
+      this.juego5 = 0;
+      this.juego6 = 0;
+    }
   }
 
   cancelar(i: number){
