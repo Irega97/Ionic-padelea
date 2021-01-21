@@ -42,8 +42,7 @@
       <ion-col>Fin inscripcion: {{this.finInscripcion[0]}}</ion-col>
     </ion-row>
     <ion-row *ngIf="torneo.description!=null"><h5>DESCRIPTION:</h5> <br> {{torneo.description}}</ion-row>
-    <ion-row><h5>UBICACIÓN</h5>
-      <div id="mapId" style="height:200px"></div>
+    <ion-row ><h5>UBICACIÓN</h5>
     </ion-row>
     <ion-row>
       <h4> JUGADORES</h4>
@@ -78,4 +77,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+    <div id="mapId" style="height:200px"></div>
 </ion-content>

@@ -45,9 +45,6 @@ export class TorneoPage implements OnInit {
         this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
       });
     });
-
-    this.loadMap();
-
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
         this.players.push(data.jugador);
@@ -65,6 +62,10 @@ export class TorneoPage implements OnInit {
         })*/
       }
     });
+  }
+  
+  ionViewDidEnter(){
+    this.loadMap();
   }
 
   async loadMap(){
