@@ -33,7 +33,6 @@ export class PartidosPage implements OnInit {
     this.grupo = this.router.url.split('/')[5];
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
-      console.log("Data", data);
       this.idTorneo = data.idTorneo;
       this.clasification = data.grupos.classification;
       let i: number = 0;
