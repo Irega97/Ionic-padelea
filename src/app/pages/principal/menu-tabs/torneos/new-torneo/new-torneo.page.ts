@@ -83,6 +83,6 @@ export class NewTorneoPage implements OnInit {
   }
 
   onpickupClick(){
-    this.router.navigate(['./new-torneo/pickup-location']);
+    this.router.navigate(['/principal/torneos/new/location']);
   }
 }

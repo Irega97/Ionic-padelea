@@ -73,9 +73,11 @@ export class TorneoPage implements OnInit {
     this.lat = position.coords.latitude;
     this.long = position.coords.longitude;
     this.map.setView([this.lat, this.long], 11)
-    tileLayer(MAP_URL, {
+    /*tileLayer(MAP_URL, {
       attribution: 'edupala.com © ionic LeafLet',
-    }).addTo(this.map);
+    }).addTo(this.map);*/
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      { attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY- SA</a>'}).addTo(this.map);
   }
 
   joinTorneo(){

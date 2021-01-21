@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './shared/authconfig.interceptor';
 
 //import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular';
-import { Cloudinary } from 'cloudinary-core';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import {
@@ -23,6 +22,8 @@ import {
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 //const config: SocketIoConfig = { url: 'http://147.83.7.156:3000', options: {} };
 
@@ -54,6 +55,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         ]
       } as SocialAuthServiceConfig,
     },
+    Geolocation,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
