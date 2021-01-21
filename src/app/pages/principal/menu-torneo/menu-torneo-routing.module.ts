@@ -9,7 +9,7 @@ const routes: Routes = [
     component: MenuTorneoPage,
     children: [
       {
-        path: '',
+        path: 'home',
         loadChildren: () => import('src/app/pages/principal/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
       },
       {
@@ -31,11 +31,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'miespacio',
-    loadChildren: () => import('./miespacio/miespacio.module').then( m => m.MiespacioPageModule)
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
   }
-
-
 ];
 
 @NgModule({

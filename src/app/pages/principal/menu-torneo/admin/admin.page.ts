@@ -22,11 +22,12 @@ export class AdminPage implements OnInit {
     private events: EventsService, private torneoService: TorneoService) { }
 
   ngOnInit() {
+    this.name = this.router.url.split('/')[2];
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
       this.length = data.length;
       this.max = data.max;
-      if (Date.parse(new Date(data.fechaInicio).toString()) < Date.now()){
+      if (Date.parse(data.fechaInicio.toString()) < Date.now()){
         this.empezado = true;
       }
     });
@@ -49,6 +50,7 @@ export class AdminPage implements OnInit {
   empezarPrevia(){
     if (this.length > 3){
       this.adminService.empezarPrevia().subscribe(data => {
+        this.empezado = true;
         this.component.presentAlert(data.message);
       })
     }

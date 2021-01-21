@@ -2,7 +2,7 @@
 FROM nginx:alpine
 COPY ./www /usr/share/nginx/html
 #COPY ./www /usr/share/nginx/html
-#COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
 #RUN npm run-script build
 #EXPOSE 8100

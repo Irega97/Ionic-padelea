@@ -37,9 +37,9 @@ export class LoginPage implements OnInit {
   ionViewWillEnter(){
     this.loginform.reset();
     this.pulsado = false;
-    if (this.authservicio.reload){
+    /*if (this.authservicio.reload){
       window.location.reload();
-    }
+    }*/
   }
 
   login(){

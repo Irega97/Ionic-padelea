@@ -1,9 +1,8 @@
 import { EventsService } from '../../../../services/events.service';
 import { ComponentsService } from '../../../../services/components.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-torneo',
@@ -20,22 +19,20 @@ export class TorneoPage implements OnInit {
   fechaInicio;
   finInscripcion;
   
-  constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private adminService: AdminService) { }
+  constructor(private torneoService: TorneoService, private router: Router, private component: ComponentsService, 
+              private events: EventsService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
-      this.name = paramMap.get('name');
-      this.torneoService.getTorneo(this.name).subscribe(data =>{
-        this.isAdmin = data.isAdmin;
-        this.joined = data.joined;
-        this.torneo = data.torneo;
-        this.players = data.torneo.players;
-        this.fechaInicio = new Date(this.torneo.fechaInicio);
-        this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
-        this.finInscripcion = new Date(this.torneo.finInscripcion);
-        this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
-      });
+    this.name = this.router.url.split('/')[2];
+    this.torneoService.getTorneo(this.name).subscribe(data =>{
+      this.isAdmin = data.isAdmin;
+      this.joined = data.joined;
+      this.torneo = data.torneo;
+      this.players = data.torneo.players;
+      this.fechaInicio = new Date(this.torneo.fechaInicio);
+      this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+      this.finInscripcion = new Date(this.torneo.finInscripcion);
+      this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
     });
 
     this.events.getObservable().subscribe((data)=> {

@@ -50,11 +50,11 @@ export class PartidosPage implements OnInit {
           partido.resultado = "0-0 / 0-0"
 
         else{
-          if(partido.resultado[0].set3 == '')
-            partido.resultado = partido.resultado[0].set1 + " / " + partido.resultado[0].set2;
+          if(partido.resultado.set3 == '')
+            partido.resultado = partido.resultado.set1 + " / " + partido.resultado.set2;
           
           else
-            partido.resultado = partido.resultado[0].set1 + " / " + partido.resultado[0].set2 + " / " + partido.resultado[0].set3;
+            partido.resultado = partido.resultado.set1 + " / " + partido.resultado.set2 + " / " + partido.resultado.set3;
             
           if (partido.ganadores[0] == partido.jugadores.pareja1[0]._id){
             partido.jugadores.pareja1.ganadores = true;

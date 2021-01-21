@@ -35,6 +35,8 @@ export class ChatPage implements OnInit {
   @ViewChild('content') 
   private content;
 
+  private scrollDepthTriggered = false;
+
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
 
@@ -283,10 +285,10 @@ export class ChatPage implements OnInit {
     this.leer = false;
   }
 
-  scrollToBottom(){
+  /*scrollToBottom(){
     let y = 
     this.content.scrollToBottom(100);
-  }
+  }*/
 
   loadData(event){
     if (this.messages.length < this.chat.mensajes.length){
