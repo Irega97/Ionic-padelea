@@ -108,9 +108,6 @@ export class PartidosPage implements OnInit {
       
       if(this.juego1 > this.juego2) sets1++; else sets2++;
       if(this.juego3 > this.juego4) sets1++; else sets2++;
-      if(sets1 == sets2){
-        if(this.juego5 > this.juego6) sets1++; else sets2++;
-      }
 
       let body = {
         idTorneo: this.idTorneo,
@@ -119,8 +116,8 @@ export class PartidosPage implements OnInit {
         set2: this.juego3 + '-' + this.juego4,
         set3: this.juego5 + '-' + this.juego6,
         ganadores: [],
-        juegos1: this.juego1 + this.juego3 + this.juego5,
-        juegos2: this.juego2 + this.juego4 + this.juego6,
+        juegos1: this.juego1 + this.juego3,
+        juegos2: this.juego2 + this.juego4,
         sets1: sets1,
         sets2: sets2
       }
