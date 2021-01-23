@@ -54,8 +54,8 @@ export class VueltasPage implements OnInit {
         }
       }
     })
-    console.log(this.vueltas);
-
+    console.log("vuelta ", this.vueltas);
+ 
 
 /*
     this.partidoService.getPartidosGrupo(this.name,this.nameVuelta,this.nameGrupo).subscribe((data) => {

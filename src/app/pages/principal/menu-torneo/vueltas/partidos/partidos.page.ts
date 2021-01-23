@@ -17,7 +17,7 @@ export class PartidosPage implements OnInit {
   vuelta: string;
   grupo: string;
   partidos = [];
-  clasification = [];
+  classification = [];
   participa: Boolean = false;
   juego1: number;
   juego2: number;
@@ -39,10 +39,10 @@ export class PartidosPage implements OnInit {
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
       console.log("Data", data);
       this.idTorneo = data.idTorneo;
-      this.clasification = data.grupos.classification;
+      this.classification = data.grupos.classification;
       let i: number = 0;
-      while (i < this.clasification.length && !this.participa){
-        if (this.clasification[i].player._id == this.userService.user._id)
+      while (i < this.classification.length && !this.participa){
+        if (this.classification[i].player._id == this.userService.user._id)
           this.participa = true;
         else
           i++;
