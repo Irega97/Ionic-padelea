@@ -66,7 +66,7 @@
     <ion-row>
       <ion-col>
         <div style="text-align: center;">
-          <ion-button *ngIf="joined==false" (click)="joinTorneo()">
+          <ion-button *ngIf="joined==false" (click)="joinTorneo()" [disabled]="cola">
             <ion-label>UNIRTE</ion-label>
           </ion-button>
           <ion-button *ngIf="joined==true" (click)="leaveTorneo()">
