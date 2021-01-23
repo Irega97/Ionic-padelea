@@ -85,7 +85,7 @@ export class NewChatPage implements OnInit {
           participantes: this.participantes
         }
       };
-      this.router.navigate(['principal/chats/new/form'], navigationExtras);
+      this.router.navigate(['chat/nuevo/form'], navigationExtras);
     }
 
     else{

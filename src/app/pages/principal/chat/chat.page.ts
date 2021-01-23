@@ -272,8 +272,10 @@ export class ChatPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    if (!this.noleidos)
+    if (!this.noleidos){
       this.content.scrollToBottom(100);
+      this.contentinBottom = true;
+    }
 
     else{
         let y = document.getElementById(this.idnuevomensaje).offsetTop;
