@@ -22,6 +22,11 @@ export class ChatPage implements OnInit {
     moment.locale('es');
     if (this.userService.user != undefined){
       this.chatService.getMyChats().subscribe((data) => {
+        if (this.chats.length > 0){
+          this.chats = [];
+          this.chatsSearch = this.chats;
+        }
+
         data.chats.forEach(chat => {
           if (chat.chat.name == undefined){
             if (chat.chat.users[0].username != this.userService.user.username){
@@ -62,9 +67,6 @@ export class ChatPage implements OnInit {
           else
             return 0;
         });
-        /*this.chatsSearch.forEach(chat => {
-          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
         this.cargando = false;     
       }); 
     }
@@ -112,9 +114,6 @@ export class ChatPage implements OnInit {
             else
               return 0;
           });
-          /*this.chatsSearch.forEach(chat => {
-            console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-          });*/
           this.cargando = false;     
         }); 
       }
@@ -153,9 +152,6 @@ export class ChatPage implements OnInit {
         
         this.chats.splice(0, 0, chat);
         this.chatsSearch = this.chats;
-        /*this.chatsSearch.forEach(chat => {
-          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
       }
 
       else if (data.topic == "nuevoMensaje"){
@@ -189,9 +185,6 @@ export class ChatPage implements OnInit {
           else
             return 0;
         });
-        /*this.chatsSearch.forEach(chat => {
-          console.log("Date", chat.mensajes[chat.mensajes.length -1].date);
-        });*/
       }
 
       else if (data.topic == "chatLeido"){

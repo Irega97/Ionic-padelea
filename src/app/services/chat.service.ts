@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 
 export class ChatService{
 
-  ruta = environment.apiURL + "/chat/"
+  ruta = environment.apiURL + "/chat/";
+  name: string;
   constructor(private http: HttpClient) { }
 
   getChat(info): Observable<any> {

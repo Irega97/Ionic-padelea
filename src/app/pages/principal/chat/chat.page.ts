@@ -35,12 +35,15 @@ export class ChatPage implements OnInit {
   @ViewChild('content') 
   private content;
 
-  private contentinBottom:Boolean = false;
+  private contentinBottom: Boolean = false;
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
 
   ngOnInit() {
+    if (this.chatService.name != undefined)
+      this.chatService.name = undefined;
+
     if (this.userService.user != undefined)
       this.usernameactual = this.userService.user.username;
 

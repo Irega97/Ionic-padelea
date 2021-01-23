@@ -161,7 +161,6 @@ export class EventsService {
 
   public disconnectSocket(){
     localStorage.removeItem("ACCESS_TOKEN");
-    this.authService.reload = true;
     this.conectado = false;
     this.socket.disconnect();
   }
