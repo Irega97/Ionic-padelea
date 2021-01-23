@@ -18,7 +18,7 @@ export class AdminPage implements OnInit {
   name: string;
   empezado: Boolean = false;
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router, private component: ComponentsService, 
+  constructor(private adminService: AdminService, private router: Router, private component: ComponentsService, 
     private events: EventsService, private torneoService: TorneoService) { }
 
   ngOnInit() {

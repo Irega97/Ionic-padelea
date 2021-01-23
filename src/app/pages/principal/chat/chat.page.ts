@@ -285,10 +285,9 @@ export class ChatPage implements OnInit {
     this.leer = false;
   }
 
-  /*scrollToBottom(){
-    let y = 
+  scrollToBottom(){
     this.content.scrollToBottom(100);
-  }*/
+  }
 
   loadData(event){
     if (this.messages.length < this.chat.mensajes.length){

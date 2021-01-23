@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 import { EventsService } from 'src/app/services/events.service';
 import { TorneoService } from 'src/app/services/torneo.service';
@@ -17,17 +17,16 @@ export class MenuTorneoPage implements OnInit {
   cola: number = 0;
   name: string;
 
-  constructor(private route: ActivatedRoute, private torneoService: TorneoService, private events: EventsService, private userService: UserService,
+  constructor(private router: Router, private torneoService: TorneoService, private events: EventsService, private userService: UserService,
     private adminService: AdminService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
-      this.name = paramMap.get('name');
-      this.torneoService.getTorneo(this.name).subscribe(data =>{
-        this.isAdmin = data.isAdmin;
-        this.joined = data.joined;
-        this.cola = data.torneo.cola.length;
-      });
+    this.name = this.router.url.split('/')[2];
+    this.adminService.setName(unescape(this.name));
+    this.torneoService.getTorneo(this.name).subscribe(data =>{
+      this.isAdmin = data.isAdmin;
+      this.joined = data.joined;
+      this.cola = data.torneo.cola.length;
     });
 
     this.events.getObservable().subscribe(data=> {
