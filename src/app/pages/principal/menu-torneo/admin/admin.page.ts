@@ -32,9 +32,7 @@ export class AdminPage implements OnInit {
       this.cola = data.cola;
       this.length = data.length;
       this.max = data.max;
-      if (Date.parse(data.fechaInicio.toString()) < Date.now()){
-        this.empezado = true;
-      }
+      this.empezado = data.torneoIniciado
     });
 
     this.events.getObservable().subscribe((data) => {
@@ -68,6 +66,9 @@ export class AdminPage implements OnInit {
     if (this.length % 4 == 0){
       this.adminService.finalizarRonda().subscribe(data => {
         this.component.presentAlert(data.message);
+      }, error => {
+        if (error.status == 409)
+          this.component.presentAlert(error.error.message);
       })
     }
 
