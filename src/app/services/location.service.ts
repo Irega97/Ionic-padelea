@@ -24,8 +24,8 @@ export class LocationService {
     
     try{
       //coordenadas de Padelarium Gavà
-      lat = 41.28422966008095;
-      lon = 1.9944548402718232;
+      lat = 41.28419741151979;
+      lon = 1.9944762978072328;
         
     }
     catch(err){

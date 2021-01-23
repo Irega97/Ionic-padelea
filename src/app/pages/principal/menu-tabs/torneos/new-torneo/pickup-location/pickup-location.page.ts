@@ -3,7 +3,9 @@ import {Map,tileLayer,marker} from 'leaflet';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service'
 import { MAP_URL } from 'src/environments/config';
-//import {NativeGeocoder,NativeGeocoderOptions} from "@ionic-native/native-geocoder/ngx";
+import { ModalController } from '@ionic/angular';
+
+//import { NativeGeocoder ,NativeGeocoderOptions} from "@ionic-native/native-geocoder";
 
 
 @Component({
@@ -11,7 +13,7 @@ import { MAP_URL } from 'src/environments/config';
   templateUrl: './pickup-location.page.html',
   styleUrls: ['./pickup-location.page.scss'],
 })
-export class PickupLocationPage {
+export class PickupLocationPage implements OnInit{
 
   map:Map;
   newMarker:any;
@@ -19,32 +21,37 @@ export class PickupLocationPage {
   lat: number;
   lng: number;
   
-constructor(private router:Router, private locationService: LocationService /*private geocoder:NativeGeocoder*/) { }
+constructor(private router:Router, private locationService: LocationService, public modalController: ModalController, /*private geocoder: NativeGeocoder*/ ) { }
   
-  // The below function is added
+ngOnInit() {
+  }
+  
   ionViewDidEnter(){
     this.loadMap();
   }
- // The below function is added
- async loadMap(){
+  async loadMap(){
   this.map = new Map("mapId");
   const position = await this.locationService.getLocation();
   this.lat = position.coords.latitude;
   this.lng = position.coords.longitude;
   this.map.setView([this.lat, this.lng], 11)
-  /*tileLayer(MAP_URL, {
-    attribution: 'edupala.com © ionic LeafLet',
-  }).addTo(this.map);*/
-  tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    { attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY- SA</a>'}).addTo(this.map);
-}
+
+  tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
+      }).addTo(this.map);   
+  }
 
 locatePosition() {
   this.map.locate({ setView: true }).on("locationfound", (e: any) => {
     this.newMarker = marker([e.latitude, e.longitude], {
       draggable: true
     }).addTo(this.map);
-    this.newMarker.bindPopup("You are located here!").openPopup();
+    this.newMarker.bindPopup("Estas Aquí").openPopup();
     //this.getAddress(e.latitude, e.longitude); 
  
     this.newMarker.on("dragend", () => {
@@ -54,8 +61,8 @@ locatePosition() {
     });
   });
 }
-/*
-getAddress(lat: number, long: number) {
+
+/*getAddress(lat: number, long: number) {
   let options: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
@@ -66,7 +73,11 @@ getAddress(lat: number, long: number) {
   });
 }*/
 
-goBack(){
-  this.router.navigate(["home"]);
-}
+  /*goBack(){
+    this.router.navigate(["home"]);
+  }*/
+  async closeModal() {
+    console.log("close apretado");
+    await this.modalController.dismiss(this.address);
+  }
 }

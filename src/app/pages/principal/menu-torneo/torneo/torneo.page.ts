@@ -23,7 +23,7 @@ export class TorneoPage implements OnInit {
   fechaInicio;
   finInscripcion;
 
-  map:Map;
+  map: Map;
   lat: number;
   long: number;
   
@@ -43,8 +43,11 @@ export class TorneoPage implements OnInit {
         this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
         this.finInscripcion = new Date(this.torneo.finInscripcion);
         this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+
+      this.loadMap();
       });
     });
+
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
         this.players.push(data.jugador);
@@ -64,21 +67,25 @@ export class TorneoPage implements OnInit {
     });
   }
   
-  ionViewDidEnter(){
-    this.loadMap();
+  ionViewDidEnter(){ 
   }
 
   async loadMap(){
-    this.map = new Map("mapId");
+    this.map = new Map('mapId');
     const position = await this.locationService.getLocation();
     this.lat = position.coords.latitude;
     this.long = position.coords.longitude;
-    this.map.setView([this.lat, this.long], 11)
-    /*tileLayer(MAP_URL, {
-      attribution: 'edupala.com © ionic LeafLet',
-    }).addTo(this.map);*/
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      { attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY- SA</a>'}).addTo(this.map);
+    this.map.setView([this.lat, this.long], 16)
+    tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
+      }).addTo(this.map);
+
+    marker([41.28419741151979, 1.9944762978072328]).addTo(this.map).bindPopup('<b>PADELARIUM GAVÀ</b><br> Aquí se juega tu torneo').openPopup();
   }
 
   joinTorneo(){

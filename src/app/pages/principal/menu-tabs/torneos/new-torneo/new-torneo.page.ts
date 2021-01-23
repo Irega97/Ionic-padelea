@@ -5,6 +5,8 @@ import { Validator } from 'src/app/models/validator'
 import { ComponentsService } from 'src/app/services/components.service';
 import { EventsService } from 'src/app/services/events.service';
 import { TorneoService } from 'src/app/services/torneo.service';
+import { ModalController } from '@ionic/angular';
+import { PickupLocationPage } from './pickup-location/pickup-location.page';
 
 @Component({
   selector: 'app-new-torneo',
@@ -17,9 +19,11 @@ export class NewTorneoPage implements OnInit {
   pulsado = false;
   minDate;
   pickupLocation: string;
+ 
+
 
   constructor(private formBuilder: FormBuilder, private torneoService: TorneoService, private router: Router,
-    private components: ComponentsService, private events: EventsService) {
+    private components: ComponentsService, private events: EventsService, public modalController: ModalController) {
   }
 
   ngOnInit() {
@@ -82,7 +86,13 @@ export class NewTorneoPage implements OnInit {
     });
   }
 
-  onpickupClick(){
-    this.router.navigate(['/principal/torneos/new/location']);
-  }
+  async openModal() {
+    const modal = await this.modalController.create({
+    component: PickupLocationPage});
+    modal.onDidDismiss().then(data=>{
+      console.log(data)
+      })
+    return await modal.present();
+   }
+   
 }

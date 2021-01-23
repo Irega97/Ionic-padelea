@@ -56,7 +56,7 @@
         <p *ngIf="torneoForm.controls['fechaInicio'].hasError('required') && (torneoForm.controls['fechaInicio'].dirty || torneoForm.controls['fechaInicio'].touched || pulsado)"><ion-label color="danger">Debes seleccionar un valor</ion-label></p>
         <p *ngIf="!torneoForm.controls['fechaInicio'].hasError('required') && torneoForm.hasError('checkFecha') && (torneoForm.controls['fechaInicio'].dirty || torneoForm.controls['fechaInicio'].touched || pulsado)"><ion-label color="danger">El Torneo debe empezar una vez acaben las Inscripciones</ion-label></p>
         
-        <ion-item (click)="onpickupClick()">
+        <ion-item (click)="openModal()">
           <ion-label position="floating" color="primary">Ubicación:*</ion-label>
           <ion-input type="string" formControlName="ubicacion"></ion-input>
         </ion-item>
