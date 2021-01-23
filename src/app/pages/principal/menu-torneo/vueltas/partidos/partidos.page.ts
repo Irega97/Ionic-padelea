@@ -37,7 +37,6 @@ export class PartidosPage implements OnInit {
     this.grupo = this.router.url.split('/')[5];
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
-      console.log("Data", data);
       this.idTorneo = data.idTorneo;
       this.classification = data.grupos.classification;
       let i: number = 0;
@@ -55,11 +54,11 @@ export class PartidosPage implements OnInit {
           partido.resultado = "0-0 / 0-0"
 
         else{
-          if(partido.resultado[0].set3 == '')
-            partido.resultado = partido.resultado[0].set1 + " / " + partido.resultado[0].set2;
+          if(partido.resultado.set3 == '')
+            partido.resultado = partido.resultado.set1 + " / " + partido.resultado.set2;
           
           else
-            partido.resultado = partido.resultado[0].set1 + " / " + partido.resultado[0].set2 + " / " + partido.resultado[0].set3;
+            partido.resultado = partido.resultado.set1 + " / " + partido.resultado.set2 + " / " + partido.resultado.set3;
             
           if (partido.ganadores[0] == partido.jugadores.pareja1[0]._id){
             partido.jugadores.pareja1.ganadores = true;

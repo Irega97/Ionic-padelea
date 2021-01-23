@@ -18,17 +18,21 @@ export class AdminPage implements OnInit {
   name: string;
   empezado: Boolean = false;
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router, private component: ComponentsService, 
+  constructor(private adminService: AdminService, private router: Router, private component: ComponentsService, 
     private events: EventsService, private torneoService: TorneoService) { }
 
   ngOnInit() {
+    this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
+
+    this.adminService.setName(this.name);
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
       this.length = data.length;
       this.max = data.max;
-      if (Date.parse(new Date(data.fechaInicio).toString()) < Date.now()){
-        this.empezado = true;
-      }
+      this.empezado = data.torneoIniciado
     });
 
     this.events.getObservable().subscribe((data) => {
@@ -49,6 +53,7 @@ export class AdminPage implements OnInit {
   empezarPrevia(){
     if (this.length > 3){
       this.adminService.empezarPrevia().subscribe(data => {
+        this.empezado = true;
         this.component.presentAlert(data.message);
       })
     }
@@ -61,6 +66,9 @@ export class AdminPage implements OnInit {
     if (this.length % 4 == 0){
       this.adminService.finalizarRonda().subscribe(data => {
         this.component.presentAlert(data.message);
+      }, error => {
+        if (error.status == 409)
+          this.component.presentAlert(error.error.message);
       })
     }
 

@@ -1,9 +1,10 @@
 import { EventsService } from '../../../../services/events.service';
 import { ComponentsService } from '../../../../services/components.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
+import { UserService } from 'src/app/services/user.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-torneo',
@@ -16,26 +17,33 @@ export class TorneoPage implements OnInit {
   name;
   isAdmin;
   players;
-  joined: boolean;
+  joined: Boolean;
   fechaInicio;
   finInscripcion;
+  cola: Boolean = false;
   
-  constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private adminService: AdminService) { }
+  constructor(private torneoService: TorneoService, private router: Router, private component: ComponentsService, 
+              private events: EventsService, private userService: UserService, private socket: Socket) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
-      this.name = paramMap.get('name');
-      this.torneoService.getTorneo(this.name).subscribe(data =>{
-        this.isAdmin = data.isAdmin;
-        this.joined = data.joined;
-        this.torneo = data.torneo;
-        this.players = data.torneo.players;
-        this.fechaInicio = new Date(this.torneo.fechaInicio);
-        this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
-        this.finInscripcion = new Date(this.torneo.finInscripcion);
-        this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
-      });
+    this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
+
+    this.torneoService.getTorneo(this.name).subscribe(data =>{
+      this.isAdmin = data.isAdmin;
+      this.joined = data.joined;
+      this.torneo = data.torneo;
+      this.players = data.torneo.players;
+      this.fechaInicio = new Date(this.torneo.fechaInicio);
+      this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+      this.finInscripcion = new Date(this.torneo.finInscripcion);
+      this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+      this.torneo.cola.forEach(cola => {
+        if (cola == this.userService.user._id)  
+          this.cola = true;
+      })
     });
 
     this.events.getObservable().subscribe((data)=> {
@@ -52,12 +60,28 @@ export class TorneoPage implements OnInit {
         })
       }
     });
+
+    this.socket.on('aceptadoCola', torneo => {
+      if (this.name == torneo)
+        this.joined = true;
+      })
+
+    this.socket.on('rechazadoCola', torneo => {
+      if (this.name == torneo)
+        this.cola = false;
+    })
   }
 
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
       this.component.presentAlert(data.message);
-      this.joined = true;
+      if (this.torneo.type == "public" && Date.parse(this.torneo.finInscripcion.toString()) > Date.now())
+        this.joined = true;
+
+      else{
+        this.cola = true;
+      }
+
     }, (response)=>{
       console.log("error: ", response);
       this.component.presentAlert(response.error.message);
@@ -67,6 +91,7 @@ export class TorneoPage implements OnInit {
   leaveTorneo(){
     this.torneoService.leaveTorneo(this.name).subscribe((data) => {
       this.component.presentAlert(data.message);
+      
       this.joined = false;
     }, (error) => {
       console.log(error);

@@ -11,7 +11,6 @@ import { Token } from 'src/app/models/token';
 export class AuthService {
 
   ruta = environment.apiURL + '/auth/';
-  reload: Boolean = false;
   constructor(private http: HttpClient) { }
 
   login(user): Observable<Token> {

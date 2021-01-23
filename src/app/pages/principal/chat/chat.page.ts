@@ -35,10 +35,15 @@ export class ChatPage implements OnInit {
   @ViewChild('content') 
   private content;
 
+  private contentinBottom: Boolean = false;
+
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
 
   ngOnInit() {
+    if (this.chatService.name != undefined)
+      this.chatService.name = undefined;
+
     if (this.userService.user != undefined)
       this.usernameactual = this.userService.user.username;
 
@@ -270,8 +275,10 @@ export class ChatPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    if (!this.noleidos)
+    if (!this.noleidos){
       this.content.scrollToBottom(100);
+      this.contentinBottom = true;
+    }
 
     else{
         let y = document.getElementById(this.idnuevomensaje).offsetTop;
@@ -284,8 +291,19 @@ export class ChatPage implements OnInit {
   }
 
   scrollToBottom(){
-    let y = 
     this.content.scrollToBottom(100);
+  }
+
+  async checkBottom(event) {
+    const scrollElement = await event.target.getScrollElement();
+    const scrollHeight = scrollElement.scrollHeight - scrollElement.clientHeight;
+    const currentScrollDepth = event.detail.scrollTop;
+
+    if (scrollHeight > currentScrollDepth + 10)
+      this.contentinBottom = false;
+
+    else
+      this.contentinBottom = true;
   }
 
   loadData(event){

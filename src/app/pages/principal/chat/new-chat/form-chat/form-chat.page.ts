@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Validator } from 'src/app/models/validator'
-import { UserPageRoutingModule } from 'src/app/pages/principal/user/user-routing.module';
 import { ChatService } from 'src/app/services/chat.service';
 import { ComponentsService } from 'src/app/services/components.service';
 
@@ -59,7 +58,8 @@ export class FormChatPage implements OnInit {
 
       this.chatService.addChat(info).subscribe(data => {
         this.components.dismissLoading();
-        this.router.navigate(['/chat/grupo/' + data.name]);
+        this.chatService.name = data.name;
+        this.router.navigate(['/principal/chats']);
       }, error => {
         this.components.dismissLoading();
         if (error.status == 409){

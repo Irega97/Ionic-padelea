@@ -33,9 +33,12 @@ export class VueltasPage implements OnInit {
 
   ngOnInit(){
     this.name = this.router.url.split('/')[2];
+<<<<<<< HEAD
 
     
 
+=======
+>>>>>>> f22a12eaba09f97476fa0257428f4a9e8052903f
     this.torneoService.getVueltas(this.name).subscribe((data) => {
       this.vueltaActual = data.vueltaActual;
       if(this.vueltaActual > -1){
