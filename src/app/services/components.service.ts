@@ -8,14 +8,23 @@ export class ComponentsService {
 
   private load: Boolean = false;
   private toastload: Boolean = false;
+  private alertload: Boolean = false;
   constructor(private loadingController: LoadingController, private alertController: AlertController, private toastController: ToastController) { }
 
   async presentAlert(mensaje: string){
-    const alert = await this.alertController.create({
-      message: mensaje,
-      buttons: ['OK']
-    })
-    alert.present();
+    if (!this.alertload){
+      this.alertload = true;
+      const alert = await this.alertController.create({
+        message: mensaje,
+        buttons: [{
+          text: 'OK', 
+          handler: () => {
+            this.alertload = false;
+          }
+        }]
+      })
+      alert.present();
+    }
   }
 
   async presentToast(notification){

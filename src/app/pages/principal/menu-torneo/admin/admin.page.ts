@@ -23,6 +23,11 @@ export class AdminPage implements OnInit {
 
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
+
+    this.adminService.setName(this.name);
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
       this.length = data.length;

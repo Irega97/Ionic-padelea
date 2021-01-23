@@ -59,7 +59,7 @@ export class NotificacionesPage implements OnInit {
       this.router.navigate(['/user/' + notification.origen]);
     }
     else if (notification.type == "Torneo"){
-      this.router.navigate(['/torneo/' + notification.origen]);
+      this.router.navigate(['/torneo/' + notification.origen + "/home"]);
     }
     else if (notification.type == "Cola"){
       this.router.navigate(['/torneo/' + notification.otros + "/admin"]);

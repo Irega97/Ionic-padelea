@@ -37,8 +37,9 @@ export class MenuTorneoPage implements OnInit {
       else if (data.topic == "player-left" && data.jugador.torneo == this.name && data.jugador.username == this.userService.user.username)
         this.joined = false;
 
-      else if (data.topic == "nuevoJugadorCola" && data.torneo == this.name)
+      else if (data.topic == "nuevoJugadorCola" && data.torneo == this.name){
         this.cola++;
+      }
 
       else if (data.topic == "respondidoJugadorCola" && data.torneo == this.name)
         this.cola--;

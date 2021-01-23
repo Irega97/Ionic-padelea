@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import {Subject} from "rxjs";
+import { Subject } from "rxjs";
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { ComponentsService } from './components.service';

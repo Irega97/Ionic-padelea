@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content #content [scrollEvents]="true">
+<ion-content #content [scrollEvents]="true" (ionScroll)="checkBottom($event)">
   <ion-infinite-scroll position= "top" threshold="10px" (ionInfinite)="loadData($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
@@ -44,7 +44,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab *ngIf= "!contentinBottom" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color ="danger" (click) = "scrollToBottom()">
       <ion-icon name="arrow-down-circle-outline"></ion-icon>
     </ion-fab-button>

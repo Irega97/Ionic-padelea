@@ -19,7 +19,6 @@ export class VueltasPage implements OnInit {
 
   ngOnInit(){
     this.name = this.router.url.split('/')[2];
-
     this.torneoService.getVueltas(this.name).subscribe((data) => {
       this.vueltaActual = data.vueltaActual;
       if(this.vueltaActual > -1){
