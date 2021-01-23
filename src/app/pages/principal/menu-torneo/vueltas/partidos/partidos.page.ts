@@ -4,6 +4,7 @@ import { ComponentsService } from 'src/app/services/components.service';
 import { PartidosService } from 'src/app/services/partidos.service';
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
   selector: 'app-partidos',
   templateUrl: './partidos.page.html',
@@ -24,6 +25,9 @@ export class PartidosPage implements OnInit {
   juego4: number;
   juego5: number;
   juego6: number;
+
+  
+  
 
   constructor(private router: Router, private partidosService: PartidosService, private userService: UserService, private components: ComponentsService) { }
 

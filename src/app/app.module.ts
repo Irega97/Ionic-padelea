@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './shared/authconfig.interceptor';
 
+
 //import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular';
 import { Cloudinary } from 'cloudinary-core';
 
