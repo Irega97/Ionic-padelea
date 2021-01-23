@@ -288,8 +288,6 @@ export class ChatPage implements OnInit {
   scrollToBottom(){
     this.content.scrollToBottom(100);
   }
-<<<<<<< HEAD
-=======
 
   async checkBottom(event) {
     const scrollElement = await event.target.getScrollElement();
@@ -302,7 +300,6 @@ export class ChatPage implements OnInit {
     else
       this.contentinBottom = true;
   }
->>>>>>> bd3e71f934381e386ba8d3bd4d8e583052e02a0e
 
   loadData(event){
     if (this.messages.length < this.chat.mensajes.length){
