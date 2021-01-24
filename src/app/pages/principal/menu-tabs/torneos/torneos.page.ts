@@ -25,6 +25,7 @@ export class TorneosPage implements OnInit {
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoTorneo") {
         this.torneos.push(data.torneo);
+        console.log("Torneos", this.torneos);
       }
     });
   }

@@ -15,14 +15,8 @@
         <ion-label *ngIf="!partido.jugadores.pareja1.ganadores">{{partido.jugadores.pareja1[0].username}}/<br>{{partido.jugadores.pareja1[1].username}}</ion-label>
       </ion-col>
       <ion-col>
-        <ion-label *ngIf="!partido.edit; else editar">{{partido.resultado}}</ion-label>
+        <ion-label>{{partido.resultado}}</ion-label>
       </ion-col>
-      <ng-template #editar>
-        <ion-row>
-        <ion-input type="number" [(ngModel)]="juego1"></ion-input>-<ion-input type="number" [(ngModel)]="juego2"></ion-input><ion-input type="number" [(ngModel)]="juego3">
-        </ion-input>-<ion-input type="number" [(ngModel)]="juego4"></ion-input><ion-input type="number" [(ngModel)]="juego5"></ion-input>-<ion-input type="number" [(ngModel)]="juego6"></ion-input>
-      </ion-row>
-      </ng-template>
       <ion-label style="font-weight: bold; color: rgb(0, 89, 255);" *ngIf="partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
       <ion-label *ngIf="!partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
       <ion-button *ngIf="participa && !partido.edit" (click)="modificar(i)" fill="clear">
@@ -35,11 +29,21 @@
         <ion-icon name="close-outline"></ion-icon>
       </ion-button>
     </ion-item>
+    <ion-item *ngIf="partido.edit">
+      <ion-row>
+        <ion-label>SET 1:</ion-label> <ion-input type="number" [(ngModel)]="juego1"></ion-input>-<ion-input type="number" [(ngModel)]="juego2"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>SET 2:</ion-label> <ion-input type="number" [(ngModel)]="juego3"></ion-input>-<ion-input type="number" [(ngModel)]="juego4"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>SET 3:</ion-label> <ion-input type="number" [(ngModel)]="juego5"></ion-input>-<ion-input type="number" [(ngModel)]="juego6"></ion-input>
+      </ion-row>
+    </ion-item>
   </ion-list>
   <div style="text-align: center;">
     <ion-button *ngIf="participa"(click)="irChat()">IR A CHAT DEL GRUPO</ion-button>
   </div>
-
 
   <app-statistic-card *ngIf="classification && classification.length > 0" [classification]="classification">
   </app-statistic-card>
