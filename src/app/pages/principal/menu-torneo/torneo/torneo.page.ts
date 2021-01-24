@@ -21,7 +21,7 @@ export class TorneoPage implements OnInit {
   name;
   isAdmin;
   players;
-  joined: Boolean;
+  joined: boolean;
   fechaInicio;
   finInscripcion;
   ubicacion;
@@ -33,30 +33,6 @@ export class TorneoPage implements OnInit {
   
   constructor(private torneoService: TorneoService, private router: Router, private component: ComponentsService, 
               private events: EventsService, private userService: UserService, private socket: Socket, private locationService: LocationService) { }
-
-  /* ngOnInit() {
-    this.name = this.router.url.split('/')[2];
-    if(this.name.includes("%20")){
-      this.name = unescape(this.name);
-    }
-
-    this.torneoService.getTorneo(this.name).subscribe(data =>{
-      this.isAdmin = data.isAdmin;
-      this.joined = data.joined;
-      this.torneo = data.torneo;
-      this.players = data.torneo.players;
-      this.fechaInicio = new Date(this.torneo.fechaInicio);
-      this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
-      this.finInscripcion = new Date(this.torneo.finInscripcion);
-      this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
-      this.torneo.cola.forEach(cola => {
-        if (cola == this.userService.user._id)  
-          this.cola = true;
-        
-
-      
-      });
-  } */
 
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
@@ -104,8 +80,10 @@ export class TorneoPage implements OnInit {
       if (this.name == torneo)
         this.cola = false;
     });
+  }
 
-    this.loadMap();
+  ngAfterViewInit() {
+    if(this.ubicacion != null) this.loadMap();
   }
 
   loadMap(){
@@ -127,6 +105,8 @@ export class TorneoPage implements OnInit {
       }).addTo(this.map);
       let popup = '<b> ' + this.ubicacion.name + '</b><br> Aquí se juega tu torneo'
     marker([this.ubicacion.lat, this.ubicacion.lng]).addTo(this.map).bindPopup(popup).openPopup();
+
+
   }
 
   joinTorneo(){
