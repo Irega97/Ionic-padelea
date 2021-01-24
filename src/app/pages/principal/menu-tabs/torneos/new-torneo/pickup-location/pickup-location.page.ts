@@ -18,8 +18,10 @@ export class PickupLocationPage implements OnInit{
   map:Map;
   newMarker: Marker;
   ubication:any;
+  address:string;
   //lat: number;
   //lng: number;
+  dataToSend: any;
 
   
 constructor(private router:Router, private locationService: LocationService, public modalController: ModalController, /*private geocoder: NativeGeocoder*/ ) { }
@@ -81,8 +83,14 @@ getAddress(lat: number, long: number) {
 }*/
 
   async ConfirmPickup() {
+
     console.log("close apretado");
-    await this.modalController.dismiss(this.ubication);
+    this.dataToSend = {
+      name: this.address,
+      lat: this.ubication.lat,
+      lng: this.ubication.lng
+    }
+    await this.modalController.dismiss(this.dataToSend);
 
   }
 

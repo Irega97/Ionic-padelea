@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validator } from 'src/app/models/validator'
 import { ComponentsService } from 'src/app/services/components.service';
@@ -19,6 +19,7 @@ export class NewTorneoPage implements OnInit {
   pulsado = false;
   minDate;
   pickupLocation: string;
+  ubication: any;
  
 
 
@@ -48,14 +49,19 @@ export class NewTorneoPage implements OnInit {
     this.minDate = new Date().toISOString();
     this.torneoForm.reset();
     this.torneoForm.get('participa').setValue(true);
+    
   }
 
   async openModal() {
     const modal = await this.modalController.create({
     component: PickupLocationPage});
-    modal.onDidDismiss().then(data=>{
-    console.log(data);
-    })
+    modal.onDidDismiss().then((data: any)=>{
+      console.log("lo que mandaras al backend: ", data.data);
+      this.ubication = data.data;
+      if(this.ubication != null) {
+        this.torneoForm.get('ubicacion').setValue(this.ubication.name);
+      }
+    });
     return await modal.present();
    }
 
@@ -75,7 +81,7 @@ export class NewTorneoPage implements OnInit {
       "description": this.torneoForm.value.description,
       "fechaInicio": inicio,
       "finInscripcion": finIns,
-      "ubicacion": this.torneoForm.value.ubicacion,
+      "ubicacion": this.ubication,
       "reglamento": this.torneoForm.value.reglamento,
       "numRondas": this.torneoForm.value.numRondas,
       "maxPlayers": this.torneoForm.value.maxPlayers,
