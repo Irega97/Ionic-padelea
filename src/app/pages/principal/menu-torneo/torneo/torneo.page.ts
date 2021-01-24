@@ -5,7 +5,7 @@ import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
-import { MAP_URL} from 'src/environments/config'
+import { lat, lng } from 'src/environments/config'
 import { LocationService } from 'src/app/services/location.service';
 
 @Component({
@@ -22,10 +22,11 @@ export class TorneoPage implements OnInit {
   joined: boolean;
   fechaInicio;
   finInscripcion;
+  ubicacion;
 
   map: Map;
   lat: number;
-  long: number;
+  lng: number;
   
   constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
               private events: EventsService, private router: Router, private adminService: AdminService, private locationService: LocationService) { }
@@ -43,6 +44,7 @@ export class TorneoPage implements OnInit {
         this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
         this.finInscripcion = new Date(this.torneo.finInscripcion);
         this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+        this.ubicacion = data.torneo.ubicacion;
 
       this.loadMap();
       });
@@ -70,12 +72,14 @@ export class TorneoPage implements OnInit {
   ionViewDidEnter(){ 
   }
 
-  async loadMap(){
+  loadMap(){
+  //async loadMap(){
     this.map = new Map('mapId');
-    const position = await this.locationService.getLocation();
+    /*const position = await this.locationService.getLocation();
     this.lat = position.coords.latitude;
-    this.long = position.coords.longitude;
-    this.map.setView([this.lat, this.long], 16)
+    this.lng = position.coords.longitude;*/
+
+    this.map.setView([lat, lng], 16)
     tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,

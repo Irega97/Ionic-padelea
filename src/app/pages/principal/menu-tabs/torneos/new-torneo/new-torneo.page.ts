@@ -50,6 +50,15 @@ export class NewTorneoPage implements OnInit {
     this.torneoForm.get('participa').setValue(true);
   }
 
+  async openModal() {
+    const modal = await this.modalController.create({
+    component: PickupLocationPage});
+    modal.onDidDismiss().then(data=>{
+    console.log(data);
+    })
+    return await modal.present();
+   }
+
   submitTorneo(){
     this.pulsado=true
     if(this.torneoForm.invalid){
@@ -85,14 +94,4 @@ export class NewTorneoPage implements OnInit {
       }
     });
   }
-
-  async openModal() {
-    const modal = await this.modalController.create({
-    component: PickupLocationPage});
-    modal.onDidDismiss().then(data=>{
-      console.log(data)
-      })
-    return await modal.present();
-   }
-   
 }

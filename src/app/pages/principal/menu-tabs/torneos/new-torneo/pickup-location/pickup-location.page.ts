@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Map,tileLayer,marker} from 'leaflet';
+import {Map,tileLayer,marker, Marker} from 'leaflet';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service'
-import { MAP_URL } from 'src/environments/config';
+import { lat, lng } from 'src/environments/config';
 import { ModalController } from '@ionic/angular';
 
 //import { NativeGeocoder ,NativeGeocoderOptions} from "@ionic-native/native-geocoder";
@@ -16,10 +16,11 @@ import { ModalController } from '@ionic/angular';
 export class PickupLocationPage implements OnInit{
 
   map:Map;
-  newMarker:any;
-  address:string[];
-  lat: number;
-  lng: number;
+  newMarker: Marker;
+  ubication:any;
+  //lat: number;
+  //lng: number;
+
   
 constructor(private router:Router, private locationService: LocationService, public modalController: ModalController, /*private geocoder: NativeGeocoder*/ ) { }
   
@@ -29,12 +30,12 @@ ngOnInit() {
   ionViewDidEnter(){
     this.loadMap();
   }
-  async loadMap(){
+  loadMap(){
   this.map = new Map("mapId");
-  const position = await this.locationService.getLocation();
+  /*const position = await this.locationService.getLocation();
   this.lat = position.coords.latitude;
-  this.lng = position.coords.longitude;
-  this.map.setView([this.lat, this.lng], 11)
+  this.lng = position.coords.longitude;*/
+  this.map.setView([lat, lng], 10)
 
   tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -43,7 +44,9 @@ ngOnInit() {
     tileSize: 512,
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
-      }).addTo(this.map);   
+      }).addTo(this.map);
+
+    this.locatePosition();
   }
 
 locatePosition() {
@@ -52,17 +55,21 @@ locatePosition() {
       draggable: true
     }).addTo(this.map);
     this.newMarker.bindPopup("Estas Aquí").openPopup();
-    //this.getAddress(e.latitude, e.longitude); 
+    //this.getAddress(e.latitude, e.longitude); // This line is added
+    const position = this.newMarker.getLatLng()
+      this.ubication = position;
  
     this.newMarker.on("dragend", () => {
-      const position = this.newMarker.getLatLng();
-      //this.getAddress(position.lat, position.lng);
-     
+      const position = this.newMarker.getLatLng()
+      this.ubication = position;
+      //this.getAddress(position.lat, position.lng);// This line is added
+ 
     });
   });
 }
 
-/*getAddress(lat: number, long: number) {
+/*
+getAddress(lat: number, long: number) {
   let options: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
@@ -73,11 +80,13 @@ locatePosition() {
   });
 }*/
 
-  /*goBack(){
-    this.router.navigate(["home"]);
-  }*/
-  async closeModal() {
+  async ConfirmPickup() {
     console.log("close apretado");
-    await this.modalController.dismiss(this.address);
+    await this.modalController.dismiss(this.ubication);
+
+  }
+
+  async closeModal() {
+    await this.modalController.dismiss();
   }
 }
