@@ -19,7 +19,7 @@
       </ion-col>
       <ion-label style="font-weight: bold; color: rgb(0, 89, 255);" *ngIf="partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
       <ion-label *ngIf="!partido.jugadores.pareja2.ganadores">{{partido.jugadores.pareja2[0].username}}/<br>{{partido.jugadores.pareja2[1].username}}</ion-label>
-      <ion-button *ngIf="participa && !partido.edit" (click)="modificar(i)" fill="clear">
+      <ion-button *ngIf="participa && !partido.edit && vueltaAbierta" (click)="modificar(i)" fill="clear">
         <ion-icon name="create-outline"></ion-icon>
       </ion-button>
       <ion-button *ngIf="participa && partido.edit" (click)="enviar(i)" fill="clear" size="small">

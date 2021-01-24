@@ -25,7 +25,8 @@ export class PartidosPage implements OnInit {
   juego4: number;
   juego5: number;
   juego6: number;
-
+  vueltaActual: any;
+  vueltaAbierta: boolean;
   
   
 
@@ -35,6 +36,17 @@ export class PartidosPage implements OnInit {
     this.name = this.router.url.split('/')[2];
     this.vuelta = this.router.url.split('/')[4];
     this.grupo = this.router.url.split('/')[5];
+
+    if (this.router.getCurrentNavigation().extras.state != undefined){
+      this.vueltaActual = this.router.getCurrentNavigation().extras.state.vueltaActual;
+      console.log("vuelta: ", this.vuelta, ", actual: ", this.vueltaActual);
+      let v;
+      if(this.vuelta == 'Previa') v = 0;
+      else v = this.vuelta.split('%20')[1];
+      if(v.toString() == this.vueltaActual.toString()){
+        this.vueltaAbierta = true;
+      } else this.vueltaAbierta = false;
+    }
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
       this.idTorneo = data.idTorneo;

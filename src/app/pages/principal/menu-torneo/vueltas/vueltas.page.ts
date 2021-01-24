@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import {  PartidosService } from '../../../../services/partidos.service';
 import {User} from '../../../../models/user';
@@ -22,6 +22,7 @@ export class VueltasPage implements OnInit {
   nameGrupo:string;
   nameVuelta:string;
   players=[];
+  lastVuelta: number;
 
   constructor(private router: Router, private torneoService: TorneoService, private partidoService:PartidosService) {}
 
@@ -30,6 +31,7 @@ export class VueltasPage implements OnInit {
     this.torneoService.getVueltas(this.name).subscribe((data) => {
       console.log("jijiji: ", data);
       this.vueltaActual = data.vueltaActual;
+      this.lastVuelta = data.vueltaActual;
       if(this.vueltaActual > -1){
         this.vueltas.push(data.vueltas.previa);
         this.vueltas[0].name = "Previa";
@@ -64,6 +66,11 @@ export class VueltasPage implements OnInit {
       this.name = unescape(this.name);
     }
     
-    this.router.navigate(['torneo/' + this.name + "/vueltas/" + this.vueltas[this.vueltaActual].name + "/" + groupName]);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        vueltaActual: this.lastVuelta
+      }
+    };
+    this.router.navigate(['torneo/' + this.name + "/vueltas/" + this.vueltas[this.vueltaActual].name + "/" + groupName], navigationExtras);
   }
 }
