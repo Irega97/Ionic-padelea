@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import {Subject} from "rxjs";
+import { Subject } from "rxjs";
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { ComponentsService } from './components.service';
@@ -42,7 +42,34 @@ export class EventsService {
         "topic": "nuevaNotificacion",
         "notification": notification
       });
+      if (notification.type == "Cola"){
+        this.publish({
+          "topic": "nuevoJugadorCola",
+          "torneo": notification.otros,
+          "jugador": {
+            "username": notification.origen,
+            "image": notification.image
+          }
+        })
+      }
     });
+
+    this.socket.on('respondidoUsuarioCola', info => {
+      this.publish({
+        "topic": "deleteNotification",
+        "notification": {
+          "type": "Cola",
+          "origen": info.user,
+          "otros": info.torneo
+        }
+      })
+
+      this.publish({
+        "topic": "respondidoJugadorCola",
+        "torneo": info.torneo,
+        "jugador": info.user
+      })
+    })
 
     this.socket.on('nuevoUsuario', usuario => {
       this.publish({
@@ -134,7 +161,6 @@ export class EventsService {
 
   public disconnectSocket(){
     localStorage.removeItem("ACCESS_TOKEN");
-    this.authService.reload = true;
     this.conectado = false;
     this.socket.disconnect();
   }

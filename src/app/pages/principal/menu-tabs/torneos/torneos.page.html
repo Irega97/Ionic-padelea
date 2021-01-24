@@ -11,9 +11,9 @@
   </div> 
   <ion-list *ngIf = "torneos && torneosSearch.length > 0; else noTorneos">
     <ion-item *ngFor="let torneo of torneosSearch" (click)="goTorneo(torneo.name)"><!-- [routerLink] = "['/torneo', torneo.name]"> -->
-      <!-- <ion-avatar slot="start">
-        <ion-img [src]="user.image"></ion-img>
-      </ion-avatar> -->
+      <ion-avatar slot="start">
+        <ion-img [src]="torneo.image"></ion-img>
+      </ion-avatar>
       <ion-label>
         {{torneo.name}}
       </ion-label>
@@ -24,12 +24,10 @@
       <p class ="ion-text-center">No hay torneos disponibles</p>
     </ion-text>
   </ng-template>
-    <div>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button [routerLink] = "['/principal/torneos/new']">
-          <ion-icon name="add-circle-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button [routerLink] = "['/principal/torneos/new']">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
 </ion-content>

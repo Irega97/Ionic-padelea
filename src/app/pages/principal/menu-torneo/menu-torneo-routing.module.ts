@@ -9,13 +9,9 @@ const routes: Routes = [
     component: MenuTorneoPage,
     children: [
       {
-        path: '',
+        path: 'home',
         loadChildren: () => import('src/app/pages/principal/menu-torneo/torneo/torneo.module').then(m => m.TorneoPageModule)
       },
-      {
-        path: 'reglamento',
-        loadChildren: () => import('./reglamento/reglamento.module').then(m => m.ReglamentoPageModule)
-      }, 
       {
         path: 'ranking',
         loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingPageModule)
@@ -25,12 +21,20 @@ const routes: Routes = [
         loadChildren: () => import('./vueltas/vueltas.module').then( m => m.VueltasPageModule)
       },
       {
+        path: 'me',
+        loadChildren: () => import('./miespacio/miespacio.module').then(m => m.MiespacioPageModule)
+      }, 
+      {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
       }
     ]
+  },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
   }
-
 ];
 
 @NgModule({

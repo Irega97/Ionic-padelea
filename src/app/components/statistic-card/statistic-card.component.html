@@ -1,0 +1,282 @@
+<ion-content>
+  
+  <ion-grid fixed >
+    <ion-row >
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable >
+            <ion-label>
+              Jugador
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              PJ
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              PG
+            </ion-label>
+          </ion-segment>
+        </ion-col>
+      </ion-item>
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            PP
+          </ion-label>
+        </ion-segment>
+
+
+      </ion-col>
+     </ion-item>   
+      
+    <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            SG
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+    </ion-item>  
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            SP
+          </ion-label>
+        </ion-segment>
+        
+      </ion-col>
+     </ion-item>   
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            JG
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+     </ion-item>   
+
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable>
+            <ion-label>
+              JP
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>  
+
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable>
+            <ion-label>
+              JDif
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>  
+      
+    <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            P
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+    </ion-item> 
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            PE
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+     </ion-item>   
+    </ion-row>
+
+    
+
+    
+
+  <ion-list *ngFor="let clasi of classification, let i = index"  >
+
+    <ion-row >
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable >
+            <ion-item>
+              <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
+              <ion-label>
+                {{clasi.player.username}}
+              </ion-label>
+            </ion-item>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              {{clasi.statistics.partidosJugados}}
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              {{clasi.statistics.partidosGanados}}
+            </ion-label>
+          </ion-segment>
+        </ion-col>
+      </ion-item>
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.partidosPerdidos}}
+          </ion-label>
+        </ion-segment>
+
+
+      </ion-col>
+     </ion-item>   
+      
+    <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.setsGanados}}
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+    </ion-item>  
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.setsPerdidos}}
+          </ion-label>
+        </ion-segment>
+        
+      </ion-col>
+     </ion-item>   
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.juegosGanados}}
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+     </ion-item>   
+
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable>
+            <ion-label>
+              {{clasi.statistics.juegosPerdidos}}
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>  
+
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable>
+            <ion-label>
+              {{clasi.statistics.juegosDif}}
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item> 
+      
+    <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.puntos}}
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+    </ion-item> 
+      
+     <ion-item>
+      <ion-col>
+
+        <ion-segment scrollable>
+          <ion-label>
+            {{clasi.statistics.puntosExtra}}
+          </ion-label>
+        </ion-segment>
+
+      </ion-col>
+     </ion-item>   
+    </ion-row>
+
+    
+
+    </ion-list>
+  </ion-grid>
+
+</ion-content>

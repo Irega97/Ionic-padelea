@@ -49,6 +49,10 @@ const routes: Routes = [
             loadChildren: () => import('src/app/pages/principal/chat/chat.module').then(m => m.ChatPageModule)
           }
         ]
+      },
+      {
+        path: 'nuevo',
+          loadChildren: () =>  import('src/app/pages/principal/chat/new-chat/new-chat.module').then(m => m.NewChatPageModule)
       }
     ]
   },

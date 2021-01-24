@@ -1,9 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>ranking</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="ios">Ranking</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <app-statistic-card *ngIf="ranking && ranking.length > 0" [classification]="ranking"></app-statistic-card>
 </ion-content>

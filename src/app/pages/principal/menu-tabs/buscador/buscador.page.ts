@@ -25,18 +25,26 @@ export class BuscadorPage implements OnInit {
     });
 
     this.events.getObservable().subscribe((data)=> {
-      /*if (data.topic == "loginUser") {
-        this.cargando = true;
-        this.userService.getUsers().subscribe((data) => {
-          this.users = data;
-          this.usersSearch = this.users;   
-          this.cargando = false;   
-        });
-      }*/
-
       if (data.topic == "nuevoUsuario") {
         if (data.user.username != this.userService.user.username){
           this.users.push(data.user);
+        }
+      }
+
+      else if (data.topic == "disconnectUser"){
+        this.users.push(data.user);
+        this.usersSearch = this.users;
+      }
+
+      else if (data.topic == "updateUser"){
+        if (this.users != undefined){
+          this.users.forEach(user => {
+            if (user.username == data.user.username){
+              let i = this.users.indexOf(user);
+              this.users.splice(i, 1);
+              this.usersSearch = this.users;
+            }
+          })
         }
       }
     });

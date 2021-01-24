@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,7 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 export class MenuTabsPage implements OnInit {
 
   chatsSinLeer: string[] = [];
-  constructor(private chatService: ChatService, private events: EventsService, private userService: UserService) { }
+  constructor(private chatService: ChatService, private events: EventsService, private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     this.chatService.getChatsSinLeer().subscribe(data => {
@@ -44,5 +46,10 @@ export class MenuTabsPage implements OnInit {
         })
       }
     })
+  }
+
+  ionViewDidEnter(){
+    if (this.chatService.name != undefined)
+      this.router.navigate(['/chat/grupo/' + this.chatService.name]);
   }
 }

@@ -13,12 +13,11 @@
           <h3 *ngIf="linea">En línea</h3>
         </ion-label>
       </ion-item>
-      <!-- <ion-icon name="ellipsis-vertical-outline"></ion-icon> -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content #content [scrollEvents]="true">
+<ion-content #content [scrollEvents]="true" (ionScroll)="checkBottom($event)">
   <ion-infinite-scroll position= "top" threshold="10px" (ionInfinite)="loadData($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
@@ -33,7 +32,7 @@
         <div class="time" text-right><br>{{ message.date | date:'short' }}</div>
       </ion-col>
 
-      <ion-col *ngIf="!message.sender" class="message conf">
+      <ion-col [id]="message.id"*ngIf="!message.sender" class="message conf">
         <span>{{ message.body }}</span>
         <div *ngIf="message.date" class="time" text-right><br>{{ message.date | date:'short' }}</div>
       </ion-col>
@@ -44,13 +43,19 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-fab *ngIf= "!contentinBottom" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color ="danger" (click) = "scrollToBottom()">
+      <ion-icon name="arrow-down-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar color="light">
     <ion-row align-items-center>
       <ion-col size="10">
-        <ion-textarea auto-grow class="message-input" rows="1" [(ngModel)]="message"></ion-textarea>
+        <ion-textarea auto-grow class="message-input" rows="1" [(ngModel)]="message" (keypress)="enviarMensaje($event)"></ion-textarea>
       </ion-col>
       <ion-col size="2">
         <ion-button expand="block" fill="clear" color="primary" class="msg-btn"

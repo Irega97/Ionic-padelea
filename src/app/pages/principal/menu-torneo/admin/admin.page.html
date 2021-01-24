@@ -3,19 +3,30 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
     </ion-buttons>
-    <ion-title>Configuración</ion-title>
+    <ion-title mode="ios">Configuración</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-button *ngIf="!empezado; else Empezado" (click)="empezarPrevia()">
+    <ion-label>EMPEZAR PREVIA</ion-label>
+  </ion-button>
+  <ng-template #Empezado>
+    <ion-button (click)="finalizarRonda()">
+      <ion-label>FINALIZAR RONDA ACTUAL</ion-label>
+    </ion-button>
+  </ng-template>
   <ion-row>
     <ion-col>
       <ion-list *ngIf="cola && cola.length > 0; else noPlayersCola">
+        <ion-list-header>
+          JUGADORES EN COLA
+        </ion-list-header>
         <ion-item *ngFor="let player of cola">
           <ion-avatar slot="start">
             <ion-img [src]="player.image"></ion-img>
           </ion-avatar>
-          <ion-label>{{player.name}}</ion-label>
+          <ion-label>{{player.username}}</ion-label>
           <ion-button (click)="acceptPlayer(player.username)" slot="end" fill="clear"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
           <ion-button (click)="rejectPlayer(player.username)" slot="end" fill="clear"><ion-icon name="close-outline"></ion-icon></ion-button>
         </ion-item>

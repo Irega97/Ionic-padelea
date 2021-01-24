@@ -3,17 +3,79 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">VUELTAS</ion-title>
+    <ion-title mode="ios">Vueltas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div *ngIf="vueltas && vueltas.length > 0; else noEmpezado">
+    <ion-item>
+      <ion-select interface="popover" (ionChange)="checkValue($event)" [value]="vueltas.length - 1">
+        <ion-select-option *ngFor="let vuelta of vueltas; let i = index" [value]="i">{{vuelta.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-title>FECHA FIN: {{fechaFin}}</ion-title>
+    <ion-list>
+      <ion-item *ngFor="let grupo of grupos">
+        <ion-label slot="start">GRUPO {{grupo.groupName}}</ion-label>
+        <ion-button slot="end" (click)="goInformacion(grupo.groupName)">VER INFORMACIÓN</ion-button>
+      </ion-item>
+      <ion-item *ngFor="let grupo of grupos">
+        <ion-grid fixed >
+          <ion-row >
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable >
+                  <ion-label>
+                    Jugador
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable>
+                  <ion-label>
+                    Puntos
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>  
+          </ion-row>
+        <ion-list *ngFor="let clasi of grupo.classification">
+          <ion-row >
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable >
+                  <ion-item>
+                    <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
+                    <ion-label>
+                      {{clasi.player.username}}
+                    </ion-label>
+                  </ion-item>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable>
+                  <ion-label>
+                    {{clasi.statistics.puntos}}
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+          </ion-row>
+        </ion-list>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
 
-  <ion-item>
-    <ion-select (ionChange)="checkValue($event)" placeholder="Selecciona una vuelta">
-      <ion-select-option [value]="0">Previa</ion-select-option>
-      <ion-select-option *ngFor="let vuelta of vueltas" [value]="vuelta">Vuelta {{vuelta}}</ion-select-option>
-    </ion-select>
-  </ion-item>
+  <ng-template #noEmpezado>
+    <ion-text>
+      <p class ="ion-text-center">El Torneo aún no ha empezado</p>
+    </ion-text>
+  </ng-template>
 
 </ion-content>

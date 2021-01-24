@@ -51,7 +51,11 @@ export class PrincipalPage implements OnInit {
   }
 
   logout(){
-    this.authService.signout().subscribe(data =>{
+    this.authService.signout().subscribe(() =>{
+      this.events.publish({
+        "topic":"disconnectUser",
+        "user": this.userService.user
+      })
       this.userService.user = undefined;
       this.userService.i = 0;
       this.events.disconnectSocket();

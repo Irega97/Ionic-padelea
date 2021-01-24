@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { VueltasPageRoutingModule } from './vueltas-routing.module';
-
+import {ComponentsModule} from '../../../../components/components.module';
 import { VueltasPage } from './vueltas.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { VueltasPage } from './vueltas.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    VueltasPageRoutingModule
+    VueltasPageRoutingModule,
+    ComponentsModule,
   ],
   declarations: [VueltasPage]
 })

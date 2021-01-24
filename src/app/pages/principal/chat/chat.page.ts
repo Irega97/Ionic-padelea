@@ -27,6 +27,7 @@ export class ChatPage implements OnInit {
   ultimoleido: number;
   chat;
   leer: Boolean = true;
+  idnuevomensaje: string;
 
   @ViewChild(IonInfiniteScroll) 
   infiniteScroll: IonInfiniteScroll;
@@ -34,10 +35,15 @@ export class ChatPage implements OnInit {
   @ViewChild('content') 
   private content;
 
+  private contentinBottom: Boolean = false;
+
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router, private userService: UserService, private events: EventsService,
     private socket: Socket) { }
 
   ngOnInit() {
+    if (this.chatService.name != undefined)
+      this.chatService.name = undefined;
+
     if (this.userService.user != undefined)
       this.usernameactual = this.userService.user.username;
 
@@ -70,7 +76,6 @@ export class ChatPage implements OnInit {
       }
 
       else if (data.topic == "nuevoMensaje" && data.mensaje.chat == this.chat._id && data.mensaje.mensaje.sender != this.usernameactual){
-        console.log("Entra");
         this.chat.mensajes.push(data.mensaje.mensaje);
         if (this.messages[this.messages.length - 1] != data.mensaje.mensaje)
           this.messages.push(data.mensaje.mensaje);
@@ -141,9 +146,11 @@ export class ChatPage implements OnInit {
 
             if (this.ultimoleido < this.chat.mensajes.length){
               let messageconf = {
-                "body": "Nuevos Mensajes"
+                "body": "Nuevos Mensajes",
+                "id": "nuevomensaje"
               }
-  
+
+              this.idnuevomensaje = "nuevomensaje";
               this.messages.splice(this.ultimoleido, 0, messageconf);
               this.ultimoleido = this.chat.mensajes.length;
               this.noleidos = true;
@@ -165,9 +172,11 @@ export class ChatPage implements OnInit {
             
             else{
               let messageconf = {
-                "body": "Nuevos Mensajes"
+                "body": "Nuevos Mensajes",
+                "id": "nuevomensaje"
               }
 
+              this.idnuevomensaje = "nuevomensaje";
               if (this.ultimoleido == 0){
                 this.messages = data.chat.chat.mensajes;
                 this.messages.splice(0, 0, messageconf);
@@ -241,9 +250,11 @@ export class ChatPage implements OnInit {
     if (!this.leer){
       if (this.ultimoleido < this.messages.length){
         let messageconf = {
-          "body": "Nuevos Mensajes"
+          "body": "Nuevos Mensajes",
+          "id": "nuevomensaje"
         }
 
+        this.idnuevomensaje = "nuevomensaje";
         this.messages.splice(this.ultimoleido, 0, messageconf);
         this.noleidos = true;
         let info = {
@@ -264,12 +275,35 @@ export class ChatPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    if (!this.noleidos)
+    if (!this.noleidos){
       this.content.scrollToBottom(100);
+      this.contentinBottom = true;
+    }
+
+    else{
+        let y = document.getElementById(this.idnuevomensaje).offsetTop;
+        this.content.scrollByPoint(0, y, 100);
+    }
   }
 
   ionViewDidLeave(){
     this.leer = false;
+  }
+
+  scrollToBottom(){
+    this.content.scrollToBottom(100);
+  }
+
+  async checkBottom(event) {
+    const scrollElement = await event.target.getScrollElement();
+    const scrollHeight = scrollElement.scrollHeight - scrollElement.clientHeight;
+    const currentScrollDepth = event.detail.scrollTop;
+
+    if (scrollHeight > currentScrollDepth + 10)
+      this.contentinBottom = false;
+
+    else
+      this.contentinBottom = true;
   }
 
   loadData(event){
@@ -318,6 +352,13 @@ export class ChatPage implements OnInit {
       this.router.navigate(['chat/grupo/' + this.name + '/informacion'], navigationExtras);
   }
 
+  enviarMensaje(event){
+    if (event.keyCode == 13 && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
   sendMessage(){
     if (this.message != ""){
       let vectorleido: string[] = [];
@@ -328,21 +369,21 @@ export class ChatPage implements OnInit {
         date: new Date(Date.now()),
         leidos: vectorleido,
       }
-
-      this.content.scrollToBottom(100);
+      
       this.message = "";
       if (this.nuevo){
         let info = {
           users: this.participantes,
           mensaje: messageToSend,
         };
+
         this.messages.push(messageToSend);
         this.messages[0].icon = "time-outline";
         this.chatService.addChat(info).subscribe(data =>{
           this.nuevo = false;
           this.chat = data;
-         this.ultimoleido = 1;
-          //this.messages = this.chat.mensajes;
+          this.ultimoleido = 1;
+          this.messages = this.chat.mensajes;
           this.messages[0].icon = "checkmark-outline";
         })
       }
@@ -353,6 +394,7 @@ export class ChatPage implements OnInit {
             if (mensaje.sender == undefined && mensaje.body == "Nuevos Mensajes"){
               let i = this.messages.indexOf(mensaje);
               this.messages.splice(i, 1);
+              this.idnuevomensaje = undefined;
             }
           })
         }
@@ -360,11 +402,13 @@ export class ChatPage implements OnInit {
         this.chat.mensajes.push(messageToSend);
         if (this.messages[this.messages.length - 1] != messageToSend)
           this.messages.push(messageToSend);
+
         this.messages[this.messages.length - 1].icon = "time-outline";
         this.chatService.sendMessage(this.chat._id, messageToSend).subscribe(() => {
+          this.content.scrollToBottom(100);
           let enc: Boolean = false;
           let i: number = 1;
-          while (!enc){
+          while (i < this.messages.length && !enc){
             if (this.messages[this.messages.length - i]. sender == this.userService.user.username){
               if (this.messages[this.messages.length - i].icon == "time-outline")
                 this.messages[this.messages.length - i].icon = "checkmark-outline";

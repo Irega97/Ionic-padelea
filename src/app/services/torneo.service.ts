@@ -38,4 +38,8 @@ export class TorneoService {
   getVueltas(name: string): Observable<any>{
     return this.http.get<any>(this.ruta + name + "/vueltas");
   }
+
+  getRanking(name: string): Observable<any>{
+    return this.http.get<any>(this.ruta + "ranking/" + name);
+  }
 }

@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 export class AdminService {
 
   ruta;
-
   constructor(private http: HttpClient) { }
 
   setName(name: String){
@@ -22,5 +21,13 @@ export class AdminService {
 
   acceptPlayers(response: any): Observable<any>{
     return this.http.post<any>(this.ruta + 'cola', response);
+  }
+
+  empezarPrevia(): Observable<any>{
+    return this.http.get<any>(this.ruta + 'empezarprevia');
+  }
+
+  finalizarRonda(): Observable<any>{
+    return this.http.get<any>(this.ruta + 'finalizarRonda');
   }
 }

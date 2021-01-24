@@ -1,0 +1,67 @@
+<ion-content>
+  
+  <ion-grid fixed >
+    <ion-row >
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable >
+            <ion-label>
+              Jugador
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              Puntos
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>  
+    </ion-row>
+
+    
+<ion-list *ngFor="let clasi of classification">
+
+    <ion-row >
+      <ion-item>
+        <ion-col>
+
+          <ion-segment scrollable >
+            <ion-item>
+              <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
+              <ion-label>
+                {{clasi.player.username}}
+              </ion-label>
+            </ion-item>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+      <ion-item>
+        <ion-col>
+          <ion-segment scrollable>
+            <ion-label>
+              {{clasi.statistics.puntos}}
+            </ion-label>
+          </ion-segment>
+
+        </ion-col>
+      </ion-item>
+      
+  
+    </ion-row>
+
+    
+
+    </ion-list>
+  </ion-grid>
+
+</ion-content>

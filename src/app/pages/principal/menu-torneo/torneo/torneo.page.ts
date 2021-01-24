@@ -1,12 +1,14 @@
 import { EventsService } from '../../../../services/events.service';
 import { ComponentsService } from '../../../../services/components.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
 import { lat, lng } from 'src/environments/config'
 import { LocationService } from 'src/app/services/location.service';
+import { UserService } from 'src/app/services/user.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-torneo',
@@ -19,34 +21,62 @@ export class TorneoPage implements OnInit {
   name;
   isAdmin;
   players;
-  joined: boolean;
+  joined: Boolean;
   fechaInicio;
   finInscripcion;
   ubicacion;
+  cola: Boolean = false;
 
   map: Map;
   lat: number;
   lng: number;
   
-  constructor(private torneoService: TorneoService, private route: ActivatedRoute, private component: ComponentsService, 
-              private events: EventsService, private router: Router, private adminService: AdminService, private locationService: LocationService) { }
+  constructor(private torneoService: TorneoService, private router: Router, private component: ComponentsService, 
+              private events: EventsService, private userService: UserService, private socket: Socket, private locationService: LocationService) { }
+
+  /* ngOnInit() {
+    this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
+
+    this.torneoService.getTorneo(this.name).subscribe(data =>{
+      this.isAdmin = data.isAdmin;
+      this.joined = data.joined;
+      this.torneo = data.torneo;
+      this.players = data.torneo.players;
+      this.fechaInicio = new Date(this.torneo.fechaInicio);
+      this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+      this.finInscripcion = new Date(this.torneo.finInscripcion);
+      this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+      this.torneo.cola.forEach(cola => {
+        if (cola == this.userService.user._id)  
+          this.cola = true;
+        
+
+      
+      });
+  } */
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
-      this.name = paramMap.get('name');
-      this.adminService.setName(this.name)
-      this.torneoService.getTorneo(this.name).subscribe(data =>{
-        this.isAdmin = data.isAdmin;
-        this.joined = data.joined;
-        this.torneo = data.torneo;
-        this.players = data.torneo.players;
-        this.fechaInicio = new Date(this.torneo.fechaInicio);
-        this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
-        this.finInscripcion = new Date(this.torneo.finInscripcion);
-        this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
-        this.ubicacion = data.torneo.ubicacion;
+    this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
+    }
 
-      this.loadMap();
+    this.torneoService.getTorneo(this.name).subscribe(data =>{
+      this.isAdmin = data.isAdmin;
+      this.joined = data.joined;
+      this.torneo = data.torneo;
+      this.players = data.torneo.players;
+      this.fechaInicio = new Date(this.torneo.fechaInicio);
+      this.fechaInicio = this.fechaInicio.toLocaleString().split(' ');
+      this.finInscripcion = new Date(this.torneo.finInscripcion);
+      this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
+      this.ubicacion = data.torneo.ubicacion;
+      this.torneo.cola.forEach(cola => {
+        if (cola == this.userService.user._id)  
+          this.cola = true;
       });
     });
 
@@ -56,20 +86,26 @@ export class TorneoPage implements OnInit {
       } 
       
       else if (data.topic == "player-left" && data.jugador.torneo == this.name){
-        this.torneoService.getTorneo(this.name).subscribe(data => {
-          this.players = data.torneo.players;
-        })
-        /*this.players = this.players.filter(player =>{
+        this.players.forEach(player =>{
           if(player.username == data.jugador.username){
             let i = this.players.indexOf(player);
             this.players.splice(i, 1);
           }
-        })*/
+        });
       }
     });
-  }
-  
-  ionViewDidEnter(){ 
+
+    this.socket.on('aceptadoCola', torneo => {
+      if (this.name == torneo)
+        this.joined = true;
+    });
+
+    this.socket.on('rechazadoCola', torneo => {
+      if (this.name == torneo)
+        this.cola = false;
+    });
+
+    this.loadMap();
   }
 
   loadMap(){
@@ -96,7 +132,13 @@ export class TorneoPage implements OnInit {
   joinTorneo(){
     this.torneoService.joinTorneo(this.name).subscribe((data) => {
       this.component.presentAlert(data.message);
-      this.joined = true;
+      if (this.torneo.type == "public" && Date.parse(this.torneo.finInscripcion.toString()) > Date.now())
+        this.joined = true;
+
+      else{
+        this.cola = true;
+      }
+
     }, (response)=>{
       console.log("error: ", response);
       this.component.presentAlert(response.error.message);
@@ -106,6 +148,7 @@ export class TorneoPage implements OnInit {
   leaveTorneo(){
     this.torneoService.leaveTorneo(this.name).subscribe((data) => {
       this.component.presentAlert(data.message);
+      
       this.joined = false;
     }, (error) => {
       console.log(error);

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from './../../../../services/admin.service';
 import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from 'src/app/services/components.service';
+import { TorneoService } from 'src/app/services/torneo.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,27 +12,68 @@ import { ComponentsService } from 'src/app/services/components.service';
 })
 export class AdminPage implements OnInit {
 
-  cola: [];
+  cola = [];
   max;
   length;
+  name: string;
+  empezado: Boolean = false;
 
-  constructor(private adminService: AdminService, private route: ActivatedRoute, private router: Router, private component: ComponentsService, private events: EventsService) { }
+  constructor(private adminService: AdminService, private router: Router, private component: ComponentsService, 
+    private events: EventsService, private torneoService: TorneoService) { }
 
   ngOnInit() {
-    if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.max =  this.router.getCurrentNavigation().extras.state.maxPlayers;
-      this.length = this.router.getCurrentNavigation().extras.state.playersLength;
+    this.name = this.router.url.split('/')[2];
+    if(this.name.includes("%20")){
+      this.name = unescape(this.name);
     }
+
+    this.adminService.setName(this.name);
     this.adminService.getCola().subscribe((data) => {
       this.cola = data.cola;
+      this.length = data.length;
+      this.max = data.max;
+      this.empezado = data.torneoIniciado
     });
+
     this.events.getObservable().subscribe((data) => {
-      if(data.topic == "nuevoJugador"){
-        this.adminService.getCola().subscribe((data) => {
-          this.cola = data.cola;
+      if (data.topic == "nuevoJugadorCola" && data.torneo == this.name)
+        this.cola.push(data.jugador);
+
+      else if (data.topic == "respondidoJugadorCola" && data.torneo == this.name){
+        this.cola.forEach(jugador => {
+          if (jugador.username == data.jugador){
+            let i = this.cola.indexOf(jugador);
+            this.cola.splice(i, 1);
+          }
         })
       }
     })
+  }
+
+  empezarPrevia(){
+    if (this.length > 3){
+      this.adminService.empezarPrevia().subscribe(data => {
+        this.empezado = true;
+        this.component.presentAlert(data.message);
+      })
+    }
+
+    else
+      this.component.presentAlert("Hay que ser como mínimo 4 para empezar el torneo");
+  }
+
+  finalizarRonda(){
+    if (this.length % 4 == 0){
+      this.adminService.finalizarRonda().subscribe(data => {
+        this.component.presentAlert(data.message);
+      }, error => {
+        if (error.status == 409)
+          this.component.presentAlert(error.error.message);
+      })
+    }
+
+    else
+      this.component.presentAlert("Hay que ser un múltiplo de 4 para poder finalizar una ronda");
   }
 
   acceptPlayer(username: string){

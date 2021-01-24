@@ -25,6 +25,7 @@ export class TorneosPage implements OnInit {
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoTorneo") {
         this.torneos.push(data.torneo);
+        console.log("Torneos", this.torneos);
       }
     });
   }
@@ -49,6 +50,6 @@ export class TorneosPage implements OnInit {
         length = torneo.players.length;
       }
     })
-    this.router.navigate(['/torneo/'+ name], { state : { maxPlayers: max, playersLength: length }});
+    this.router.navigate(['/torneo/'+ name + '/home'], { state : { maxPlayers: max, playersLength: length }});
   }
 }

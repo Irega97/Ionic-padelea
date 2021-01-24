@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">{{torneo.name}}</ion-title>
+    <ion-title mode="ios">{{torneo.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -65,7 +65,7 @@
     <ion-row>
       <ion-col>
         <div style="text-align: center;">
-          <ion-button *ngIf="joined==false" (click)="joinTorneo()">
+          <ion-button *ngIf="joined==false" (click)="joinTorneo()" [disabled]="cola">
             <ion-label>UNIRTE</ion-label>
           </ion-button>
           <ion-button *ngIf="joined==true" (click)="leaveTorneo()">
