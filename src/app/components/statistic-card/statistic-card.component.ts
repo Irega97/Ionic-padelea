@@ -11,10 +11,8 @@ export class StatisticCardComponent implements OnInit {
 
   @Input()
   classification;
-
   
   constructor(private router:Router) { }
-
   
   ngOnInit() {
 

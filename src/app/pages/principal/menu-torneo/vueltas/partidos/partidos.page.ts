@@ -39,6 +39,7 @@ export class PartidosPage implements OnInit {
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
       this.idTorneo = data.idTorneo;
       this.classification = data.grupos.classification;
+
       let i: number = 0;
       while (i < this.classification.length && !this.participa){
         if (this.classification[i].player._id == this.userService.user._id)

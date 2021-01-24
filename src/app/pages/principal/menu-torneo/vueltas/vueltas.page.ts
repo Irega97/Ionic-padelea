@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import {  PartidosService } from '../../../../services/partidos.service';
 import {User} from '../../../../models/user';
 import {Statistics} from '../../../../models/statistics';
-
 
 @Component({
   selector: 'app-vueltas',
@@ -24,13 +23,12 @@ export class VueltasPage implements OnInit {
   nameVuelta:string;
   players=[];
 
-
-
   constructor(private router: Router, private torneoService: TorneoService, private partidoService:PartidosService) {}
 
   ngOnInit(){
     this.name = this.router.url.split('/')[2];
     this.torneoService.getVueltas(this.name).subscribe((data) => {
+      console.log("jijiji: ", data);
       this.vueltaActual = data.vueltaActual;
       if(this.vueltaActual > -1){
         this.vueltas.push(data.vueltas.previa);
@@ -48,37 +46,6 @@ export class VueltasPage implements OnInit {
         }
       }
     })
-/*
-    this.partidoService.getPartidosGrupo(this.name,this.nameVuelta,this.nameGrupo).subscribe((data) => {
-      if(data != null){
-        
-        //FALTA HACER EL CODIGO PARA QUE LEA EL BODY DEL BACKEND Y SEA CAPAZ DE ASIGNAR LOS DATOS DE LOS JUGADORES Y LA 
-        //CLASSIFICACION HACIENDO UN FOREACH PARA CADA JUGADOR DEL PARTIDO
-        if(data.grupos.groupName == this.nameGrupo){
-          
-          data.forEach(player => {
-            this.user._id=data.grupos.classification.player._id;
-            this.user.username=data.grupos.classification.player.username;
-            this.statistics.partidosJugados=data.grupos.classification.statistics.partidosJugados;
-          this.statistics.partidosGanados=data.grupos.classification.statistics.partidosGanados;
-          this.statistics.partidosPerdidos=data.grupos.classification.statistics.partidosPerdidos;
-          this.statistics.setsGanados=data.grupos.classification.statistics.setsGanados;
-          this.statistics.setsPerdidos=data.grupos.classification.statistics.setsPerdidos;
-          this.statistics.juegosGanados=data.grupos.classification.statistics.juegosGanados;
-          this.statistics.juegosPerdidos=data.grupos.classification.statistics.juegosPerdidos;
-          this.statistics.juegosDif=data.grupos.classification.statistics.juegosDif;
-          this.statistics.puntos=data.grupos.classification.statistics.puntos;
-          this.statistics.puntosExtra=data.grupos.classification.statistics.puntosExtra;  
-          });
-        }
-  
-        else{
-          console.log("No hay datos de" + this.nameGrupo + "para la vuelta" + this.nameVuelta + "en el torneo" +this.name);
-        }
-  
-      }
-    
-    });*/
   }
 
   checkValue(event){ 
@@ -96,8 +63,6 @@ export class VueltasPage implements OnInit {
     if(this.name.includes("%20")){
       this.name = unescape(this.name);
     }
-
-    
     
     this.router.navigate(['torneo/' + this.name + "/vueltas/" + this.vueltas[this.vueltaActual].name + "/" + groupName]);
   }

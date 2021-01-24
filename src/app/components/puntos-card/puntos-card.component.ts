@@ -10,10 +10,12 @@ import {Router} from '@angular/router';
 export class PuntosCardComponent implements OnInit {
 
   @Input()
-  vueltas;
+  classification;
 
   constructor(private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("component: ", this.classification);
+  }
 
 }
