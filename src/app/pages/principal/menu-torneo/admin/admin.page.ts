@@ -38,8 +38,8 @@ export class AdminPage implements OnInit {
       this.empezado = data.torneoIniciado;
       this.numRondas = data.numRondas;
       this.rondas = data.rondas;
-      if (this.rondas == this.numRondas)
-        this.finalizado = true;
+      /*if (this.rondas == this.numRondas)
+        this.finalizado = false;*/
     });
 
     this.events.getObservable().subscribe((data) => {
@@ -74,8 +74,8 @@ export class AdminPage implements OnInit {
       this.adminService.finalizarRonda().subscribe(data => {
         this.component.presentAlert(data.message);
         this.rondas++;
-        if (this.rondas == this.numRondas) 
-          this.finalizado = true;
+        /*if (this.rondas == this.numRondas) 
+          this.finalizado = true;*/
           
       }, error => {
         if (error.status == 409)
