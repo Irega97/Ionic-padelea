@@ -27,16 +27,19 @@
     </ion-row>
 
     
-<ion-list *ngFor="let clasi of vuelta, let i = index"  >
+<ion-list *ngFor="let clasi of classification">
 
     <ion-row >
       <ion-item>
         <ion-col>
 
           <ion-segment scrollable >
-            <ion-label>
-              {{clasi.player.username}}
-            </ion-label>
+            <ion-item>
+              <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
+              <ion-label>
+                {{clasi.player.username}}
+              </ion-label>
+            </ion-item>
           </ion-segment>
 
         </ion-col>

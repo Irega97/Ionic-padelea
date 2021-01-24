@@ -11,13 +11,16 @@ export class RankingPage implements OnInit {
   name: string;
 
   ranking: any = [];
+  isImage: boolean;
   
   constructor(private torneoService: TorneoService, private router:Router ) { }
   
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
     this.torneoService.getRanking(this.name).subscribe((data) => {
-      console.log("hola ", data);      
+      console.log("hola ", data);
+      this.ranking = data.ranking;  
+      this.isImage = data.isImage;    
     });
     
   }

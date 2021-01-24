@@ -20,6 +20,55 @@
         <ion-label slot="start">GRUPO {{grupo.groupName}}</ion-label>
         <ion-button slot="end" (click)="goInformacion(grupo.groupName)">VER INFORMACIÓN</ion-button>
       </ion-item>
+      <ion-item *ngFor="let grupo of grupos">
+        <ion-grid fixed >
+          <ion-row >
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable >
+                  <ion-label>
+                    Jugador
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable>
+                  <ion-label>
+                    Puntos
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>  
+          </ion-row>
+        <ion-list *ngFor="let clasi of grupo.classification">
+          <ion-row >
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable >
+                  <ion-item>
+                    <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
+                    <ion-label>
+                      {{clasi.player.username}}
+                    </ion-label>
+                  </ion-item>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+            <ion-item>
+              <ion-col>
+                <ion-segment scrollable>
+                  <ion-label>
+                    {{clasi.statistics.puntos}}
+                  </ion-label>
+                </ion-segment>
+              </ion-col>
+            </ion-item>
+          </ion-row>
+        </ion-list>
+        </ion-grid>
+      </ion-item>
     </ion-list>
   </div>
 
@@ -28,9 +77,5 @@
       <p class ="ion-text-center">El Torneo aún no ha empezado</p>
     </ion-text>
   </ng-template>
-
-  <app-puntos-card>
-    
-  </app-puntos-card>
 
 </ion-content>
