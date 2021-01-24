@@ -17,6 +17,9 @@ export class AdminPage implements OnInit {
   length;
   name: string;
   empezado: Boolean = false;
+  finalizado: boolean = false;
+  numRondas: number = 0;
+  rondas: number = 0;
 
   constructor(private adminService: AdminService, private router: Router, private component: ComponentsService, 
     private events: EventsService, private torneoService: TorneoService) { }
@@ -32,7 +35,11 @@ export class AdminPage implements OnInit {
       this.cola = data.cola;
       this.length = data.length;
       this.max = data.max;
-      this.empezado = data.torneoIniciado
+      this.empezado = data.torneoIniciado;
+      this.numRondas = data.numRondas;
+      this.rondas = data.rondas;
+      if (this.rondas == this.numRondas)
+        this.finalizado = true;
     });
 
     this.events.getObservable().subscribe((data) => {
@@ -66,6 +73,10 @@ export class AdminPage implements OnInit {
     if (this.length % 4 == 0){
       this.adminService.finalizarRonda().subscribe(data => {
         this.component.presentAlert(data.message);
+        this.rondas++;
+        if (this.rondas == this.numRondas) 
+          this.finalizado = true;
+          
       }, error => {
         if (error.status == 409)
           this.component.presentAlert(error.error.message);

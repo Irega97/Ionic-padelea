@@ -12,7 +12,7 @@
     <ion-label>EMPEZAR PREVIA</ion-label>
   </ion-button>
   <ng-template #Empezado>
-    <ion-button (click)="finalizarRonda()">
+    <ion-button *ngIf="!finalizado" (click)="finalizarRonda()">
       <ion-label>FINALIZAR RONDA ACTUAL</ion-label>
     </ion-button>
   </ng-template>
