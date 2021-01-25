@@ -5,7 +5,7 @@ import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
-import { lat, lng } from 'src/environments/config'
+import { lat, lng, MAP_URL } from 'src/environments/config'
 import { LocationService } from 'src/app/services/location.service';
 import { UserService } from 'src/app/services/user.service';
 import { Socket } from 'ngx-socket-io';
@@ -105,7 +105,7 @@ export class TorneoPage implements OnInit {
     this.lng = position.coords.longitude;*/
 
     this.map.setView([this.ubicacion.lat, this.ubicacion.lng], 16)
-    tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    tileLayer(MAP_URL, {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/streets-v11',

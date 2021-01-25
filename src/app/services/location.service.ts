@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GeolocationPosition, Geolocation } from '@capacitor/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LOCATION_URL } from 'src/environments/config';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,13 @@ export class LocationService {
       //coordenadas de Padelarium Gavà
       lat = 41.28419741151979;
       lon = 1.9944762978072328;
+      
+      const location = await this.http.get<any>(LOCATION_URL, { headers: this.headers }).toPromise();
+      console.log(location);
+      if(location.status == 'success'){
+        lat = location.lat;
+        lon = location.lon;
+      }
         
     }
     catch(err){
