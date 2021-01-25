@@ -45,7 +45,7 @@
     <ion-button *ngIf="participa"(click)="irChat()">IR A CHAT DEL GRUPO</ion-button>
   </div>
 
-  <app-statistic-card *ngIf="classification && classification.length > 0" [classification]="classification">
+  <app-statistic-card *ngIf="classification && classification.length > 0" [classification]="classification" [extra]="false">
   </app-statistic-card>
 
 
