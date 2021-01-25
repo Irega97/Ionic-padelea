@@ -19,8 +19,8 @@ export class PickupLocationPage implements OnInit{
   newMarker: Marker;
   ubication:any;
   address:string;
-  //lat: number;
-  //lng: number;
+  lat: number;
+  lng: number;
   dataToSend: any;
 
   
