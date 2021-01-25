@@ -4,3 +4,5 @@ export default {
 
 export const lat = 41.28419741151979;
 export const lng = 1.9944762978072328;
+export const LOCATION_URL = 'http://ip-api.com/json/';
+export const MAP_URL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
