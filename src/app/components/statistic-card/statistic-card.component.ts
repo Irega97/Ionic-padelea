@@ -11,6 +11,9 @@ export class StatisticCardComponent implements OnInit {
 
   @Input()
   classification;
+
+  @Input()
+  extra;
   
   constructor(private router:Router) { }
   

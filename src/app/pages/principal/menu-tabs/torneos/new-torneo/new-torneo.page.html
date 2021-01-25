@@ -64,7 +64,7 @@
 
         <ion-item>
           <ion-label position="floating" color="primary">Nº vueltas:*</ion-label>
-          <ion-input type="number" formControlName="numRondas"></ion-input>
+          <ion-input type="number" [min]="0" formControlName="numRondas"></ion-input>
         </ion-item>
         <p *ngIf="torneoForm.controls['numRondas'].hasError('required') && (torneoForm.controls['numRondas'].dirty || torneoForm.controls['numRondas'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
 
@@ -81,8 +81,8 @@
         <p *ngIf="torneoForm.controls['duracionRondas'].hasError('required') && (torneoForm.controls['duracionRondas'].dirty || torneoForm.controls['duracionRondas'].touched || pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
 
         <ion-item>
-          <ion-label position="floating" color="primary">Nº jugadores (múltiplo de 4):*</ion-label>
-          <ion-input type="number" formControlName="maxPlayers"></ion-input>
+          <ion-label position="floating" color="primary">Nº jugadores (múltiplo de 4, máximo 40):*</ion-label>
+          <ion-input type="number" [min]="0" [max]="40" formControlName="maxPlayers"></ion-input>
         </ion-item>
         <p *ngIf="torneoForm.controls['maxPlayers'].hasError('required') && (torneoForm.controls['maxPlayers'].dirty || torneoForm.controls['maxPlayers'].touched|| pulsado)"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
         <p *ngIf="!torneoForm.controls['maxPlayers'].hasError('required') && torneoForm.controls['maxPlayers'].hasError('checkPlayers') && (torneoForm.controls['maxPlayers'].dirty || torneoForm.controls['maxPlayers'].touched || pulsado)"><ion-label color="danger">Debe ser múltiplo de 4</ion-label></p>

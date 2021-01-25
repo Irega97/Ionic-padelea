@@ -120,7 +120,7 @@
       </ion-col>
     </ion-item> 
       
-     <ion-item>
+     <ion-item *ngIf="extra==true">
       <ion-col>
 
         <ion-segment scrollable>
@@ -261,10 +261,10 @@
       </ion-col>
     </ion-item> 
       
-     <ion-item>
+     <ion-item *ngIf="extra == true">
       <ion-col>
 
-        <ion-segment scrollable>
+        <ion-segment scrollable >
           <ion-label>
             {{clasi.statistics.puntosExtra}}
           </ion-label>
