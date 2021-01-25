@@ -1,0 +1,17 @@
+<ion-content>
+  <ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-img [src]="publicacion.user.image"></ion-img>
+      </ion-avatar>
+      <ion-label>{{publicacion.user.username}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{publicacion.mensaje}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="heart-outline"></ion-icon><ion-label>{{publicacion.likes.length}}</ion-label>
+      <ion-icon name="chatbox-outline"></ion-icon><ion-label>{{publicacion.comments.length}}</ion-label>
+    </ion-item>
+  </ion-item>
+</ion-content>

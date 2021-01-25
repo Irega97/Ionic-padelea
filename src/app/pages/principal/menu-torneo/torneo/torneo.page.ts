@@ -5,10 +5,11 @@ import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
-import { lat, lng } from 'src/environments/config'
+import { lat, lng, MAP_URL } from 'src/environments/config'
 import { LocationService } from 'src/app/services/location.service';
 import { UserService } from 'src/app/services/user.service';
 import { Socket } from 'ngx-socket-io';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-torneo',
@@ -32,7 +33,7 @@ export class TorneoPage implements OnInit {
   lng: number;
   
   constructor(private torneoService: TorneoService, private router: Router, private component: ComponentsService, 
-              private events: EventsService, private userService: UserService, private socket: Socket, private locationService: LocationService) { }
+              private events: EventsService, private userService: UserService, private socket: Socket, private locationService: LocationService, private plt: Platform,) { }
 
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
@@ -50,12 +51,13 @@ export class TorneoPage implements OnInit {
       this.finInscripcion = new Date(this.torneo.finInscripcion);
       this.finInscripcion = this.finInscripcion.toLocaleString().split(' ');
       this.ubicacion = data.torneo.ubicacion;
+      console.log(this.ubicacion);
       this.torneo.cola.forEach(cola => {
         if (cola == this.userService.user._id)  
           this.cola = true;
       });
     });
-
+  
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name){
         this.players.push(data.jugador);
@@ -81,10 +83,18 @@ export class TorneoPage implements OnInit {
         this.cola = false;
     });
   }
-
+  
+  
+  ionViewDidEnter() {
+    this.plt.ready().then(() => {
+      this.loadMap();
+    });
+  }
+  
+  /*
   ngAfterViewInit() {
     if(this.ubicacion != null) this.loadMap();
-  }
+  }*/
 
   loadMap(){
   //async loadMap(){
@@ -95,7 +105,7 @@ export class TorneoPage implements OnInit {
     this.lng = position.coords.longitude;*/
 
     this.map.setView([this.ubicacion.lat, this.ubicacion.lng], 16)
-    tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    tileLayer(MAP_URL, {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/streets-v11',
@@ -105,8 +115,6 @@ export class TorneoPage implements OnInit {
       }).addTo(this.map);
       let popup = '<b> ' + this.ubicacion.name + '</b><br> Aquí se juega tu torneo'
     marker([this.ubicacion.lat, this.ubicacion.lng]).addTo(this.map).bindPopup(popup).openPopup();
-
-
   }
 
   joinTorneo(){
