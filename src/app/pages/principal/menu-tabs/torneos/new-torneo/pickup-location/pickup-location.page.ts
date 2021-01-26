@@ -83,8 +83,6 @@ getAddress(lat: number, long: number) {
 }*/
 
   async ConfirmPickup() {
-
-    console.log("close apretado");
     this.dataToSend = {
       name: this.address,
       lat: this.ubication.lat,
