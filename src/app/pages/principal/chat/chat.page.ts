@@ -41,9 +41,6 @@ export class ChatPage implements OnInit {
     private socket: Socket) { }
 
   ngOnInit() {
-    if (this.chatService.name != undefined)
-      this.chatService.name = undefined;
-
     if (this.userService.user != undefined)
       this.usernameactual = this.userService.user.username;
 
@@ -94,6 +91,11 @@ export class ChatPage implements OnInit {
           })
         }
       }
+
+      else if (data.topic == "borrarChat"){
+        if (this.chat._id == data.chat)
+          this.router.navigate(['/principal/chats']);
+      }
     })
 
     this.socket.on('mensajeLeido', info => {
@@ -134,6 +136,7 @@ export class ChatPage implements OnInit {
           this.participantes.push(this.userService.user._id);
           this.participantes.push(data.user._id);
           this.infiniteScroll.disabled = true;
+          this.contentinBottom = true;
         }
         
         else{
@@ -284,6 +287,7 @@ export class ChatPage implements OnInit {
         let y = document.getElementById(this.idnuevomensaje).offsetTop;
         this.content.scrollByPoint(0, y, 100);
     }
+
   }
 
   ionViewDidLeave(){
@@ -292,6 +296,7 @@ export class ChatPage implements OnInit {
 
   scrollToBottom(){
     this.content.scrollToBottom(100);
+    this.contentinBottom = true;
   }
 
   async checkBottom(event) {

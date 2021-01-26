@@ -56,7 +56,6 @@ export class NewTorneoPage implements OnInit {
     const modal = await this.modalController.create({
     component: PickupLocationPage});
     modal.onDidDismiss().then((data: any)=>{
-      console.log("lo que mandaras al backend: ", data.data);
       this.ubication = data.data;
       if(this.ubication != null) {
         this.torneoForm.get('ubicacion').setValue(this.ubication.name);

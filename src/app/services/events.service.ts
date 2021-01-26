@@ -121,7 +121,21 @@ export class EventsService {
         "topic": "nuevoChat",
         "chat": chat
       })
-      console.log("Chat", chat);
+    })
+
+    this.socket.on("nuevoChatGrupo", chat => {
+      chat.admin = [''];
+      this.publish({
+        "topic": "nuevoChat",
+        "chat": chat
+      })
+    })
+
+    this.socket.on('borrarChat', chat => {
+      this.publish({
+        "topic": "borrarChat",
+        "chat": chat
+      })
     })
 
     this.socket.on('nuevoAdmin', info => {
