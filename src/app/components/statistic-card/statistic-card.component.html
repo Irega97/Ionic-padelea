@@ -1,21 +1,21 @@
 <ion-content>
   
-  <ion-grid fixed >
-    <ion-row >
-      <ion-item>
-        <ion-col>
+  <ion-grid fixed scrollable >
+    <ion-row class="ion-align-items-center" >
+     
+        <ion-col size ="2">
 
           <ion-segment scrollable >
-            <ion-label>
+            <ion-label >
               Jugador
             </ion-label>
           </ion-segment>
 
         </ion-col>
-      </ion-item>
       
-      <ion-item>
-        <ion-col>
+      
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               PJ
@@ -23,20 +23,20 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>
+     
       
-      <ion-item>
-        <ion-col>
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               PG
             </ion-label>
           </ion-segment>
         </ion-col>
-      </ion-item>
       
-     <ion-item>
-      <ion-col>
+      
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -46,10 +46,10 @@
 
 
       </ion-col>
-     </ion-item>   
       
-    <ion-item>
-      <ion-col>
+      
+    
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -58,10 +58,10 @@
         </ion-segment>
 
       </ion-col>
-    </ion-item>  
+     
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -70,10 +70,10 @@
         </ion-segment>
         
       </ion-col>
-     </ion-item>   
+       
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -82,10 +82,10 @@
         </ion-segment>
 
       </ion-col>
-     </ion-item>   
+        
 
-      <ion-item>
-        <ion-col>
+      
+        <ion-col >
 
           <ion-segment scrollable>
             <ion-label>
@@ -94,10 +94,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>  
+      
 
-      <ion-item>
-        <ion-col>
+      
+        <ion-col >
 
           <ion-segment scrollable>
             <ion-label>
@@ -106,10 +106,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>  
       
-    <ion-item>
-      <ion-col>
+      
+    
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -118,10 +118,10 @@
         </ion-segment>
 
       </ion-col>
-    </ion-item> 
+    
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col *ngIf = "extra == true">
 
         <ion-segment scrollable>
           <ion-label>
@@ -130,7 +130,7 @@
         </ion-segment>
 
       </ion-col>
-     </ion-item>   
+     
     </ion-row>
 
     
@@ -139,9 +139,9 @@
 
   <ion-list *ngFor="let clasi of classification, let i = index"  >
 
-    <ion-row >
-      <ion-item>
-        <ion-col>
+    <ion-row class="ion-align-items-center" >
+      
+        <ion-col size ="2" >
 
           <ion-segment scrollable >
             <ion-item>
@@ -153,10 +153,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>
       
-      <ion-item>
-        <ion-col>
+      
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               {{clasi.statistics.partidosJugados}}
@@ -164,20 +164,20 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>
       
-      <ion-item>
-        <ion-col>
+      
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               {{clasi.statistics.partidosGanados}}
             </ion-label>
           </ion-segment>
         </ion-col>
-      </ion-item>
       
-     <ion-item>
-      <ion-col>
+      
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -187,10 +187,10 @@
 
 
       </ion-col>
-     </ion-item>   
       
-    <ion-item>
-      <ion-col>
+      
+    
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -199,10 +199,10 @@
         </ion-segment>
 
       </ion-col>
-    </ion-item>  
+     
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -211,10 +211,10 @@
         </ion-segment>
         
       </ion-col>
-     </ion-item>   
+       
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -223,10 +223,10 @@
         </ion-segment>
 
       </ion-col>
-     </ion-item>   
+        
 
-      <ion-item>
-        <ion-col>
+      
+        <ion-col >
 
           <ion-segment scrollable>
             <ion-label>
@@ -235,10 +235,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>  
+       
 
-      <ion-item>
-        <ion-col>
+      
+        <ion-col >
 
           <ion-segment scrollable>
             <ion-label>
@@ -247,10 +247,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item> 
       
-    <ion-item>
-      <ion-col>
+      
+    
+      <ion-col >
 
         <ion-segment scrollable>
           <ion-label>
@@ -259,19 +259,19 @@
         </ion-segment>
 
       </ion-col>
-    </ion-item> 
+    
       
-     <ion-item>
-      <ion-col>
+     
+      <ion-col *ngIf = "extra == true" >
 
-        <ion-segment scrollable>
+        <ion-segment scrollable >
           <ion-label>
             {{clasi.statistics.puntosExtra}}
           </ion-label>
         </ion-segment>
 
       </ion-col>
-     </ion-item>   
+       
     </ion-row>
 
     

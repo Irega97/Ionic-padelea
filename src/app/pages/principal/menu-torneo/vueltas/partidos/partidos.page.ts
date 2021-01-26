@@ -115,6 +115,8 @@ export class PartidosPage implements OnInit {
 
     if (this.juego1 == undefined || this.juego2 == undefined || this.juego3 == undefined || this.juego4 == undefined){
       this.components.presentAlert("Introduce el resultado de todos los sets");
+    } else if (this.juego1 == null || this.juego2 == null || this.juego3 == null || this.juego4 == null || this.juego5 == null || this.juego6 == null){
+      this.components.presentAlert("Introduce el resultado de todos los sets");
     } else if (this.juego1 > 7 || this.juego2 > 7 || this.juego3 > 7 || this.juego4 > 7){
       this.components.presentAlert("Resultado Incorrecto");
     } else if ((this.juego1 == this.juego2) || (this.juego3 == this.juego4)){

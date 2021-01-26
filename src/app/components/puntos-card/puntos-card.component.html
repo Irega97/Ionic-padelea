@@ -1,9 +1,9 @@
 <ion-content>
   
-  <ion-grid fixed >
+  <ion-grid fixed scrollable  >
     <ion-row >
-      <ion-item>
-        <ion-col>
+      
+        <ion-col size="3" >
 
           <ion-segment scrollable >
             <ion-label>
@@ -12,10 +12,10 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>
       
-      <ion-item>
-        <ion-col>
+      
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               Puntos
@@ -23,30 +23,30 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>  
+       
     </ion-row>
 
     
 <ion-list *ngFor="let clasi of classification">
 
-    <ion-row >
-      <ion-item>
-        <ion-col>
+    <ion-row class = ion-justify-content-between>
+      
+        <ion-col size = "3" >
 
           <ion-segment scrollable >
             <ion-item>
               <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
-              <ion-label>
+              <ion-label >
                 {{clasi.player.username}}
               </ion-label>
             </ion-item>
           </ion-segment>
 
         </ion-col>
-      </ion-item>
       
-      <ion-item>
-        <ion-col>
+      
+      
+        <ion-col >
           <ion-segment scrollable>
             <ion-label>
               {{clasi.statistics.puntos}}
@@ -54,7 +54,7 @@
           </ion-segment>
 
         </ion-col>
-      </ion-item>
+      
       
   
     </ion-row>

@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
+import { PublicacionesService } from 'src/app/services/publicaciones.service';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,7 @@ import { Location } from '@angular/common';
 })
 export class UserPage implements OnInit {
 
-  constructor(private userService: UserService, private friendService: FriendsService, private route: ActivatedRoute, 
+  constructor(private userService: UserService, private friendService: FriendsService, private publiService: PublicacionesService, private route: ActivatedRoute, 
               private component: ComponentsService, private events: EventsService, private location: Location, private router: Router) { }
 
   user;
@@ -23,16 +24,26 @@ export class UserPage implements OnInit {
   numAmigos: number = 0;
   numTorneos: number = 0;
   notification: Notification;
+  publicaciones: any;
 
   ngOnInit() {
     if (this.userService.user != undefined){
       this.compararId();
-    }
+      console.log("username: ", this.username);
+      this.publiService.getPublicationsUser(this.username).subscribe((data: any) => {
+        this.publicaciones = data.publicaciones;
+        console.log("Publis: ", data);
+      });
+    } 
 
     this.events.getObservable().subscribe(data => {
       if (data.topic == "updateUser"){
         this.user = data.user;
         this.compararId();
+        this.publiService.getPublicationsUser(this.username).subscribe((data: any) => {
+          this.publicaciones = data.publicaciones;
+          console.log("Publis: ", data);
+        });
       }
       else if (data.topic == "nuevaNotificacion"){
         let notification = data.notification;

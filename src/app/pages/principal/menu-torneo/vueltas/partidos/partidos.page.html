@@ -31,13 +31,13 @@
     </ion-item>
     <ion-item *ngIf="partido.edit">
       <ion-row>
-        <ion-label>SET 1:</ion-label> <ion-input type="number" [(ngModel)]="juego1"></ion-input>-<ion-input type="number" [(ngModel)]="juego2"></ion-input>
+        <ion-label>SET 1:</ion-label> <ion-input type="number" [min]="0" [(ngModel)]="juego1"></ion-input>-<ion-input type="number" [min]="0" [(ngModel)]="juego2"></ion-input>
       </ion-row>
       <ion-row>
-        <ion-label>SET 2:</ion-label> <ion-input type="number" [(ngModel)]="juego3"></ion-input>-<ion-input type="number" [(ngModel)]="juego4"></ion-input>
+        <ion-label>SET 2:</ion-label> <ion-input type="number" [min]="0" [(ngModel)]="juego3"></ion-input>-<ion-input type="number" [min]="0" [(ngModel)]="juego4"></ion-input>
       </ion-row>
       <ion-row>
-        <ion-label>SET 3:</ion-label> <ion-input type="number" [(ngModel)]="juego5"></ion-input>-<ion-input type="number" [(ngModel)]="juego6"></ion-input>
+        <ion-label>SET 3:</ion-label> <ion-input type="number" [min]="0" [(ngModel)]="juego5"></ion-input>-<ion-input type="number" [min]="0" [(ngModel)]="juego6"></ion-input>
       </ion-row>
     </ion-item>
   </ion-list>
@@ -45,10 +45,11 @@
     <ion-button *ngIf="participa"(click)="irChat()">IR A CHAT DEL GRUPO</ion-button>
   </div>
 
-  <app-statistic-card *ngIf="classification && classification.length > 0" [classification]="classification">
+  <app-statistic-card *ngIf="classification && classification.length > 0" [classification]="classification" [extra]="false">
   </app-statistic-card>
 
 
 
 </ion-content>
 
+ 
