@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { PrincipalPageRoutingModule } from './principal-routing.module';
 import { PrincipalPage } from './principal.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { ComentariosPipe } from './comentarios.pipe';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ComponentsModule,
     ReactiveFormsModule
   ],
-  declarations: [PrincipalPage]
+  declarations: [PrincipalPage, ComentariosPipe]
 })
 export class PrincipalPageModule {}

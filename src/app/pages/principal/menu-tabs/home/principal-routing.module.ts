@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: PrincipalPage
+  },
+  {
+    path: 'comentarios',
+    loadChildren: () => import('./comentarios/comentarios.module').then( m => m.ComentariosPageModule)
   }
 
 ];
