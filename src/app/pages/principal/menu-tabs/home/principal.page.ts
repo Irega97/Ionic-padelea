@@ -9,6 +9,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-principal',
@@ -37,6 +38,9 @@ export class PrincipalPage implements OnInit {
     this.publiService.getHomePublications().subscribe((data: any) => {
       console.log("chuli i love u: ", data);
       this.publicaciones = data;
+      this.publicaciones.forEach((publi) => {
+        this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
+      })
     })
 
     this.publicationForm = this.formBuilder.group({
@@ -61,6 +65,7 @@ export class PrincipalPage implements OnInit {
 
       else if (data.topic == "newPost"){
         console.log("refresh: ", data.data);
+        data.data.date = this.getMoment(data.data);
         this.publicaciones.unshift(data.data);
       }
     });
@@ -142,5 +147,10 @@ export class PrincipalPage implements OnInit {
         this.components.presentAlert(error.error.message);
       });
     });
+  }
+
+  getMoment(publi){
+    let day: Date = new Date(publi.date);
+    return moment(day, "YYYYMMDD, h:mm").startOf('minute').fromNow();;
   }
 }
