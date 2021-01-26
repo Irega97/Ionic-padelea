@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentsService } from 'src/app/services/components.service';
+import { EventsService } from 'src/app/services/events.service';
 import { PartidosService } from 'src/app/services/partidos.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -30,7 +31,8 @@ export class PartidosPage implements OnInit {
   
   
 
-  constructor(private router: Router, private partidosService: PartidosService, private userService: UserService, private components: ComponentsService) { }
+  constructor(private router: Router, private partidosService: PartidosService, private userService: UserService, private components: ComponentsService,
+    private events: EventsService) { }
 
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
@@ -79,6 +81,13 @@ export class PartidosPage implements OnInit {
         }
       })
     });
+    
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "clasificacion" && data.clasificacion.idTorneo == this.idTorneo){
+        if (this.vuelta == data.clasificacion.vuelta && this.grupo == data.clasificacion.groupName)
+          this.classification = data.clasificacion.clasificacion;
+      }
+    })
   }
 
   modificar(i: number){
