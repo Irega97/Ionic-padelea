@@ -34,28 +34,22 @@ export class PartidosPage implements OnInit {
 
   ngOnInit() {
     this.name = this.router.url.split('/')[2];
+    this.name = unescape(this.name);
     this.vuelta = this.router.url.split('/')[4];
+    this.vuelta = unescape(this.vuelta);
     this.grupo = this.router.url.split('/')[5];
-
-    if (this.router.getCurrentNavigation().extras.state != undefined){
-      this.vueltaActual = this.router.getCurrentNavigation().extras.state.vueltaActual;
-      console.log("vuelta: ", this.vuelta, ", actual: ", this.vueltaActual);
-      let v;
-      if(this.vuelta == 'Previa') v = 0;
-      else v = this.vuelta.split('%20')[1];
-      if(v.toString() == this.vueltaActual.toString()){
-        this.vueltaAbierta = true;
-      } else this.vueltaAbierta = false;
-    }
+    this.grupo = unescape(this.grupo);
 
     this.partidosService.getPartidosGrupo(this.name, this.vuelta, this.grupo).subscribe(data => {
       this.idTorneo = data.idTorneo;
       this.classification = data.grupos.classification;
+      this.vueltaAbierta = data.vueltaAbierta;
 
       let i: number = 0;
-      while (i < this.classification.length && !this.participa){
+      while (i < this.classification.length && !this.participa && this.vueltaAbierta){
         if (this.classification[i].player._id == this.userService.user._id)
           this.participa = true;
+
         else
           i++;
       }
