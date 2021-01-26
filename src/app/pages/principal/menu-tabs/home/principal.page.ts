@@ -41,6 +41,7 @@ export class PrincipalPage implements OnInit {
       this.publicaciones.forEach((publi) => {
         this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
       })
+      console.log("publis:" , this.publicaciones);
     })
 
     this.publicationForm = this.formBuilder.group({

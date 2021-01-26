@@ -82,7 +82,8 @@
           </ion-item>
       </ion-card-content>
     </ion-card>
-
-    <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones"></app-publicacion>
+    <!--  Definir bien la ruta para que nos lleve a los comentarios   [routerLink] = "['/user', user.username]"   -->
+    <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones" ></app-publicacion>
 
 </ion-content>
+
