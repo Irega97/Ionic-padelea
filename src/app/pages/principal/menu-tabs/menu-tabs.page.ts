@@ -45,6 +45,21 @@ export class MenuTabsPage implements OnInit {
           }
         })
       }
+
+      else if (data.topic == "updateUser"){
+        this.chatService.getChatsSinLeer().subscribe(data => {
+          this.chatsSinLeer = data;
+        })
+      }
+
+      else if (data.topic == "borrarChat"){
+        this.chatsSinLeer.forEach(chat =>{
+          if (chat == data.chat){
+            let i = this.chatsSinLeer.indexOf(chat);
+            this.chatsSinLeer.splice(i, 1);
+          }
+        })
+      }
     })
   }
 

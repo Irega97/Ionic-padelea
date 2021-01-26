@@ -3,9 +3,8 @@ import { ComponentsService } from '../../../../services/components.service';
 import { Router } from '@angular/router';
 import { TorneoService } from '../../../../services/torneo.service';
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
 import {Map,tileLayer,marker } from 'leaflet';
-import { lat, lng, MAP_URL } from 'src/environments/config'
+import { MAP_URL } from 'src/environments/config'
 import { LocationService } from 'src/app/services/location.service';
 import { UserService } from 'src/app/services/user.service';
 import { Socket } from 'ngx-socket-io';
@@ -97,8 +96,7 @@ export class TorneoPage implements OnInit {
   }*/
 
   loadMap(){
-  //async loadMap(){
-    this.map = new Map('mapId');
+    this.map = new Map('mapId').setView([this.ubicacion.lat, this.ubicacion.lng], 16);
 
     /*const position = await this.locationService.getLocation();
     this.lat = position.coords.latitude;

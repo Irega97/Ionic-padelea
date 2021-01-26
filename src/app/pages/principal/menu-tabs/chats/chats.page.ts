@@ -73,6 +73,8 @@ export class ChatPage implements OnInit {
     
     this.events.getObservable().subscribe((data)=> {
       if (data.topic == "updateUser"){
+        this.chats = [];
+        this.chatsSearch = [];
         this.chatService.getMyChats().subscribe((data) => {
           data.chats.forEach(chat => {
             if (chat.chat.name == undefined){
@@ -132,12 +134,12 @@ export class ChatPage implements OnInit {
         }
 
         if (chat.mensajes[0].sender == this.userService.user.username){
-          chat.ultimomensaje = "Yo: " + chat.mensajes[0].body;
+          chat.ultimomensaje = "Yo: " + chat.mensajes[chat.mensajes.length -1].body;
           chat.leido = true;
         }
 
         else if (chat.mensajes[0].sender == undefined){
-          chat.ultimomensaje = chat.mensajes[0].body;
+          chat.ultimomensaje = chat.mensajes[chat.mensajes.length -1].body;
           if (chat.admin[0] == this.userService.user._id)
             chat.leido = true;
 
@@ -146,7 +148,7 @@ export class ChatPage implements OnInit {
         }
 
         else{
-          chat.ultimomensaje = chat.mensajes[0].sender + ": " + chat.mensajes[0].body;
+          chat.ultimomensaje = chat.mensajes[0].sender + ": " + chat.mensajes[chat.mensajes.length -1].body;
           chat.leido = false;
         }
         
@@ -191,6 +193,15 @@ export class ChatPage implements OnInit {
         this.chats.forEach(chat => {
           if (chat._id == data.chatid){
             chat.leido = true;
+          }
+        })
+      }
+
+      else if (data.topic == "borrarChat"){
+        this.chats.forEach(chat => {
+          if (chat._id == data.chat){
+            this.chats.splice(this.chats.indexOf(chat), 1);
+            this.chatsSearch = this.chats;
           }
         })
       }
