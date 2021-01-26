@@ -70,8 +70,25 @@
   <ion-router-outlet id="main"></ion-router-outlet>
   <!--<ion-img src="assets/images/EnProceso.jpg"></ion-img>-->
   <!--<cl-image public-id="EnProceso_knrcoc.jpg" format="jpg">-->
-  <app-publicacion [publicacion]="publicacion">
+
+    <ion-card id="card">
+      <ion-card-content>
+          <ion-item>
+            <!-- <ion-avatar slot = "start">
+              <ion-img [src]="usuario.image"></ion-img>
+            </ion-avatar> -->
+            <form [formGroup]="publicationForm">
+              <ion-item>
+                <ion-input type="string" formControlName="message" placeholder="Nueva publicación"></ion-input>
+                <ion-button slot="end" color="primary" (click)="newPost()"><ion-icon name="open-outline"></ion-icon></ion-button>
+              </ion-item>
+              <p *ngIf="publicationForm.controls['message'].hasError('required') && pulsado"><ion-label color="danger">Debes rellenar este campo</ion-label></p>
     
-  </app-publicacion>
+            </form>
+          </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones"></app-publicacion>
 
 </ion-content>
