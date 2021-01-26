@@ -19,32 +19,34 @@
       <ion-item>
         <ion-label slot="start">GRUPO {{grupo.groupName}}</ion-label>
         <ion-button slot="end" (click)="goInformacion(grupo.groupName)">VER INFORMACIÓN</ion-button>
-        <ion-item>
-          <ion-grid fixed>
+      </ion-item>
+      <ion-item style ="text-align: center;">
+          <ion-grid fixed style="text-align: center;">
             <ion-row >
-              <ion-item>
-                <ion-col>
+              
+                <ion-col size= "3">
                   <ion-segment scrollable >
                     <ion-label >
                       Jugador
                     </ion-label>
                   </ion-segment>
                 </ion-col>
-              </ion-item>
-              <ion-item>
-                <ion-col>
+              
+              
+                <ion-col size = "2">
                   <ion-segment scrollable>
                     <ion-label >
                       Puntos
                     </ion-label>
                   </ion-segment>
                 </ion-col>
-              </ion-item>  
+                
             </ion-row>
           <ion-list *ngFor="let clasi of grupo.classification">
+            
             <ion-row >
-              <ion-item>
-                <ion-col>
+              
+                <ion-col size="3">
                   <ion-segment scrollable >
                     <ion-item>
                       <ion-avatar><ion-img [src]="clasi.player.image"></ion-img></ion-avatar>
@@ -54,20 +56,20 @@
                     </ion-item>
                   </ion-segment>
                 </ion-col>
-              </ion-item>
-              <ion-item>
-                <ion-col>
+              
+              
+                <ion-col size ="2">
                   <ion-segment scrollable>
                     <ion-label>
                       {{clasi.statistics.puntos}}
                     </ion-label>
                   </ion-segment>
                 </ion-col>
-              </ion-item>
+              
             </ion-row>
           </ion-list>
           </ion-grid>
-        </ion-item>
+        
       </ion-item>
     </ion-list>
   </div>

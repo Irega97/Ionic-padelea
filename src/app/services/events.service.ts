@@ -121,6 +121,7 @@ export class EventsService {
         "topic": "nuevoChat",
         "chat": chat
       })
+      console.log("Chat", chat);
     })
 
     this.socket.on('nuevoAdmin', info => {

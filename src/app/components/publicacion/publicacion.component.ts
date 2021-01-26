@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PublicacionComponent implements OnInit {
 
   @Input()
-  publicacion;
+  publicaciones;
 
   constructor() { }
 

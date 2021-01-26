@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-item>
+  <ion-item *ngFor="let publicacion of publicaciones">
     <ion-item>
       <ion-avatar slot="start">
         <ion-img [src]="publicacion.user.image"></ion-img>
