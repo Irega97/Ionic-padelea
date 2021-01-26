@@ -60,11 +60,10 @@ export class PrincipalPage implements OnInit {
       }
 
       else if (data.topic == "newPost"){
-        this.publiService.getHomePublications().subscribe((data: any) => {
-          this.publicaciones = data.publicaciones;
-        })
+        console.log("refresh: ", data.data);
+        this.publicaciones.unshift(data.data);
       }
-    }) 
+    });
   }
 
   ionViewWillEnter(){
@@ -99,10 +98,10 @@ export class PrincipalPage implements OnInit {
     this.menu.close('first');
     this.router.navigate(['/user/' + this.userService.user.username + '/torneos']);
   }
-
+  /*
   goPartidos(){
     this.menu.close('first');
-  }
+  }*/
 
   goAmigos(){
     this.menu.close('first');
@@ -135,7 +134,8 @@ export class PrincipalPage implements OnInit {
     this.components.presentLoading("Conectando...").then(() => {
       this.publiService.postPublication(mensaje).subscribe((data: any) => {
         this.events.publish({
-          "topic":"newPost"
+          "topic":"newPost",
+          "data": data
         })
         this.components.dismissLoading();
       }, error => {
