@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { TorneoPageRoutingModule } from './torneo-routing.module';
 
 import { TorneoPage } from './torneo.page';
+import { ComponentsModule } from '../../../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TorneoPageRoutingModule
+    TorneoPageRoutingModule,
+    ComponentsModule
   ],
-  declarations: [TorneoPage]
+  declarations: [TorneoPage, ComponentsModule]
 })
 export class TorneoPageModule {}

@@ -98,10 +98,10 @@ export class PrincipalPage implements OnInit {
     this.menu.close('first');
     this.router.navigate(['/user/' + this.userService.user.username + '/torneos']);
   }
-
+  /*
   goPartidos(){
     this.menu.close('first');
-  }
+  }*/
 
   goAmigos(){
     this.menu.close('first');
