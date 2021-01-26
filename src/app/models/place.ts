@@ -5,5 +5,5 @@ export class Placemodel {
 
 interface LatLng{
 type: string,
-coordinates: number
+coordinates: number[]
 }

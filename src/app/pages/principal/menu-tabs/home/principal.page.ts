@@ -10,6 +10,10 @@ import { ComponentsService } from 'src/app/services/components.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 
+import { Placemodel} from '../../../../models/place';
+import {Map,tileLayer,marker } from 'leaflet';
+import { MAP_URL } from 'src/environments/config'
+
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.page.html',
@@ -22,6 +26,11 @@ export class PrincipalPage implements OnInit {
   publicationForm: FormGroup;
   pulsado: boolean;
   publicaciones: any;
+
+  places: Placemodel[];
+  map: Map;
+  lat: number;
+  lng: number;
 
   constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService, private publiService: PublicacionesService,
     private notificationsService: NotificationsService, private menu: MenuController, private formBuilder: FormBuilder, private components: ComponentsService) { }
@@ -142,5 +151,33 @@ export class PrincipalPage implements OnInit {
         this.components.presentAlert(error.error.message);
       });
     });
+  }
+
+  async torneosCercanos(){
+    //const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
+    this.map.remove();
+    this.map = new Map('mapId').setView([this.lat, this.lng], 16);
+    tileLayer(MAP_URL, {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
+        }).addTo(this.map);
+    this.http.get<Placemodel[]>(url).subscribe(
+      (places:Placemodel[]) => {
+        this.places= places;
+        console.log((this.places))
+        for (let i=0; i<places.length; i++){
+          marker([places[i].location.coordinates[1], places[i].location.coordinates[0]]).addTo(this.map)
+      .bindPopup('<b>' + places[i].name + '</b>')
+      .openPopup();
+
+        }
+      })
+      marker([this.lat, this.lng]).addTo(this.map)
+    .bindPopup('<b> You are here </b>')
+    .openPopup();
   }
 }
