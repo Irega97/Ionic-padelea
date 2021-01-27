@@ -64,5 +64,8 @@ export class NotificacionesPage implements OnInit {
     else if (notification.type == "Cola"){
       this.router.navigate(['/torneo/' + notification.otros + "/admin"]);
     }
+    else if (notification.type == "Publicacion"){
+      this.router.navigate(['/principal/home/' + notification.origen + "/comentarios"]);
+    }
   }
 }

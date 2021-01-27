@@ -1,7 +1,8 @@
+import { EventsService } from 'src/app/services/events.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {PublicacionesService} from '../../../../../services/publicaciones.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import { ComponentsService } from 'src/app/services/components.service';
 
 @Component({
@@ -12,21 +13,27 @@ import { ComponentsService } from 'src/app/services/components.service';
 export class ComentariosPage implements OnInit {
 
   id: string;
-  comentarios: [];
+  comentarios: any = [];
   message = "";
   
-  constructor(private publicacionesService: PublicacionesService, private location: Location, private router: ActivatedRoute, private component : ComponentsService){}
+  constructor(private publicacionesService: PublicacionesService, private events: EventsService, private location: Location, private router: ActivatedRoute, private component : ComponentsService){}
 
   ngOnInit() {
     this.router.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
-      console.log("comentario id: ", this.id);
       this.publicacionesService.getComments(this.id).subscribe(data => {
         console.log("data: ", data);
         this.comentarios = data.comments;
       });     
     });
   
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "nuevoComentario"){
+        if (data.publicacion == this.id){
+          this.comentarios.push(data.comentario);
+        }
+      }
+    })
   }
 
   enviarComment(event){
@@ -46,7 +53,6 @@ export class ComentariosPage implements OnInit {
       }
 
       this.publicacionesService.addComment(info).subscribe(data => {
-        console.log("Data", data);
         this.message = "";
       })}
       else(this.component.presentAlert("Máximo 80 caracteres"))
