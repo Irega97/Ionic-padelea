@@ -18,4 +18,8 @@ export class PartidosService {
   addResultadoPartido(body: any): Observable<any> {
     return this.http.post<any>(this.ruta + 'results', body);
   }
+
+  getPartidosUser(username: string): Observable<any> {
+    return this.http.get<any>(this.ruta + 'user/' + username);
+  }
 }
