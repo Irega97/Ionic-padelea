@@ -8,14 +8,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-button *ngIf="!empezado; else Empezado" (click)="empezarPrevia()">
-    <ion-label>EMPEZAR PREVIA</ion-label>
-  </ion-button>
-  <ng-template #Empezado>
-    <ion-button *ngIf="!finalizado" (click)="finalizarRonda()">
-      <ion-label>FINALIZAR RONDA ACTUAL</ion-label>
+  <div style="text-align: center;">
+    <ion-button *ngIf="!empezado; else Empezado" (click)="empezarPrevia()">
+      <ion-label>EMPEZAR PREVIA</ion-label>
     </ion-button>
-  </ng-template>
+    <ng-template #Empezado>
+      <ion-button *ngIf="!finalizado" (click)="finalizarRonda()">
+        <ion-label>FINALIZAR RONDA ACTUAL</ion-label>
+      </ion-button>
+    </ng-template>
+    </div>
   <ion-row>
     <ion-col>
       <ion-list *ngIf="cola && cola.length > 0; else noPlayersCola">

@@ -155,8 +155,9 @@ export class PrincipalPage implements OnInit {
     
     let mensaje = this.publicationForm.value.message;
     console.log("enviaria esto: ", mensaje);
+    this.publicationForm.get('message').setValue('');
     this.components.presentLoading("Conectando...").then(() => {
-      this.publiService.postPublication(mensaje).subscribe((data: any) => {
+      this.publiService.postPublication({mensaje: mensaje}).subscribe((data: any) => {
         this.events.publish({
           "topic":"newPost",
           "data": data
@@ -166,6 +167,8 @@ export class PrincipalPage implements OnInit {
         this.components.presentAlert(error.error.message);
       });
     });
+    this.pulsado = false;
+    this.publicationForm.reset();
   }
   
   async torneosNearU(){
@@ -182,7 +185,7 @@ export class PrincipalPage implements OnInit {
   }
 
   goTorneo(name: string){
-    this.router.navigateByUrl('/torneo/'+name);
+    this.router.navigateByUrl('/torneo/'+name+'/home');
   }
 
   getMoment(publi){

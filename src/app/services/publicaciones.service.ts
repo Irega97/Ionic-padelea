@@ -11,8 +11,8 @@ export class PublicacionesService {
   ruta = environment.apiURL + "/publicaciones/"
   constructor(private http: HttpClient) { }
 
-  postPublication(mensaje: String) {
-    return this.http.post(this.ruta + 'new', {mensaje: mensaje});
+  postPublication(body: any) {
+    return this.http.post(this.ruta + 'new', body);
   };
 
   getPublicationsUser(username: string) {
