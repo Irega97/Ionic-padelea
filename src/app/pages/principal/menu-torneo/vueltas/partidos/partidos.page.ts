@@ -87,6 +87,27 @@ export class PartidosPage implements OnInit {
         if (this.vuelta == data.clasificacion.vuelta && this.grupo == data.clasificacion.groupName)
           this.classification = data.clasificacion.clasificacion;
       }
+
+      else if (data.topic == "resPartido"){
+        this.partidos.forEach(partido => {
+          if (partido._id == data.partido.idPartido){
+            partido.resultado = data.partido.set1 + " / " + data.partido.set2;
+            if (data.partido.set3 != "")
+              partido.resultado = partido.resultado + " / " + data.partido.set3;
+
+            partido.ganadores = data.partido.ganadores;
+            if (data.partido.ganadores[0]._id == partido.jugadores.pareja1[0]._id){
+              partido.jugadores.pareja1.ganadores = true;
+              partido.jugadores.pareja2.ganadores = false;
+            }
+
+            else{
+              partido.jugadores.pareja2.ganadores = true;
+              partido.jugadores.pareja1.ganadores = false;
+            }
+          }
+        })
+      }
     })
   }
 

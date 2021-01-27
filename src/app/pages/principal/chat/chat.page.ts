@@ -41,6 +41,9 @@ export class ChatPage implements OnInit {
     private socket: Socket) { }
 
   ngOnInit() {
+    if (this.chatService.name != undefined)
+      this.chatService.name = undefined;
+
     if (this.userService.user != undefined)
       this.usernameactual = this.userService.user.username;
 

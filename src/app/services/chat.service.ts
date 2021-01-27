@@ -33,16 +33,20 @@ export class ChatService{
     return this.http.post<any>(this.ruta + 'new', info);
   }
 
-  addParticipante(idChat: string, participantes): Observable<any>{
-      return this.http.post<JSON>(this.ruta + 'addParticipante/' + idChat, participantes);
-  }
-
   addAdmin(idChat: string, participante): Observable<any> {
     return this.http.post<any>(this.ruta + 'addAdmin/' + idChat, participante);
   }
 
-  delChat(idChat: string){
-    return this.http.delete(this.ruta + idChat);
+  abandonarChat(idChat: string): Observable<any> {
+    return this.http.get<any>(this.ruta + "abandonar/" + idChat);
   }
+
+  /*addParticipante(idChat: string, participantes): Observable<any>{
+      return this.http.post<JSON>(this.ruta + 'addParticipante/' + idChat, participantes);
+  }*/
+
+  /*delChat(idChat: string){
+    return this.http.delete(this.ruta + idChat);
+  }*/
   
 }
