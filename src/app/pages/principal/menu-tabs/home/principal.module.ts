@@ -16,6 +16,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ComponentsModule,
     ReactiveFormsModule
   ],
-  declarations: [PrincipalPage]
+  declarations: [PrincipalPage],
+  providers: []
 })
 export class PrincipalPageModule {}

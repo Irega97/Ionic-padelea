@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
 import { ChatService } from 'src/app/services/chat.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { EventsService } from 'src/app/services/events.service';
@@ -19,7 +20,7 @@ export class InformacionPage implements OnInit {
   admin: Boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private chatService: ChatService, private userService: UserService, 
-    private components: ComponentsService, private events: EventsService) { }
+    private components: ComponentsService, private events: EventsService, private socket: Socket) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state != undefined){
@@ -88,6 +89,9 @@ export class InformacionPage implements OnInit {
           })
           this.name = this.chat.name;
           this.cargando = false;
+        }, error => {
+          if (error.status == 409)
+            this.router.navigate(['principal/chats']);
         })
       }); 
     }
@@ -102,6 +106,15 @@ export class InformacionPage implements OnInit {
         this.admin = true;
       }
     })
+
+    this.socket.on('abandonopart', chat => {
+      if (chat.chat == this.chat._id)
+        this.chat.users.forEach(user => {
+          if (user._id == chat.user){
+            this.chat.users.splice(this.chat.users.indexOf(user), 1);
+          }
+        })
+    })
   }
 
   hacerAdmin(user){
@@ -111,11 +124,8 @@ export class InformacionPage implements OnInit {
     }
     this.chatService.addAdmin(this.chat._id, info).subscribe(() => {
       user.isAdmin = true;
+      this.chat.admin.push(user);
     })
-  }
-
-  addParticipante(){
-    console.log("Adelante");
   }
 
   abandonarGrupo(){
@@ -123,7 +133,19 @@ export class InformacionPage implements OnInit {
       this.components.presentAlert("Eres el único administrador del grupo. Antes de abandonar el grupo debes elegir a otro admin");
 
     else{
-      console.log("Abandonado");
+      this.chatService.abandonarChat(this.chat._id).subscribe(data => {
+        this.components.presentAlert("Has abandonado el chat");
+        this.events.publish({
+          "topic": "borrarChat",
+          "chat": this.chat._id
+        })
+
+        this.router.navigate(['principal/chats']);
+      })
     }
   }
+
+  /*addParticipante(){
+    console.log("Adelante");
+  }*/
 }

@@ -74,13 +74,21 @@ export class NewTorneoPage implements OnInit {
     let inicio: Date = new Date (this.torneoForm.value.fechaInicio);
     finIns = new Date(finIns.setHours(23, 59, 59, 999));
     inicio = new Date(inicio.setHours(1, 0, 0, 0));
+    
+    let ubi = {
+      name: this.ubication.name,
+      type: "Point",
+      coordinates:[this.ubication.lat, this.ubication.lng]
+    };
+    console.log("JAJA: ", ubi);
+
     let data = {
       "name": this.torneoForm.value.name,
       "type": this.torneoForm.value.type,
       "description": this.torneoForm.value.description,
       "fechaInicio": inicio,
       "finInscripcion": finIns,
-      "ubicacion": this.ubication,
+      "ubicacion": ubi,
       "reglamento": this.torneoForm.value.reglamento,
       "numRondas": this.torneoForm.value.numRondas,
       "maxPlayers": this.torneoForm.value.maxPlayers,
