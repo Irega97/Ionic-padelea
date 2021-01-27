@@ -54,7 +54,6 @@ export class PrincipalPage implements OnInit {
     this.torneosNearU();
 
     this.publiService.getHomePublications().subscribe((data: any) => {
-      console.log("chuli i love u: ", data);
       this.publicaciones = data;
       this.publicaciones.forEach((publi) => {
         this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
@@ -82,9 +81,15 @@ export class PrincipalPage implements OnInit {
       }
 
       else if (data.topic == "newPost"){
-        console.log("refresh: ", data.data);
         data.data.date = this.getMoment(data.data);
         this.publicaciones.unshift(data.data);
+      }
+
+      else if (data.topic == "nuevoComentario"){
+        this.publicaciones.forEach(publicacion => {
+          if (publicacion._id == data.publicacion)
+            publicacion.comments.push(data.comentario);
+        })
       }
     });
   }

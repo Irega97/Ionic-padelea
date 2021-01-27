@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PublicacionesService} from '../../../../../services/publicaciones.service';
 import {Router,ActivatedRoute} from '@angular/router';
+import { EventsService } from 'src/app/services/events.service';
 
 
 @Component({
@@ -11,20 +12,26 @@ import {Router,ActivatedRoute} from '@angular/router';
 export class ComentariosPage implements OnInit {
 
   id: string;
-  comentarios: [];
+  comentarios: any = [];
   message = "";
   
-  constructor(private publicacionesService: PublicacionesService, private router: ActivatedRoute){}
+  constructor(private publicacionesService: PublicacionesService, private router: ActivatedRoute, private events: EventsService){}
 
   ngOnInit() {
     this.router.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
-      console.log("comentario id: ", this.id);
       this.publicacionesService.getComments(this.id).subscribe(data => {
         this.comentarios = data.comments;
       });     
     });
   
+    this.events.getObservable().subscribe(data => {
+      if (data.topic == "nuevoComentario"){
+        if (data.publicacion == this.id){
+          this.comentarios.push(data.comentario);
+        }
+      }
+    })
   }
 
   enviarComment(event){

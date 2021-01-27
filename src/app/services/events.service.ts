@@ -152,6 +152,14 @@ export class EventsService {
       })
     })
 
+    this.socket.on('nuevoComentario', comentario => {
+      this.publish({
+        "topic": "nuevoComentario",
+        "publicacion": comentario.publicacion,
+        "comentario": comentario.comentario
+      })
+    })
+
     this.socket.on('nuevoAdmin', info => {
       this.publish({
         "topic": "nuevoMensaje",
@@ -159,7 +167,7 @@ export class EventsService {
           "mensaje": info.message,
           "chat": info.chat
         }
-      });
+      })
 
       this.publish({
         "topic": "nuevoAdmin",
