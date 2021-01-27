@@ -30,7 +30,7 @@ export class MapaComponent implements OnInit {
     this.lat = position.coords.latitude;
     this.lng = position.coords.longitude;*/
 
-    this.map.setView([this.ubicacion.lat, this.ubicacion.lng], 16)
+    this.map.setView([this.ubicacion.coordinates[0], this.ubicacion.coordinates[1]], 16)
     tileLayer(MAP_URL, {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -40,7 +40,7 @@ export class MapaComponent implements OnInit {
     accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
       }).addTo(this.map);
       let popup = '<b> ' + this.ubicacion.name + '</b><br> Aquí se juega tu torneo'
-    marker([this.ubicacion.lat, this.ubicacion.lng]).addTo(this.map).bindPopup(popup).openPopup();
+    marker([this.ubicacion.coordinates[0], this.ubicacion.coordinates[1]]).addTo(this.map).bindPopup(popup).openPopup();
 
     console.log("mapa: " , this.map);
   }

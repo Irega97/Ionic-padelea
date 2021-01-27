@@ -14,6 +14,10 @@ export class TorneoService {
   getTorneos(): Observable<any> {
     return this.http.get<JSON>(this.ruta + 'all');
   }
+
+  getTorneosNearU(coordinates: any): Observable<any> {
+    return this.http.post<any>(this.ruta + 'near', coordinates);
+  }
   
   getTorneosUser(username: string): Observable<any> {
     return this.http.get<JSON>(this.ruta + 'all/' + username);

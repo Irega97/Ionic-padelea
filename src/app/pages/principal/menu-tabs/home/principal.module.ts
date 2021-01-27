@@ -6,6 +6,7 @@ import { PrincipalPageRoutingModule } from './principal-routing.module';
 import { PrincipalPage } from './principal.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +16,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ComponentsModule,
     ReactiveFormsModule
   ],
-  declarations: [PrincipalPage]
+  declarations: [PrincipalPage],
+  providers: []
 })
 export class PrincipalPageModule {}

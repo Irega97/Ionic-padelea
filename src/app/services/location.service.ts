@@ -9,7 +9,6 @@ import { LOCATION_URL } from 'src/environments/config';
 })
 export class LocationService {
 
-
   private headers: HttpHeaders;
   constructor(private http: HttpClient) { 
     this.headers = new HttpHeaders({

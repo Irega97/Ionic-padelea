@@ -9,10 +9,14 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import * as moment from 'moment';
 
-import { Placemodel} from '../../../../models/place';
 import {Map,tileLayer,marker } from 'leaflet';
 import { MAP_URL } from 'src/environments/config'
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { LocationService } from 'src/app/services/location.service';
+import { TorneoService } from 'src/app/services/torneo.service';
 
 @Component({
   selector: 'app-principal',
@@ -27,13 +31,17 @@ export class PrincipalPage implements OnInit {
   pulsado: boolean;
   publicaciones: any;
 
-  places: Placemodel[];
   map: Map;
+  distance: string;
   lat: number;
   lng: number;
+  nearTorneos: any;
+  platform: any;
+  ruta = environment.apiURL + "/torneo/";
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService, private publiService: PublicacionesService,
-    private notificationsService: NotificationsService, private menu: MenuController, private formBuilder: FormBuilder, private components: ComponentsService) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService, private publiService: PublicacionesService, private torneoService: TorneoService,
+    private notificationsService: NotificationsService, private menu: MenuController, private formBuilder: FormBuilder, private components: ComponentsService, private http: HttpClient, private location: LocationService) { 
+  }
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -43,9 +51,15 @@ export class PrincipalPage implements OnInit {
       });
     }
 
+    this.torneosNearU();
+
     this.publiService.getHomePublications().subscribe((data: any) => {
       console.log("chuli i love u: ", data);
       this.publicaciones = data;
+      this.publicaciones.forEach((publi) => {
+        this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
+      })
+      console.log("publis:" , this.publicaciones);
     })
 
     this.publicationForm = this.formBuilder.group({
@@ -69,11 +83,11 @@ export class PrincipalPage implements OnInit {
       }
 
       else if (data.topic == "newPost"){
-        this.publiService.getHomePublications().subscribe((data: any) => {
-          this.publicaciones = data.publicaciones;
-        })
+        console.log("refresh: ", data.data);
+        data.data.date = this.getMoment(data.data);
+        this.publicaciones.unshift(data.data);
       }
-    }) 
+    });
   }
 
   ionViewWillEnter(){
@@ -144,7 +158,8 @@ export class PrincipalPage implements OnInit {
     this.components.presentLoading("Conectando...").then(() => {
       this.publiService.postPublication(mensaje).subscribe((data: any) => {
         this.events.publish({
-          "topic":"newPost"
+          "topic":"newPost",
+          "data": data
         })
         this.components.dismissLoading();
       }, error => {
@@ -152,32 +167,22 @@ export class PrincipalPage implements OnInit {
       });
     });
   }
+  
+  async torneosNearU(){
+    const position = await this.location.getLocation();
+    this.lat = position.coords.latitude;
+    this.lng = position.coords.longitude;
+    let body = {
+      "lat": this.lat,
+      "lng": this.lng
+    }
+    this.torneoService.getTorneosNearU(body).subscribe((data) => {
+      this.nearTorneos = data;
+    })
+  }
 
-  async torneosCercanos(){
-    //const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
-    this.map.remove();
-    this.map = new Map('mapId').setView([this.lat, this.lng], 16);
-    tileLayer(MAP_URL, {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: 'pk.eyJ1IjoibWlja3lwdXNwYSIsImEiOiJja2s4dnNnc3cwNzEzMnBwYmptcGRlZjVyIn0.gTTzVoYPCbFYJYVh8_Spdg'
-        }).addTo(this.map);
-    this.http.get<Placemodel[]>(url).subscribe(
-      (places:Placemodel[]) => {
-        this.places= places;
-        console.log((this.places))
-        for (let i=0; i<places.length; i++){
-          marker([places[i].location.coordinates[1], places[i].location.coordinates[0]]).addTo(this.map)
-      .bindPopup('<b>' + places[i].name + '</b>')
-      .openPopup();
-
-        }
-      })
-      marker([this.lat, this.lng]).addTo(this.map)
-    .bindPopup('<b> You are here </b>')
-    .openPopup();
+  getMoment(publi){
+    let day: Date = new Date(publi.date);
+    return moment(day, "YYYYMMDD, h:mm").startOf('minute').fromNow();;
   }
 }

@@ -60,10 +60,12 @@ locatePosition() {
     //this.getAddress(e.latitude, e.longitude); // This line is added
     const position = this.newMarker.getLatLng()
       this.ubication = position;
+      console.log(position);
  
     this.newMarker.on("dragend", () => {
       const position = this.newMarker.getLatLng()
       this.ubication = position;
+      console.log(position);
       //this.getAddress(position.lat, position.lng);// This line is added
  
     });

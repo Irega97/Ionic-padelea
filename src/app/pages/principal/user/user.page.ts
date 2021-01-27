@@ -6,6 +6,7 @@ import { FriendsService } from 'src/app/services/friends.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user',
@@ -32,8 +33,15 @@ export class UserPage implements OnInit {
       console.log("username: ", this.username);
       this.publiService.getPublicationsUser(this.username).subscribe((data: any) => {
         this.publicaciones = data.publicaciones;
-        console.log("Publis: ", data);
+        
+        this.publicaciones.forEach((publi) => {
+
+          this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
+          console.log("Publis: ", this.publicaciones.date);
+        })
+        console.log("Publicaciones: ", data);
       });
+
     } 
 
     this.events.getObservable().subscribe(data => {
@@ -159,4 +167,10 @@ export class UserPage implements OnInit {
   enviarmensaje(){
     this.router.navigateByUrl('/chat/user/' + this.username);
   }
+
+  getMoment(publi){
+    let day: Date = new Date(publi.date);
+    return moment(day, "YYYYMMDD, h:mm").startOf('minute').fromNow();;
+  }
+
 }
