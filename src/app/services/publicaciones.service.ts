@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,11 @@ export class PublicacionesService {
     return this.http.post(this.ruta + 'like', {publicacion: publiID});
   }
   
-  addComment(body: any){ //body = {publicacion: _id, comentario: 'hola'}
+  addComment(body: any){
     return this.http.post(this.ruta + 'comment', body);
   }
 
-  getComments(publiID: string){
-    return this.http.post(this.ruta + 'comments/all', {publicacion: publiID})
+  getComments(publiID: string): Observable<any>{
+    return this.http.post<any>(this.ruta + 'comments/all', {publicacion: publiID})
   }
 }

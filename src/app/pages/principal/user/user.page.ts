@@ -30,7 +30,6 @@ export class UserPage implements OnInit {
   ngOnInit() {
     if (this.userService.user != undefined){
       this.compararId();
-      console.log("username: ", this.username);
       this.publiService.getPublicationsUser(this.username).subscribe((data: any) => {
         this.publicaciones = data.publicaciones;
         

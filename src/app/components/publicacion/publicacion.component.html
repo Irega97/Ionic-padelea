@@ -12,11 +12,17 @@
     <ion-col  size="3">
       <ion-label >{{publicacion.mensaje}}</ion-label>
     </ion-col>
-    <ion-col size="1">
-      <ion-icon name="heart-outline"></ion-icon><ion-label>{{publicacion.likes.length}}</ion-label>
-       </ion-col>
+      <ion-col size="1">
+        <ion-button (click)="darLike(publicacion)">
+          <ion-icon *ngIf="publicacion.myLike" color="danger" name="heart"></ion-icon>
+          <ion-icon *ngIf="!publicacion.myLike" name="heart-outline"></ion-icon><ion-label>{{publicacion.likes.length}}</ion-label>
+        </ion-button> 
+      </ion-col>
     <ion-col size="4">
-      <ion-icon name="chatbox-outline"></ion-icon><ion-label>{{publicacion.comments.length}}</ion-label>
+      <ion-button (click)="goComments(publicacion)">
+        <ion-icon name="chatbox-outline"></ion-icon><ion-label>{{publicacion.comments.length}}</ion-label>
+      </ion-button> 
+      
     </ion-col>
     <ion-col >
       <ion-label>{{publicacion.date}}</ion-label>
