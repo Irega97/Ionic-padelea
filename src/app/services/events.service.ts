@@ -130,6 +130,13 @@ export class EventsService {
       })
     })
 
+    this.socket.on('resPartido', partido => {
+      this.publish({
+        "topic":"resPartido",
+        "partido": partido
+      })
+    })
+
     this.socket.on("nuevoChatGrupo", chat => {
       chat.admin = [''];
       this.publish({

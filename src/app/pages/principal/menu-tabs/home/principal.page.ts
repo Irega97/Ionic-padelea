@@ -11,6 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 import * as moment from 'moment';
 
+import {Map,tileLayer,marker } from 'leaflet';
+import { MAP_URL } from 'src/environments/config'
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { LocationService } from 'src/app/services/location.service';
+import { TorneoService } from 'src/app/services/torneo.service';
+
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.page.html',
@@ -24,8 +31,17 @@ export class PrincipalPage implements OnInit {
   pulsado: boolean;
   publicaciones: any;
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService, private publiService: PublicacionesService,
-    private notificationsService: NotificationsService, private menu: MenuController, private formBuilder: FormBuilder, private components: ComponentsService) { }
+  map: Map;
+  distance: string;
+  lat: number;
+  lng: number;
+  nearTorneos: any;
+  platform: any;
+  ruta = environment.apiURL + "/torneo/";
+
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, private events: EventsService, private publiService: PublicacionesService, private torneoService: TorneoService,
+    private notificationsService: NotificationsService, private menu: MenuController, private formBuilder: FormBuilder, private components: ComponentsService, private http: HttpClient, private location: LocationService) { 
+  }
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -34,6 +50,8 @@ export class PrincipalPage implements OnInit {
         this.numNotificaciones = data.length;
       });
     }
+
+    this.torneosNearU();
 
     this.publiService.getHomePublications().subscribe((data: any) => {
       console.log("chuli i love u: ", data);
@@ -147,6 +165,23 @@ export class PrincipalPage implements OnInit {
         this.components.presentAlert(error.error.message);
       });
     });
+  }
+  
+  async torneosNearU(){
+    const position = await this.location.getLocation();
+    this.lat = position.coords.latitude;
+    this.lng = position.coords.longitude;
+    let body = {
+      "lat": this.lat,
+      "lng": this.lng
+    }
+    this.torneoService.getTorneosNearU(body).subscribe((data) => {
+      this.nearTorneos = data;
+    })
+  }
+
+  goTorneo(name: string){
+    this.router.navigateByUrl('/torneo/'+name);
   }
 
   getMoment(publi){

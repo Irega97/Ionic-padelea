@@ -65,6 +65,19 @@
   <!--<ion-img src="assets/images/EnProceso.jpg"></ion-img>-->
   <!--<cl-image public-id="EnProceso_knrcoc.jpg" format="jpg">-->
 
+    <h2>TORNEOS CERCA DE TI</h2>
+
+    <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+      <ion-slide *ngFor="let torneo of nearTorneos" style="width: 150px; height: 100px; border: 2px solid #f8f8f8" (click)="goTorneo(torneo.name)">
+        <ion-col>
+          <ion-label>{{torneo.name}}</ion-label>
+          <ion-img style="pointer-events:none" src="{{torneo.image}}"></ion-img>
+        </ion-col>
+      </ion-slide>
+    </ion-slides>
+
+
+    <h2>PUBLICACIONES</h2>
     <ion-card id="card">
       <ion-card-content>
           <ion-item>
@@ -82,7 +95,10 @@
           </ion-item>
       </ion-card-content>
     </ion-card>
+    <!--  Definir bien la ruta para que nos lleve a los comentarios   [routerLink] = "['/user', user.username]"   -->
+    <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones" ></app-publicacion>
 
-    <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones"></app-publicacion>
+    
 
 </ion-content>
+
