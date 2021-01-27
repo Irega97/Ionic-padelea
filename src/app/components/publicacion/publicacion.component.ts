@@ -51,6 +51,11 @@ export class PublicacionComponent implements OnInit {
   }
 
   goComments(publicacion){
-    this.router.navigate(['principal/home/' + publicacion._id + "/comentarios"]);
+    if(this.router.url.includes('torneo')){
+      let name = this.router.url.split('/')[2];
+      this.router.navigate(['torneo/' + name + '/publicaciones/' + publicacion._id + "/comentarios"]);
+    } else {
+      this.router.navigate(['principal/home/' + publicacion._id + "/comentarios"]);
+    }
   }
 }

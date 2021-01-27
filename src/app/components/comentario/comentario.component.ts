@@ -14,10 +14,10 @@ export class ComentarioComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    moment.locale('es');
     console.log("Comentarios", this.comentarios);
     this.comentarios.forEach(comment => {
       this.getMoment(comment);
-      
     });
   }
   getMoment(publi){

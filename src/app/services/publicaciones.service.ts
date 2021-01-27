@@ -19,6 +19,10 @@ export class PublicacionesService {
     return this.http.get(this.ruta + 'user/' + username);
   }
 
+  getPublicationsTorneo(name: string) {
+    return this.http.get(this.ruta + 'torneo/' + name);
+  }
+
   getHomePublications() {
     return this.http.get(this.ruta + 'all');
   }

@@ -13,7 +13,6 @@ import { UserService } from 'src/app/services/user.service';
 export class MenuTorneoPage implements OnInit {
 
   isAdmin: Boolean = false;
-  joined: Boolean = false;
   cola: number = 0;
   name: string;
 
@@ -25,18 +24,11 @@ export class MenuTorneoPage implements OnInit {
     this.adminService.setName(unescape(this.name));
     this.torneoService.getTorneo(this.name).subscribe(data =>{
       this.isAdmin = data.isAdmin;
-      this.joined = data.joined;
       this.cola = data.torneo.cola.length;
     });
 
     this.events.getObservable().subscribe(data=> {
-      if (data.topic == "nuevoJugador" && data.jugador.torneo == this.name && data.jugador.username == this.userService.user.username)
-        this.joined = true;
-
-      else if (data.topic == "player-left" && data.jugador.torneo == this.name && data.jugador.username == this.userService.user.username)
-        this.joined = false;
-
-      else if (data.topic == "nuevoJugadorCola" && data.torneo == this.name){
+      if (data.topic == "nuevoJugadorCola" && data.torneo == this.name){
         this.cola++;
       }
 

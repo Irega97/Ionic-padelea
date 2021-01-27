@@ -3,10 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/principal/torneos"></ion-back-button>
     </ion-buttons>
-    <ion-title mode="ios">Mi Espacio</ion-title>
+    <ion-title mode="ios">Publicaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <app-publicacion *ngIf = "publicaciones" [publicaciones]="publicaciones"></app-publicacion>
 </ion-content>

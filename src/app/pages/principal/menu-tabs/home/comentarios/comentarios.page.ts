@@ -1,8 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {PublicacionesService} from '../../../../../services/publicaciones.service';
-import {Router,ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ComponentsService } from 'src/app/services/components.service';
-
 
 @Component({
   selector: 'app-comentarios',
@@ -15,13 +15,14 @@ export class ComentariosPage implements OnInit {
   comentarios: [];
   message = "";
   
-  constructor(private publicacionesService: PublicacionesService, private router: ActivatedRoute, private component : ComponentsService){}
+  constructor(private publicacionesService: PublicacionesService, private location: Location, private router: ActivatedRoute, private component : ComponentsService){}
 
   ngOnInit() {
     this.router.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
       console.log("comentario id: ", this.id);
       this.publicacionesService.getComments(this.id).subscribe(data => {
+        console.log("data: ", data);
         this.comentarios = data.comments;
       });     
     });
@@ -52,9 +53,8 @@ export class ComentariosPage implements OnInit {
     } 
   }
 
-  
-
-
-
+  goBack(){
+    this.location.back();
+  }
 }
 

@@ -1,16 +1,16 @@
-
 <ion-header>
- 
-  <ion-toolbar color="primary">
-    
-    
-    <ion-title mode=ios>COMENTARIOS</ion-title>
-    
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="ios">COMENTARIOS</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
 <app-comentario *ngIf = "comentarios && comentarios.length > 0" [comentarios]="comentarios"></app-comentario>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar color="light">
     <ion-row align-items-center>

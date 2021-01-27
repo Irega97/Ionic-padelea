@@ -21,8 +21,8 @@ const routes: Routes = [
         loadChildren: () => import('./vueltas/vueltas.module').then( m => m.VueltasPageModule)
       },
       {
-        path: 'me',
-        loadChildren: () => import('./miespacio/miespacio.module').then(m => m.MiespacioPageModule)
+        path: 'publicaciones',
+        loadChildren: () => import('./publicaciones/publicaciones.module').then(m => m.PublicacionesPageModule)
       }, 
       {
         path: 'admin',

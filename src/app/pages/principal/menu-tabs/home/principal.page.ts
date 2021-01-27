@@ -44,6 +44,7 @@ export class PrincipalPage implements OnInit {
   }
 
   ngOnInit() {
+    moment.locale('es');
     if (this.userService.user != undefined){
       this.usuario = this.userService.user;
       this.notificationsService.getMyNotifications(true).subscribe(data =>{

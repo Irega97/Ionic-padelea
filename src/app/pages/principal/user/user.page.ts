@@ -26,8 +26,10 @@ export class UserPage implements OnInit {
   numTorneos: number = 0;
   notification: Notification;
   publicaciones: any;
+  privado: boolean = false;
 
   ngOnInit() {
+    moment.locale('es');
     if (this.userService.user != undefined){
       this.compararId();
       this.publiService.getPublicationsUser(this.username).subscribe((data: any) => {
@@ -36,9 +38,7 @@ export class UserPage implements OnInit {
         this.publicaciones.forEach((publi) => {
 
           this.publicaciones[this.publicaciones.indexOf(publi)].date = this.getMoment(publi);
-          console.log("Publis: ", this.publicaciones.date);
-        })
-        console.log("Publicaciones: ", data);
+        });
       });
 
     } 
@@ -91,10 +91,14 @@ export class UserPage implements OnInit {
           this.tuPerfil = false;
           if (this.user.friendStatus == -1){
             this.solicitud = false;
+            this.privado = data.private;
           }
           else if (this.user.friendStatus == 0){
             this.solicitud = true;
+            this.privado = data.private;
           }
+          console.log("Privado", this.privado);
+
         }, error => {
           if (error.status == 404){
             this.location.back();
