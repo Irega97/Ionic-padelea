@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FriendsService } from 'src/app/services/friends.service';
+import { PartidosService } from 'src/app/services/partidos.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { Location } from '@angular/common';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
@@ -15,7 +16,7 @@ import { PublicacionesService } from 'src/app/services/publicaciones.service';
 export class UserPage implements OnInit {
 
   constructor(private userService: UserService, private friendService: FriendsService, private publiService: PublicacionesService, private route: ActivatedRoute, 
-              private component: ComponentsService, private events: EventsService, private location: Location, private router: Router) { }
+              private component: ComponentsService, private partidoService: PartidosService, private events: EventsService, private location: Location, private router: Router) { }
 
   user;
   username;
@@ -25,6 +26,7 @@ export class UserPage implements OnInit {
   numTorneos: number = 0;
   notification: Notification;
   publicaciones: any;
+  partidos:any = [];
 
   ngOnInit() {
     if (this.userService.user != undefined){
@@ -34,6 +36,17 @@ export class UserPage implements OnInit {
         this.publicaciones = data.publicaciones;
         console.log("Publis: ", data);
       });
+      
+      this.partidoService.getPartidosUser(this.username).subscribe((data) => {
+        console.log("antes del splice: ", data.partidos);
+        let p = data.partidos;
+        p.forEach((partido: any) => {
+          if(!partido.resultado){
+            this.partidos.push(partido);
+          } 
+        });
+        console.log("partidos: ", this.partidos);
+      })
     } 
 
     this.events.getObservable().subscribe(data => {
