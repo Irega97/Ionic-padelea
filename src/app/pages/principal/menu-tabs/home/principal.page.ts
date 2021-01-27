@@ -181,6 +181,10 @@ export class PrincipalPage implements OnInit {
     })
   }
 
+  goTorneo(name: string){
+    this.router.navigateByUrl('/torneo/'+name);
+  }
+
   getMoment(publi){
     let day: Date = new Date(publi.date);
     return moment(day, "YYYYMMDD, h:mm").startOf('minute').fromNow();;
