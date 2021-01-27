@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {PublicacionesService} from '../../../../../services/publicaciones.service';
 import {Router,ActivatedRoute} from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
+import { ComponentsService } from 'src/app/services/components.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class ComentariosPage implements OnInit {
   comentarios: any = [];
   message = "";
   
-  constructor(private publicacionesService: PublicacionesService, private router: ActivatedRoute, private events: EventsService){}
+  constructor(private publicacionesService: PublicacionesService, private router: ActivatedRoute, private events: EventsService, private component: ComponentsService){}
 
   ngOnInit() {
     this.router.paramMap.subscribe(paramMap => {
@@ -43,15 +44,17 @@ export class ComentariosPage implements OnInit {
 
   sendComment(){
     if (this.message != ""){
+      if(this.message.length < 80){
       let info = {
         publicacion: this.id,
         comentario : this.message
+
       }
 
       this.publicacionesService.addComment(info).subscribe(data => {
-        console.log("Data", data);
         this.message = "";
-      })
+      })}
+      else(this.component.presentAlert("Máximo 80 caracteres"))
     } 
   }
 
